@@ -1,0 +1,751 @@
+/*
+ * 界面样式。
+ *
+ * 方向：克制的深色 HUD，压在画面上但不抢画面。
+ * 颜色取自实物 —— 熏黑的木、旧铜、麻布、朱漆。不用高饱和的现代 UI 色。
+ */
+
+:root {
+  --ink: #17140f;
+  --panel: rgba(26, 22, 17, 0.90);
+  --panel-2: rgba(38, 32, 25, 0.94);
+  --line: rgba(196, 172, 130, 0.20);
+  --line-2: rgba(196, 172, 130, 0.42);
+  --text: #ece2cf;
+  --text-2: #b9ac93;
+  --text-3: #8a7f6c;
+  --brass: #c8a45c;
+  --jade: #7ba07a;
+  --cinnabar: #c1503c;
+  --serif: "Songti SC", "SimSun", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+  --sans: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #world, #ui {
+  margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
+}
+
+body {
+  background: #0e0c09;
+  color: var(--text);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+#world { position: fixed; inset: 0; }
+#ui { position: fixed; inset: 0; pointer-events: none; }
+#ui > * { pointer-events: auto; }
+
+button {
+  font-family: inherit;
+  color: var(--text);
+  background: rgba(58, 48, 37, 0.9);
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background .12s, border-color .12s, transform .06s;
+}
+button:hover:not(:disabled) { background: rgba(80, 66, 50, 0.95); border-color: var(--brass); }
+button:active:not(:disabled) { transform: translateY(1px); }
+/*
+ * 禁用态不能淡到看不见。
+ * 深色面板上 .38 的按钮实际效果等同于「没有这个按钮」——
+ * 玩家会以为界面坏了，而不是以为自己钱不够。
+ */
+button:disabled { opacity: .62; cursor: default; }
+
+.dim { color: var(--text-3); }
+.tiny { font-size: 11px; }
+.hint { position: absolute; bottom: 4px; left: 50%; }
+
+/* ── 顶栏 ─────────────────────────────────────────────── */
+
+.hud-top {
+  position: absolute; top: 0; left: 0; right: 0;
+  display: flex; align-items: stretch; gap: 2px;
+  padding: 8px 12px;
+  background: linear-gradient(to bottom, rgba(16, 13, 9, .92), rgba(16, 13, 9, .55) 78%, transparent);
+}
+
+.clock { min-width: 190px; padding-right: 14px; }
+.clock .date {
+  font-family: var(--serif); font-size: 17px; letter-spacing: .04em; color: var(--text);
+}
+.clock .sub { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.clock .aff {
+  margin-left: 8px; color: var(--cinnabar); border: 1px solid rgba(193, 80, 60, .5);
+  padding: 0 5px; border-radius: 2px;
+}
+
+.meter { min-width: 112px; padding: 0 12px; border-left: 1px solid var(--line); }
+.m-label { font-size: 11px; color: var(--text-3); letter-spacing: .18em; }
+.m-value { font-family: var(--serif); font-size: 19px; line-height: 1.15; }
+.m-cap { font-size: 11px; color: var(--text-3); }
+.m-bar {
+  height: 2px; background: rgba(196, 172, 130, .16); margin: 4px 0 3px; position: relative;
+}
+.m-bar i {
+  position: absolute; left: 0; top: 0; height: 100%; background: var(--brass);
+  transition: width .3s;
+}
+.m-rate { font-size: 11px; color: var(--jade); }
+.m-rate.neg { color: var(--cinnabar); }
+.meter.full .m-bar i { background: var(--cinnabar); }
+.meter.full .m-cap { color: var(--cinnabar); }
+
+.morale.m-安 .m-bar i { background: var(--jade); }
+.morale.m-平 .m-bar i { background: var(--brass); }
+.morale.m-怨 .m-bar i { background: #c98a3c; }
+.morale.m-乱 .m-bar i { background: var(--cinnabar); }
+
+.hud-top .spacer { flex: 1; }
+
+.speeds { display: flex; gap: 3px; align-items: center; }
+.sp {
+  width: 40px; height: 28px; font-size: 12px;
+  background: rgba(26, 22, 17, .8);
+}
+.sp.on { background: var(--brass); color: #201a12; border-color: var(--brass); font-weight: 600; }
+
+/* ── 季度指标 ─────────────────────────────────────────── */
+
+.quota {
+  position: absolute; left: 16px; bottom: 16px; width: 320px;
+  background: var(--panel); border: 1px solid var(--line-2); border-radius: 3px;
+  padding: 12px 14px;
+  box-shadow: 0 6px 26px rgba(0, 0, 0, .45);
+}
+.quota.urgent { border-color: rgba(193, 80, 60, .75); }
+.q-head {
+  font-size: 12px; color: var(--text-2); display: flex; align-items: baseline;
+  margin-bottom: 10px; letter-spacing: .04em;
+}
+.q-lord { font-family: var(--serif); font-size: 15px; color: var(--text); margin-right: 4px; }
+.q-days { margin-left: auto; color: var(--text-3); }
+.quota.urgent .q-days { color: var(--cinnabar); }
+
+.qbar { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 12px; }
+.qb-label { width: 16px; color: var(--text-2); }
+.qb-track { flex: 1; height: 6px; background: rgba(196, 172, 130, .14); position: relative; }
+.qb-track i {
+  position: absolute; left: 0; top: 0; height: 100%; background: var(--brass);
+  transition: width .3s;
+}
+.qb-track i.done { background: var(--jade); }
+.qb-num { min-width: 92px; text-align: right; font-variant-numeric: tabular-nums; }
+
+.q-actions { display: flex; gap: 6px; margin-top: 10px; }
+.q-actions button { flex: 1; padding: 7px; font-size: 13px; }
+.q-actions .ghost { background: rgba(26, 22, 17, .7); }
+.q-tip {
+  margin-top: 8px; font-size: 11px; color: var(--text-3); line-height: 1.7;
+  border-top: 1px solid var(--line); padding-top: 7px;
+}
+
+/* ── 地块卡片 ─────────────────────────────────────────── */
+
+.card {
+  /*
+   * 用 fixed 而不是 absolute：不依赖任何祖先的定位是否正确，
+   * 直接钉在视口上。dvh 而不是 vh：手机浏览器的地址栏会吃掉 vh 的一部分，
+   * 用 vh 算出来的高度会把卡片底部顶到可见区域之外。
+   * 再用 min() 压一道上限，保证任何屏幕上都还剩得下画面。
+   */
+  position: fixed; right: 16px; bottom: 16px;
+  width: 348px; max-width: calc(100vw - 32px);
+  max-height: min(calc(100dvh - 108px), 60dvh);
+  display: flex; flex-direction: column;
+  background: var(--panel-2); border: 1px solid var(--line-2); border-radius: 3px;
+  box-shadow: 0 6px 26px rgba(0, 0, 0, .5);
+  overscroll-behavior: contain;
+}
+.c-head {
+  flex: 0 0 auto;
+  display: flex; align-items: center; padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--serif); font-size: 16px; letter-spacing: .06em;
+}
+.c-close {
+  margin-left: auto; border: none; background: transparent; color: var(--text-3);
+  font-size: 17px; padding: 0 4px; line-height: 1;
+}
+.c-close:hover { background: transparent; color: var(--cinnabar); }
+/*
+ * min-height: 0 不能省。
+ * flex 子项的默认 min-height 是 auto，它会拒绝收缩到内容高度以下 ——
+ * 于是 overflow 根本不触发，整张卡片被内容撑破 max-height，
+ * 页脚的按钮就被顶到视口外面去了。这是 flexbox 最常见的一个坑。
+ *
+ * 那两道背景是「还能往下滚」的提示：靠 background-attachment: local
+ * 做出来的经典效果，滚到顶/底时阴影自动消失，不需要一行 JS。
+ */
+.c-body {
+  flex: 1 1 auto; min-height: 0; padding: 12px 14px; overflow-y: auto;
+  background:
+    linear-gradient(var(--panel-2) 30%, rgba(38, 32, 25, 0)) top / 100% 22px no-repeat local,
+    linear-gradient(rgba(38, 32, 25, 0), var(--panel-2) 70%) bottom / 100% 22px no-repeat local,
+    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, .45), rgba(0, 0, 0, 0)) top / 100% 12px no-repeat scroll,
+    radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .45), rgba(0, 0, 0, 0)) bottom / 100% 12px no-repeat scroll;
+}
+
+/* 操作区常驻，永远不跟正文一起滚 */
+.c-foot {
+  flex: 0 0 auto;
+  padding: 11px 14px;
+  border-top: 1px solid var(--line-2);
+  background: rgba(24, 20, 15, .96);
+  box-shadow: 0 -8px 16px rgba(0, 0, 0, .35);
+  display: flex; flex-direction: column; gap: 7px;
+}
+
+.c-desc { margin: 0 0 10px; font-size: 13px; line-height: 1.85; color: var(--text-2); }
+.c-note { font-size: 12px; color: var(--text-3); margin: 8px 0; }
+
+.effects {
+  font-size: 12px; color: var(--jade); line-height: 1.7;
+  border-left: 2px solid rgba(123, 160, 122, .4); padding-left: 8px; margin-bottom: 10px;
+}
+.effects.inline { border: none; padding-left: 0; margin: 4px 0 0; color: var(--text-3); }
+
+.card button.primary {
+  width: 100%; padding: 10px; font-size: 14px;
+  display: flex; align-items: baseline; justify-content: center; gap: 10px;
+  border-color: var(--brass);
+}
+.card button.primary em {
+  font-style: normal; font-size: 11px; color: var(--text-3);
+}
+.card button.ghost { background: rgba(26, 22, 17, .7); }
+.card button.ghost.small { padding: 6px 12px; font-size: 12px; }
+.card button.raze { color: var(--text-3); }
+.card button.raze:hover { color: var(--cinnabar); border-color: rgba(193, 80, 60, .6); }
+.card button.danger {
+  background: rgba(120, 44, 34, .85); border-color: var(--cinnabar); color: #f0d8d2;
+}
+.card button.danger:hover { background: var(--cinnabar); }
+
+.raze-confirm {
+  border: 1px solid rgba(193, 80, 60, .45); border-radius: 2px;
+  padding: 9px 11px; background: rgba(60, 24, 18, .35);
+}
+.rz-txt { font-size: 12px; line-height: 1.75; color: #e0c4bc; margin-bottom: 8px; }
+.rz-btns { display: flex; gap: 6px; }
+.rz-btns button { flex: 1; padding: 6px; font-size: 13px; }
+.rz-btns .danger { flex: 0 0 84px; }
+
+.c-list { display: flex; flex-direction: column; gap: 6px; }
+.c-item {
+  text-align: left; padding: 9px 11px; background: rgba(20, 17, 13, .7);
+  border: 1px solid var(--line);
+}
+.c-item:hover:not(:disabled) { border-color: var(--brass); }
+.c-item.poor { opacity: .7; }
+.c-item.poor .ci-cost { color: var(--cinnabar); }
+.ci-head { display: flex; align-items: baseline; gap: 8px; }
+.ci-name { font-family: var(--serif); font-size: 15px; }
+.ci-count { font-size: 10px; color: var(--text-3); border: 1px solid var(--line-2); padding: 0 4px; }
+.ci-cost { margin-left: auto; font-size: 11px; color: var(--brass); }
+.ci-desc { font-size: 12px; color: var(--text-3); line-height: 1.7; margin-top: 3px; }
+
+.work { margin-bottom: 12px; }
+.w-bar { height: 6px; background: rgba(196, 172, 130, .14); position: relative; }
+.w-bar i { position: absolute; left: 0; top: 0; height: 100%; background: var(--brass); }
+.w-bar i.razing { background: var(--cinnabar); }
+.w-txt { font-size: 12px; color: var(--text-2); margin-top: 6px; }
+
+/* 差多少才够。红字，紧跟在按不动的按钮下面 */
+.shortfall {
+  font-size: 11px; color: var(--cinnabar); letter-spacing: .04em;
+  margin-top: 4px; text-align: center;
+}
+.c-item .shortfall { text-align: left; margin-top: 5px; }
+
+/* ── 提示流 ───────────────────────────────────────────── */
+
+.toasts {
+  position: absolute; right: 16px; top: 68px; width: 320px;
+  display: flex; flex-direction: column; gap: 6px; pointer-events: none;
+}
+.toast {
+  background: rgba(20, 17, 13, .92); border-left: 3px solid var(--line-2);
+  padding: 8px 12px; font-size: 13px; line-height: 1.7; color: var(--text-2);
+  border-radius: 2px;
+  animation: slide .28s ease-out;
+}
+.toast.good { border-left-color: var(--jade); color: var(--text); }
+.toast.bad { border-left-color: var(--cinnabar); color: #e8c9c0; }
+@keyframes slide { from { opacity: 0; transform: translateX(14px); } }
+
+/* ── 官阶条 ───────────────────────────────────────────── */
+
+.rank {
+  position: absolute; left: 16px; top: 68px;
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(20, 17, 13, .82); border: 1px solid var(--line);
+  padding: 6px 12px; border-radius: 2px; font-size: 12px; color: var(--text-2);
+}
+.rank b { font-family: var(--serif); font-size: 15px; color: var(--brass); font-weight: 500; }
+.rank .expand { padding: 3px 10px; font-size: 12px; border-color: var(--brass); }
+
+/* ── 开局 ─────────────────────────────────────────────── */
+
+.opening {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(ellipse at 50% 30%, #2a2318 0%, #14110c 62%, #0b0906 100%);
+}
+.op-inner { width: 680px; max-width: 92vw; }
+.op-era {
+  font-size: 12px; letter-spacing: .5em; color: var(--text-3); text-indent: .5em;
+  text-align: center;
+}
+.op-title {
+  font-family: var(--serif); font-size: 62px; font-weight: 500; text-align: center;
+  letter-spacing: .3em; text-indent: .3em; margin: 6px 0 26px; color: var(--text);
+}
+.op-text {
+  font-size: 14px; line-height: 2.3; color: var(--text-2); text-align: center;
+  white-space: pre-line; margin: 0 0 30px;
+}
+.op-cards { display: flex; gap: 12px; }
+.op-card {
+  flex: 1; background: rgba(30, 25, 18, .7); border: 1px solid var(--line);
+  padding: 14px 16px; border-radius: 3px;
+}
+.op-k { font-size: 11px; letter-spacing: .3em; color: var(--text-3); }
+.op-v { font-family: var(--serif); font-size: 21px; margin: 5px 0 8px; }
+.op-d { font-size: 12px; line-height: 1.95; color: var(--text-3); }
+
+.op-row { margin-top: 30px; display: flex; gap: 8px; justify-content: center; }
+.op-row input {
+  width: 180px; padding: 10px 14px; font-family: var(--serif); font-size: 15px;
+  text-align: center; color: var(--text);
+  background: rgba(0, 0, 0, .35); border: 1px solid var(--line-2); border-radius: 2px;
+}
+.op-row input:focus { outline: none; border-color: var(--brass); }
+.op-go {
+  padding: 10px 32px; font-family: var(--serif); font-size: 16px; letter-spacing: .25em;
+  text-indent: .25em; background: var(--brass); color: #1c1710; border-color: var(--brass);
+  font-weight: 600;
+}
+.op-go:hover { background: #dcb96c; }
+/* 有存档时，「接着打」才是主按钮，「另起一局」退成次要的 */
+.op-go.on { padding: 12px 44px; font-size: 18px; }
+.op-resume {
+  margin-top: 26px; text-align: center;
+  padding-top: 20px; border-top: 1px solid var(--line);
+}
+.op-resume-t { font-size: 13px; color: var(--text-2); margin-bottom: 12px; }
+.op-resume-d { margin-top: 10px; font-size: 11px; color: var(--text-3); }
+.op-resume ~ .op-row { margin-top: 14px; }
+.op-resume ~ .op-row .op-go {
+  background: transparent; color: var(--text-2); border-color: var(--line-2);
+  font-weight: 400; font-size: 14px; padding: 10px 24px;
+}
+.op-resume ~ .op-row .op-go:hover { background: rgba(200, 164, 92, .12); color: var(--text); }
+
+/* 窄屏上指标条与地块卡片会挤在一起，把卡片抬到指标条上方 */
+@media (max-width: 760px) {
+  /* 仍然钉在底部 —— 改成顶部锚定会让卡片底部掉出可见区域 */
+  .card { left: 12px; right: 12px; width: auto; max-height: 52dvh; }
+  .quota { display: none; }
+  .toasts { display: none; }
+}
+@media (max-height: 620px) {
+  .card { max-height: calc(100dvh - 74px); }
+  .quota { padding: 8px 12px; }
+  .q-tip { display: none; }
+}
+
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* 操作提示：开局头几日出现，之后自动消失 */
+.controls-hint {
+  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+  background: rgba(20, 17, 13, .78); border: 1px solid var(--line);
+  padding: 6px 16px; border-radius: 2px;
+  font-size: 12px; color: var(--text-3); letter-spacing: .04em;
+  pointer-events: none;
+}
+.controls-hint b { color: var(--brass); font-weight: 600; letter-spacing: .1em; }
+
+/* ── 天下图 ───────────────────────────────────────────── */
+
+.modebtn {
+  padding: 5px 14px; margin-right: 10px; font-size: 13px;
+  background: rgba(26, 22, 17, .8); letter-spacing: .08em;
+}
+.modebtn.on { background: var(--brass); color: #201a12; border-color: var(--brass); }
+
+.cb-owner { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.cb-flag {
+  width: 22px; height: 22px; border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 14px; color: #1b1610; font-weight: 600;
+}
+.cb-name { font-family: var(--serif); font-size: 17px; }
+.cb-mine {
+  font-size: 10px; color: var(--brass);
+  border: 1px solid var(--brass); border-radius: 2px; padding: 1px 6px;
+}
+.cb-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5px 14px;
+  font-size: 13px; margin: 10px 0;
+  padding: 9px 11px; background: rgba(20, 17, 13, .55); border-radius: 2px;
+}
+.cb-siege {
+  font-size: 12px; line-height: 1.75; color: #e8c9c0; margin-top: 8px;
+  border-left: 2px solid var(--cinnabar); padding-left: 9px;
+}
+.cb-links {
+  font-size: 12px; color: var(--text-2); margin-top: 10px;
+  border-top: 1px solid var(--line); padding-top: 8px;
+}
+
+/* ── 兵临城下 ─────────────────────────────────────────── */
+
+.siege-alert {
+  position: absolute; left: 50%; top: 64px; transform: translateX(-50%);
+  width: 340px; padding: 11px 15px;
+  background: rgba(48, 18, 13, .93);
+  border: 1px solid var(--cinnabar); border-radius: 3px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, .55);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+.siege-alert.warn {
+  background: rgba(48, 36, 14, .92); border-color: #c98a3c; animation: none;
+}
+.sa-title {
+  font-family: var(--serif); font-size: 16px; letter-spacing: .08em;
+  margin-bottom: 7px; color: #f0d8d2;
+}
+.sa-row {
+  display: flex; justify-content: space-between; font-size: 13px;
+  color: var(--text-2); margin-bottom: 3px;
+}
+.sa-row b { color: var(--text); font-size: 15px; font-family: var(--serif); }
+.sa-tip {
+  font-size: 11px; line-height: 1.7; color: var(--text-3);
+  margin-top: 7px; border-top: 1px solid rgba(196, 172, 130, .18); padding-top: 6px;
+}
+@keyframes pulse {
+  0%, 100% { border-color: var(--cinnabar); }
+  50% { border-color: rgba(193, 80, 60, .45); }
+}
+
+/* 拆除模式 */
+.raze-toggle.on {
+  background: rgba(120, 44, 34, .9); border-color: var(--cinnabar); color: #f0d8d2;
+}
+.raze-banner {
+  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+  background: rgba(88, 30, 22, .93); border: 1px solid var(--cinnabar);
+  padding: 8px 20px; border-radius: 2px;
+  font-size: 13px; color: #f0d8d2; letter-spacing: .04em;
+  pointer-events: none; white-space: nowrap;
+}
+.raze-banner .dim { color: rgba(240, 216, 210, .6); font-size: 11px; }
+
+/* ── 守城战 ───────────────────────────────────────────── */
+
+/* align-items: center 配 overflow-y: auto 是个陷阱：
+   内容比容器高时，浏览器把它上下**各**溢出一半，
+   而滚动范围只覆盖下面那一半 —— 上面那截永远够不着，
+   下面那截要滚才看得见，而这里根本没有滚动条的样子提示你去滚。
+   窗口一矮，「就位」这种按钮就掉到画面外了。
+   改成 flex-start + 子项 margin: auto：装得下时照样居中，装不下时两头都能滚到。 */
+.battle {
+  position: absolute; inset: 0;
+  display: flex; align-items: flex-start; justify-content: center;
+  background: radial-gradient(ellipse at 50% 35%, #2b1d16 0%, #150f0b 60%, #0a0705 100%);
+  overflow-y: auto;
+}
+.bt-inner, .bt-field {
+  width: 760px; max-width: 94vw; padding: 24px 0; margin: auto;
+}
+
+.bt-era {
+  font-size: 12px; letter-spacing: .5em; color: var(--text-3);
+  text-indent: .5em; text-align: center;
+}
+.bt-title {
+  font-family: var(--serif); font-size: 46px; font-weight: 500; text-align: center;
+  letter-spacing: .28em; text-indent: .28em; margin: 6px 0 18px; color: #e8d8c4;
+}
+.bt-lead {
+  text-align: center; font-size: 14px; line-height: 2.1; color: var(--text-2);
+  margin: 0 0 24px;
+}
+.bt-lead b { color: var(--brass); font-family: var(--serif); font-size: 18px; }
+
+/* 预设：一次点击就能摆完阵 */
+.bt-presets { display: flex; gap: 8px; justify-content: center; }
+.bt-preset { padding: 8px 18px; font-size: 14px; font-family: var(--serif); letter-spacing: .06em; }
+.bt-preset.on { background: var(--brass); color: #201a12; border-color: var(--brass); font-weight: 600; }
+.bt-preset-hint {
+  text-align: center; font-size: 12px; line-height: 1.9; color: var(--text-3);
+  margin: 10px 0 20px; min-height: 22px;
+}
+
+.bt-deploy { display: flex; flex-direction: column; gap: 14px; }
+.bt-post {
+  background: rgba(28, 22, 16, .72); border: 1px solid var(--line);
+  border-radius: 3px; padding: 11px 14px;
+}
+.bt-post.ro { opacity: .82; }
+.bp-head { display: flex; align-items: baseline; }
+.bp-label { font-family: var(--serif); font-size: 17px; letter-spacing: .12em; }
+.bp-men { margin-left: auto; font-family: var(--serif); font-size: 17px; color: var(--brass); }
+.bt-post input[type=range] { width: 100%; margin: 9px 0 4px; accent-color: #c8a45c; }
+.bp-bar { height: 4px; background: rgba(196,172,130,.16); margin: 13px 0 8px; position: relative; }
+.bp-bar i { position: absolute; left: 0; top: 0; height: 100%; background: var(--brass); }
+.bp-desc { font-size: 12px; line-height: 1.8; color: var(--text-3); }
+
+.bt-go {
+  display: block; margin: 26px auto 0; padding: 12px 44px;
+  font-family: var(--serif); font-size: 18px; letter-spacing: .3em; text-indent: .3em;
+  background: var(--brass); color: #1c1710; border-color: var(--brass); font-weight: 600;
+}
+.bt-go:hover { background: #dcb96c; }
+.bt-go em { font-style: normal; font-size: 11px; letter-spacing: .1em; opacity: .6; }
+
+/* 交战 */
+.bt-round {
+  text-align: center; font-size: 12px; letter-spacing: .3em;
+  color: var(--text-3); margin-bottom: 16px;
+}
+.bt-sides { display: flex; align-items: stretch; gap: 14px; }
+.bt-side {
+  flex: 1; background: rgba(28, 22, 16, .72); border: 1px solid var(--line);
+  border-radius: 3px; padding: 14px 16px;
+}
+.bt-side.mine { border-color: rgba(200, 164, 92, .5); }
+.bs-sub { font-size: 11px; letter-spacing: .4em; color: var(--text-3); }
+.bs-name { font-family: var(--serif); font-size: 22px; margin: 2px 0 8px; }
+.bs-men { font-family: var(--serif); font-size: 30px; color: var(--brass); line-height: 1; }
+.bs-morale { margin-top: 10px; }
+.bs-mbar { height: 4px; background: rgba(196,172,130,.16); position: relative; }
+.bs-mbar i { position: absolute; left: 0; top: 0; height: 100%; background: var(--jade); }
+.bs-mbar i.warn { background: #c98a3c; }
+.bs-mbar i.crit { background: var(--cinnabar); }
+.bs-mood { font-size: 11px; color: var(--text-3); }
+.bs-detail {
+  margin-top: 9px; padding-top: 8px; border-top: 1px solid var(--line);
+  font-size: 11px; color: var(--text-3);
+}
+
+.bt-wall {
+  width: 74px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 7px;
+}
+.bw-label { font-size: 11px; letter-spacing: .2em; color: var(--text-3); }
+.bw-bar {
+  width: 20px; flex: 1; background: rgba(196,172,130,.14); position: relative;
+  border: 1px solid var(--line);
+}
+.bw-bar i {
+  position: absolute; left: 0; bottom: 0; width: 100%; background: var(--brass);
+  transition: height .3s;
+}
+.bw-bar i.warn { background: #c98a3c; }
+.bw-bar i.crit { background: var(--cinnabar); }
+.bw-num { font-family: var(--serif); font-size: 18px; color: var(--brass); }
+
+/* 决断 */
+.bt-decision {
+  margin-top: 20px; background: rgba(48, 30, 18, .82);
+  border: 1px solid rgba(200, 164, 92, .42); border-radius: 3px; padding: 16px 18px;
+}
+.bd-text {
+  font-family: var(--serif); font-size: 17px; line-height: 1.95;
+  color: #eadcc6; margin-bottom: 14px;
+}
+.bd-options { display: flex; flex-direction: column; gap: 8px; }
+.bd-opt {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 3px;
+  text-align: left; padding: 10px 14px; background: rgba(20, 16, 11, .75);
+}
+.bd-opt.gamble { border-color: rgba(193, 80, 60, .5); }
+.bd-name { font-family: var(--serif); font-size: 16px; }
+.bd-hint { font-size: 12px; line-height: 1.75; color: var(--text-3); }
+.bd-odds { font-size: 11px; color: var(--cinnabar); letter-spacing: .06em; }
+
+/* 战况 */
+.bt-log, .bt-review {
+  margin-top: 18px; font-size: 12px; line-height: 1.9;
+  border-top: 1px solid var(--line); padding-top: 12px;
+}
+.bt-review { max-height: 190px; overflow-y: auto; }
+.btl { color: var(--text-3); padding: 1px 0; }
+.btl.good { color: var(--jade); }
+.btl.bad { color: var(--cinnabar); }
+.btl-r {
+  display: inline-block; width: 22px; color: var(--text-3);
+  font-family: var(--serif); opacity: .6;
+}
+
+.bt-tally {
+  display: flex; gap: 12px; justify-content: center; margin-bottom: 20px;
+}
+.bt-tally > div {
+  flex: 1; background: rgba(28, 22, 16, .7); border: 1px solid var(--line);
+  border-radius: 3px; padding: 12px 14px; text-align: center;
+}
+.bt-k { font-size: 11px; letter-spacing: .25em; color: var(--text-3); }
+.bt-v { font-family: var(--serif); font-size: 24px; color: var(--brass); margin-top: 4px; }
+
+/* ── 野战 ─────────────────────────────────────────────── */
+/* 界面刻意做薄：战场本身才是要看的东西，中间那片地永远留着 */
+
+.fd-top {
+  position: absolute; top: 0; left: 0; right: 0;
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 10px 16px;
+  background: linear-gradient(to bottom, rgba(16, 13, 9, .9), transparent);
+}
+.fd-force { min-width: 200px; }
+.fd-force.mine { text-align: left; }
+.fd-force:not(.mine) { margin-left: auto; text-align: right; }
+.fdf-name { font-size: 11px; letter-spacing: .3em; color: var(--text-3); }
+.fdf-men { font-family: var(--serif); font-size: 26px; color: var(--brass); line-height: 1.1; }
+.fdf-units { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+.fd-force:not(.mine) .fdf-units { justify-content: flex-end; }
+.fdf-u {
+  font-size: 11px; padding: 1px 6px; border-radius: 2px;
+  border: 1px solid var(--line-2); color: var(--text-2);
+}
+.fdf-u.k-foot { border-color: rgba(196, 172, 130, .5); }
+.fdf-u.k-bow { border-color: rgba(123, 160, 122, .6); color: #a9c4a7; }
+.fdf-u.k-horse { border-color: rgba(193, 80, 60, .55); color: #d8a99e; }
+.fdf-routed { font-size: 11px; color: var(--cinnabar); }
+.fd-round {
+  align-self: center; font-family: var(--serif); font-size: 15px;
+  letter-spacing: .2em; color: var(--text-2);
+  background: rgba(20, 17, 13, .8); border: 1px solid var(--line);
+  padding: 5px 16px; border-radius: 2px; white-space: nowrap;
+}
+
+.fd-side {
+  position: absolute; left: 16px; top: 96px; width: 216px;
+  background: rgba(20, 17, 13, .88); border: 1px solid var(--line);
+  border-radius: 3px; padding: 11px 13px;
+}
+.fds-title {
+  font-size: 11px; letter-spacing: .3em; color: var(--text-3);
+  border-bottom: 1px solid var(--line); padding-bottom: 6px; margin-bottom: 8px;
+}
+.fds-unit {
+  display: flex; align-items: center; gap: 7px; font-size: 12px;
+  padding: 4px 6px; border: 1px solid transparent; border-radius: 2px;
+}
+.fds-unit.on { border-color: var(--brass); background: rgba(200, 164, 92, .1); }
+.fds-men { color: var(--text); font-family: var(--serif); }
+.fds-terr { color: var(--text-3); }
+/* 「占便宜 / 吃亏」四个字才是拖队伍的理由。它得亮到一眼看见 */
+.fds-edge { margin-left: auto; font-size: 11px; color: var(--text-3); }
+.fds-edge.good { color: var(--jade); }
+.fds-edge.bad { color: var(--cinnabar); }
+.fds-hint {
+  margin-top: 9px; padding-top: 8px; border-top: 1px solid var(--line);
+  font-size: 11px; line-height: 1.8; color: var(--text-3);
+}
+.fds-hint b { color: var(--brass); }
+.fds-scout { margin-top: 6px; font-size: 11px; color: var(--text-3); }
+
+.fd-bottom {
+  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+  width: 620px; max-width: 92vw; text-align: center;
+}
+.fdb-forms { display: flex; gap: 7px; justify-content: center; }
+.fdb-form {
+  padding: 8px 20px; font-family: var(--serif); font-size: 16px; letter-spacing: .1em;
+  background: rgba(26, 22, 17, .88);
+}
+.fdb-form.on { background: var(--brass); color: #201a12; border-color: var(--brass); font-weight: 600; }
+.fdb-desc {
+  margin: 10px auto 12px; font-size: 12px; line-height: 1.85; color: var(--text-2);
+  background: rgba(20, 17, 13, .8); border: 1px solid var(--line);
+  padding: 8px 14px; border-radius: 2px; max-width: 560px;
+}
+.fdb-desc b { color: var(--brass); font-family: var(--serif); font-size: 14px; }
+.fdb-go {
+  padding: 11px 40px; font-family: var(--serif); font-size: 17px;
+  letter-spacing: .28em; text-indent: .28em;
+  background: var(--brass); color: #1c1710; border-color: var(--brass); font-weight: 600;
+}
+.fdb-go:hover { background: #dcb96c; }
+.fdb-go em { font-style: normal; font-size: 11px; letter-spacing: .1em; opacity: .6; }
+
+.fd-log {
+  position: absolute; right: 16px; top: 108px; width: 260px;
+  background: rgba(20, 17, 13, .82); border: 1px solid var(--line);
+  border-radius: 3px; padding: 10px 12px; font-size: 12px; line-height: 1.85;
+}
+.fdl { color: var(--text-3); }
+.fdl.good { color: var(--jade); }
+.fdl.bad { color: var(--cinnabar); }
+.fdl-r { display: inline-block; width: 20px; opacity: .55; font-family: var(--serif); }
+
+.fd-decision {
+  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+  width: 660px; max-width: 94vw;
+  background: rgba(46, 30, 18, .94); border: 1px solid rgba(200, 164, 92, .5);
+  border-radius: 3px; padding: 15px 18px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, .5);
+}
+.fdd-text {
+  font-family: var(--serif); font-size: 17px; line-height: 1.95;
+  color: #eadcc6; margin-bottom: 12px;
+}
+.fdd-opts { display: flex; gap: 8px; }
+.fdd-opt {
+  flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 3px;
+  text-align: left; padding: 10px 13px; background: rgba(20, 16, 11, .78);
+}
+.fdd-opt.gamble { border-color: rgba(193, 80, 60, .5); }
+.fdd-name { font-family: var(--serif); font-size: 15px; }
+.fdd-hint { font-size: 11px; line-height: 1.7; color: var(--text-3); }
+.fdd-odds { font-size: 11px; color: var(--cinnabar); }
+
+.sa-sortie {
+  display: block; width: 100%; margin-top: 9px; padding: 7px;
+  font-family: var(--serif); font-size: 14px; letter-spacing: .12em;
+  background: rgba(120, 44, 34, .8); border-color: var(--cinnabar); color: #f0d8d2;
+}
+.sa-sortie:hover { background: var(--cinnabar); }
+
+/* ── 矮窗口 ───────────────────────────────────────────────
+   笔记本上开个 1280×600 的窗是常事。战前那块面板要选东西、
+   底下还压着一个「就位」，一旦它高过窗口，玩家看到的就是
+   一个没有底的panel —— 他不会想到去滚，只会以为按钮没了。
+   所以这里不是靠滚动兜底，是**直接把它压回窗口里**。 */
+@media (max-height: 760px) {
+  .bt-inner, .bt-field { padding: 14px 0; }
+  .bt-title { font-size: 34px; margin: 2px 0 10px; }
+  .bt-lead { font-size: 13px; line-height: 1.8; margin: 0 0 14px; }
+  .bt-preset-hint { margin: 7px 0 12px; }
+  .bt-deploy { gap: 9px; }
+  .bt-post { padding: 8px 12px; }
+  .bt-go { margin-top: 16px; padding: 10px 40px; font-size: 16px; }
+  .bt-tally { margin: 14px 0; }
+  .bt-review { max-height: 26vh; overflow-y: auto; }
+}
+@media (max-height: 620px) {
+  .bt-inner, .bt-field { padding: 8px 0; }
+  .bt-title { font-size: 27px; margin: 0 0 7px; }
+  .bt-era { display: none; }
+  .bt-post { padding: 6px 12px; }
+  .bt-go { margin-top: 11px; padding: 9px 36px; }
+  .bt-lead { margin-bottom: 10px; }
+  .bt-deploy { gap: 7px; }
+  .bt-review { max-height: 20vh; }
+  /* 野战那几块也一样：面板再挤也不能把按钮挤出画面 */
+  .fd-side { max-height: 46vh; overflow-y: auto; }
+  .fd-log { max-height: 34vh; overflow-y: auto; }
+  .fd-decision, .fd-bottom { bottom: 10px; }
+}

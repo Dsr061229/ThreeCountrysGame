@@ -1,0 +1,150 @@
+[
+  {
+    "id": "f_hill",
+    "textId": "fd.hill",
+    "when": { "minRound": 2, "maxRound": 5, "onHill": false },
+    "options": [
+      {
+        "textId": "fd.hill.a",
+        "hintId": "fd.hill.a.hint",
+        "effect": { "ownAttack": 780, "ownDefend": 1300, "ownMorale": 5 }
+      },
+      {
+        "textId": "fd.hill.b",
+        "hintId": "fd.hill.b.hint",
+        "effect": { "ownAttack": 1280, "ownDefend": 820 }
+      }
+    ]
+  },
+  {
+    "id": "f_flank",
+    "textId": "fd.flank",
+    "when": { "minRound": 3 },
+    "options": [
+      {
+        "textId": "fd.flank.a",
+        "hintId": "fd.flank.a.hint",
+        "effect": { "formation": "heyi", "ownDefend": 1150 }
+      },
+      {
+        "textId": "fd.flank.b",
+        "hintId": "fd.flank.b.hint",
+        "effect": {
+          "gamble": {
+            "chance": 50,
+            "win": { "foeMen": 90, "foeMorale": -18, "ownMorale": 8 },
+            "lose": { "ownMen": 70, "ownMorale": -12 }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "f_wavering",
+    "textId": "fd.wavering",
+    "when": { "maxOwnLeft": 760, "ownRouted": true },
+    "options": [
+      {
+        "textId": "fd.wavering.a",
+        "hintId": "fd.wavering.a.hint",
+        "effect": { "formation": "fangyuan", "ownMorale": 10, "ownDefend": 1250 }
+      },
+      {
+        "textId": "fd.wavering.b",
+        "hintId": "fd.wavering.b.hint",
+        "effect": {
+          "gamble": {
+            "chance": 46,
+            "win": { "ownMorale": 24, "ownAttack": 1300 },
+            "lose": { "ownMorale": -14, "ownMen": 50 }
+          }
+        }
+      },
+      {
+        "textId": "fd.wavering.c",
+        "hintId": "fd.wavering.c.hint",
+        "effect": { "ownMorale": -4 }
+      }
+    ]
+  },
+  {
+    "id": "f_foe_cracking",
+    "textId": "fd.foe_cracking",
+    "when": { "minRound": 3, "maxFoeLeft": 780 },
+    "options": [
+      {
+        "textId": "fd.foe_cracking.a",
+        "hintId": "fd.foe_cracking.a.hint",
+        "effect": { "formation": "fengshi", "ownAttack": 1350, "ownDefend": 830 }
+      },
+      {
+        "textId": "fd.foe_cracking.b",
+        "hintId": "fd.foe_cracking.b.hint",
+        "effect": { "ownDefend": 1120, "foeMorale": -6 }
+      }
+    ]
+  },
+  {
+    "id": "f_dust",
+    "textId": "fd.dust",
+    "when": { "minRound": 2, "maxRound": 4 },
+    "options": [
+      {
+        "textId": "fd.dust.a",
+        "hintId": "fd.dust.a.hint",
+        "effect": {
+          "gamble": {
+            "chance": 55,
+            "win": { "foeMorale": -22, "foeMen": 60 },
+            "lose": { "ownMorale": -10 }
+          }
+        }
+      },
+      {
+        "textId": "fd.dust.b",
+        "hintId": "fd.dust.b.hint",
+        "effect": { "ownDefend": 1100 }
+      }
+    ]
+  },
+  {
+    "id": "f_captain",
+    "textId": "fd.captain",
+    "when": { "minRound": 4, "foeRouted": true },
+    "options": [
+      {
+        "textId": "fd.captain.a",
+        "hintId": "fd.captain.a.hint",
+        "effect": {
+          "gamble": {
+            "chance": 44,
+            "win": { "foeMorale": -32, "foeMen": 110 },
+            "lose": { "ownMen": 60, "ownMorale": -10 }
+          }
+        }
+      },
+      {
+        "textId": "fd.captain.b",
+        "hintId": "fd.captain.b.hint",
+        "effect": { "ownAttack": 1080 }
+      }
+    ]
+  },
+  {
+    "id": "f_withdraw",
+    "textId": "fd.withdraw",
+    "when": { "maxOwnLeft": 640 },
+    "options": [
+      {
+        "textId": "fd.withdraw.a",
+        "hintId": "fd.withdraw.a.hint",
+        "effect": { "formation": "fangyuan", "ownDefend": 1400, "ownAttack": 700 }
+      },
+      {
+        "textId": "fd.withdraw.b",
+        "hintId": "fd.withdraw.b.hint",
+        "effect": { "ownAttack": 1250, "ownDefend": 780, "ownMorale": 6 }
+      }
+    ]
+  }
+]

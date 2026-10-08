@@ -1,0 +1,91 @@
+[
+  {
+    "id": "jiaochang",
+    "name": "校场",
+    "desc": "操演之地。练得越勤，兵越经得起打。",
+    "maxLevel": 4,
+    "costGrain": 180,
+    "costDays": 18,
+    "costGrowth": 1750,
+    "trainCap": 18,
+    "drillBonus": 4,
+    "note": "没有校场的营，练兵练不到根子上——训练度到六十就再也上不去。"
+  },
+  {
+    "id": "jiuli",
+    "name": "厩栏",
+    "desc": "养马之处。有马才谈得上骑兵。",
+    "maxLevel": 4,
+    "costGrain": 320,
+    "costDays": 26,
+    "costGrowth": 1900,
+    "horse": 55,
+    "note": "骑兵不是招来的，是养出来的。一匹马一天吃的比三个人还多。"
+  },
+  {
+    "id": "gongnufang",
+    "name": "弓弩坊",
+    "desc": "制弓造矢。弓弩要坊，也要人。",
+    "maxLevel": 4,
+    "costGrain": 240,
+    "costDays": 22,
+    "costGrowth": 1800,
+    "bow": 60,
+    "note": "汉军的强弩要三年才出一个熟手，弩身却只要三个月。"
+  },
+  {
+    "id": "gongfang",
+    "name": "工坊",
+    "desc": "打造井阑、投石、撞车。",
+    "maxLevel": 3,
+    "costGrain": 300,
+    "costDays": 30,
+    "costGrowth": 2000,
+    "gearCap": 2,
+    "note": "攻城的家伙什，临阵造是来不及的。"
+  },
+  {
+    "id": "lincang",
+    "name": "廪仓",
+    "desc": "囤粮之所。仓大了才存得住主公一季拨下来的粮。",
+    "maxLevel": 4,
+    "costGrain": 140,
+    "costDays": 14,
+    "costGrowth": 1650,
+    "grainCap": 1400,
+    "note": "仓小的营，主公拨再多粮也接不住——多出来的会烂在露天里。"
+  },
+  {
+    "id": "tunsuo",
+    "name": "屯所",
+    "desc": "农具、耕牛、田舍。屯田得多打几成粮。",
+    "maxLevel": 3,
+    "costGrain": 160,
+    "costDays": 20,
+    "costGrowth": 1700,
+    "tuntian": 2,
+    "note": "建安元年，曹操行屯田于许下，岁得谷百万斛。"
+  },
+  {
+    "id": "shuaizhang",
+    "name": "帅帐",
+    "desc": "议事之地。帐大了，坐得下的部将才多。",
+    "maxLevel": 3,
+    "costGrain": 220,
+    "costDays": 24,
+    "costGrowth": 1900,
+    "officers": 1,
+    "note": "帐里坐不下人，你就只能自己带兵。"
+  },
+  {
+    "id": "lulou",
+    "name": "橹楼",
+    "desc": "望楼与箭橹。有人来攻营时顶得住。",
+    "maxLevel": 3,
+    "costGrain": 200,
+    "costDays": 20,
+    "costGrowth": 1750,
+    "defence": 260,
+    "note": "营不是城，没有墙。橹楼就是营的墙。"
+  }
+]

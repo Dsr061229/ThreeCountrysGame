@@ -1,0 +1,658 @@
+/* ══ 武将 ══════════════════════════════════════════════════
+   单开一个文件，是因为这条线的界面自成一套：
+   营内、点将台、行军途中，和文官那边没有一处共用。 */
+
+/* 开局的身份选择 */
+.op-roles { display: flex; gap: 10px; margin: 22px 0 4px; }
+.op-role {
+  flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+  padding: 14px 16px; text-align: left;
+  background: rgba(24, 20, 15, .7); border: 1px solid var(--line-2); border-radius: 3px;
+}
+.op-role:hover { border-color: rgba(200, 164, 92, .55); }
+.op-role.on { border-color: var(--brass); background: rgba(200, 164, 92, .12); }
+.or-k { font-family: var(--serif); font-size: 26px; color: var(--brass); line-height: 1; }
+.op-role.on .or-k { color: #e8c983; }
+.or-n { font-family: var(--serif); font-size: 16px; color: var(--text); }
+.or-d { font-size: 11px; line-height: 1.85; color: var(--text-3); }
+
+/* 断粮的警告压在顶栏下面 —— 这条线上最要命的一件事 */
+.grain-alarm {
+  position: absolute; top: 74px; left: 50%; transform: translateX(-50%);
+  padding: 7px 20px; font-family: var(--serif); font-size: 14px; letter-spacing: .1em;
+  background: rgba(60, 30, 22, .92); border: 1px solid rgba(193, 80, 60, .55);
+  border-radius: 2px; color: #e8bfae;
+}
+.grain-alarm.dire { background: rgba(96, 32, 24, .95); color: #ffd9c8; }
+
+/* ── 营内 ────────────────────────────────────────────── */
+/**
+ * 营内的操作面板。
+ *
+ * 原先是左边一条 246px 宽的长带子：开屯、招兵、设施、帐下、请粮
+ * 一路往下堆，要滚过大半屏才点得到底下的东西 —— 玩家的原话是
+ * 「只是左边的一长条，不好操作」。
+ *
+ * 内容本身是一串平铺的卡片（几个组件各出各的片段），
+ * 所以这里用多栏来流：卡片不拆行、小标题不落单，
+ * 一条带子就自己折成两栏，滚动少一半，按钮也宽得开。
+ * 窄屏再退回一栏 —— 见底下那条 media query。
+ */
+.camp-panel {
+  position: absolute; left: 16px; top: 92px;
+  width: min(520px, calc(100vw - 32px));
+  background: rgba(20, 17, 13, .9); border: 1px solid var(--line);
+  border-radius: 3px; padding: 12px 15px;
+  max-height: calc(100vh - 122px);
+  /* 外层只管滚动。分栏在里面 —— 见 .cp-flow */
+  overflow-y: auto; overflow-x: hidden;
+}
+/**
+ * 分栏的那一层。
+ *
+ * **它不能有高度上限。**
+ * 一个限了高度的多栏容器不往下滚，它往右溢出成更多列 ——
+ * 实测三百像素宽的面板内容铺到五百八，右半边的字全在框外。
+ * 高度交给外层去滚，这一层只负责把一条长带子折成两栏。
+ */
+.cp-flow {
+  column-count: 2;
+  column-gap: 18px;
+  column-rule: 1px solid rgba(255, 255, 255, .05);
+}
+/* 一张卡片不该被栏边界劈成两半 */
+.cp-flow > * { break-inside: avoid; }
+.cp-title, .cp-sub {
+  font-size: 11px; letter-spacing: .3em; color: var(--text-3);
+  border-bottom: 1px solid var(--line); padding-bottom: 6px; margin-bottom: 9px;
+  /* 小标题不许自己留在栏底 */
+  break-after: avoid;
+}
+.cp-sub { margin-top: 14px; }
+.cp-working { font-size: 13px; line-height: 1.9; color: var(--text-2); }
+.cp-working b { color: var(--brass); font-family: var(--serif); font-size: 16px; }
+
+.cp-row { display: flex; gap: 7px; }
+.cp-act, .cp-farm {
+  flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 3px;
+  padding: 8px 11px; text-align: left; font-family: var(--serif); font-size: 14px;
+  background: rgba(28, 23, 17, .8);
+}
+.cp-act.wide, .cp-farm { width: 100%; margin-top: 7px; }
+.cp-act em, .cp-farm em {
+  font-style: normal; font-size: 10px; line-height: 1.7;
+  color: var(--text-3); font-family: var(--sans);
+}
+.cp-act:disabled { opacity: .55; }
+.cp-act.danger { border-color: rgba(193, 80, 60, .4); }
+.cp-act.danger:hover:not(:disabled) { background: rgba(96, 40, 32, .5); }
+.cp-farm.on { background: var(--brass); color: #201a12; border-color: var(--brass); }
+.cp-farm.on em { color: rgba(32, 26, 18, .78); }
+
+.cp-levy {
+  display: flex; align-items: baseline; gap: 8px; width: 100%; margin-bottom: 5px;
+  padding: 6px 10px; font-size: 12px; background: rgba(28, 23, 17, .7);
+}
+.cl-name { font-family: var(--serif); font-size: 14px; min-width: 34px; }
+.cl-men { color: var(--jade); }
+.cl-cost { color: var(--text-3); font-size: 11px; margin-left: auto; }
+.cl-days { color: var(--text-3); font-size: 11px; }
+.cp-hint { margin-top: 8px; font-size: 11px; line-height: 1.8; color: var(--text-3); }
+.cp-waiting {
+  font-size: 12px; line-height: 1.85; color: var(--text-2);
+  background: rgba(28, 23, 17, .7); border: 1px solid var(--line);
+  padding: 8px 11px; border-radius: 2px;
+}
+.cp-waiting b { color: var(--brass); font-family: var(--serif); }
+
+.c-go {
+  display: block; width: 100%; margin-top: 12px; padding: 11px;
+  font-family: var(--serif); font-size: 16px; letter-spacing: .26em; text-indent: .26em;
+  background: var(--brass); color: #1c1710; border-color: var(--brass); font-weight: 600;
+}
+.c-go:disabled { background: transparent; color: var(--text-3); border-color: var(--line-2); }
+
+/* ── 点将台 ──────────────────────────────────────────────
+   这是武将与文官真正拉开的地方，所以它铺满整屏，
+   而不是又一张压在角落里的卡片。 */
+.council {
+  position: absolute; inset: 0; overflow-y: auto;
+  display: flex; flex-direction: column; align-items: center;
+  background: radial-gradient(ellipse at 50% 30%, #2a2118 0%, #16110c 62%, #0b0806 100%);
+  padding: 18px 16px;
+}
+.wc-head {
+  width: 100%; max-width: 980px; display: flex; align-items: baseline; gap: 18px;
+  border-bottom: 1px solid var(--line); padding-bottom: 12px;
+}
+.wc-title {
+  font-family: var(--serif); font-size: 26px; letter-spacing: .3em;
+  text-indent: .3em; color: #e8d8c4;
+}
+.wc-target { font-size: 14px; color: var(--text-2); }
+.wc-target b { font-family: var(--serif); font-size: 18px; color: var(--brass); }
+.wc-close {
+  margin-left: auto; padding: 6px 16px; font-size: 12px;
+  background: transparent; color: var(--text-3);
+}
+
+/* 舆图 */
+.wc-map { width: 100%; max-width: 980px; margin: 6px 0 2px; }
+.wcm-svg { width: 100%; display: block; }
+.wcm-node { fill: #d8c08a; stroke: #2a2118; stroke-width: 2; }
+.wcm-node.foe { fill: #b1503f; }
+.wcm-label {
+  fill: var(--text-2); font-size: 13px; text-anchor: middle; font-family: var(--serif);
+}
+.wcm-hit { fill: none; stroke: transparent; stroke-width: 26; cursor: pointer; }
+.wcm-line { fill: none; stroke: #6b6152; stroke-width: 2.5; }
+.wcm-route.k-main .wcm-line { stroke-width: 5; }
+.wcm-route.k-byway .wcm-line { stroke-dasharray: 12 5; }
+.wcm-route.k-mountain .wcm-line { stroke-dasharray: 3 7; stroke-width: 2; }
+.wcm-route.on .wcm-line { stroke: var(--brass); }
+.wcm-route:hover .wcm-line { stroke: #a08f6a; }
+.wcm-road {
+  fill: var(--text-2); font-size: 13px; text-anchor: middle;
+  font-family: var(--serif); pointer-events: none;
+}
+.wcm-route.on .wcm-road { fill: var(--brass); }
+.wcm-dim { fill: var(--text-3); font-size: 11px; font-family: var(--sans); }
+.wcm-cover { fill: var(--text-3); font-size: 10px; text-anchor: middle; pointer-events: none; }
+.wcm-col {
+  fill: #e8d8c4; font-size: 12px; text-anchor: middle; pointer-events: none;
+  font-family: var(--serif);
+}
+.wcm-hint { font-size: 11px; color: var(--text-3); text-align: center; }
+
+/* 各路 */
+.wc-cols {
+  width: 100%; max-width: 980px; display: flex; gap: 10px; margin-top: 12px;
+  align-items: stretch;
+}
+.wc-col {
+  flex: 1; min-width: 0; padding: 10px 12px; cursor: pointer;
+  background: rgba(26, 21, 16, .82); border: 1px solid var(--line); border-radius: 3px;
+}
+.wc-col.on { border-color: var(--brass); background: rgba(200, 164, 92, .09); }
+.wcc-head {
+  display: flex; font-family: var(--serif); font-size: 15px; color: var(--brass);
+  border-bottom: 1px solid var(--line); padding-bottom: 6px; margin-bottom: 8px;
+}
+.wcc-drop { margin-left: auto; padding: 0 6px; background: transparent; color: var(--text-3); }
+.wcc-men { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.wcc-men input { flex: 1; min-width: 0; accent-color: var(--brass); }
+.wcc-men span { font-family: var(--serif); color: var(--text); white-space: nowrap; }
+.wcc-sel {
+  width: 100%; margin-top: 8px; padding: 6px 8px; font-size: 12px;
+  background: rgba(0, 0, 0, .35); color: var(--text);
+  border: 1px solid var(--line-2); border-radius: 2px;
+}
+.wcc-who { margin-top: 5px; font-size: 11px; line-height: 1.7; color: var(--text-3); }
+.wcc-missions { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 9px; }
+.wcc-m {
+  padding: 5px 9px; font-size: 12px; font-family: var(--serif);
+  background: rgba(20, 16, 11, .7);
+}
+.wcc-m.on {
+  background: var(--brass); color: #201a12; border-color: var(--brass); font-weight: 600;
+}
+.wcc-desc { margin-top: 7px; font-size: 11px; line-height: 1.8; color: var(--text-3); }
+.wcc-road { margin-top: 7px; font-size: 12px; color: var(--text-2); }
+.wcc-road b { font-family: var(--serif); color: var(--brass); }
+.wcc-warn {
+  margin-top: 7px; font-size: 11px; line-height: 1.75; color: var(--cinnabar);
+  border-left: 2px solid rgba(193, 80, 60, .5); padding-left: 7px;
+}
+.wc-add {
+  width: 92px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 5px; font-size: 20px; color: var(--text-3);
+  background: rgba(20, 16, 11, .5); border-style: dashed;
+}
+.wc-add em { font-style: normal; font-size: 11px; }
+
+.wc-foot {
+  width: 100%; max-width: 980px; margin-top: 16px; padding-top: 14px;
+  border-top: 1px solid var(--line); text-align: center;
+}
+.wc-tally { font-size: 12px; color: var(--text-2); margin-bottom: 12px; }
+.wc-tally b { margin-left: 12px; font-family: var(--serif); font-size: 15px; color: var(--brass); }
+.wc-tally b.bad { color: var(--cinnabar); }
+.wc-go {
+  padding: 12px 46px; font-family: var(--serif); font-size: 18px;
+  letter-spacing: .3em; text-indent: .3em; font-weight: 600;
+  background: var(--brass); color: #1c1710; border-color: var(--brass);
+}
+.wc-go:disabled { background: transparent; color: var(--text-3); border-color: var(--line-2); }
+
+/* ── 行军途中 ─────────────────────────────────────────── */
+.marching {
+  position: absolute; left: 16px; top: 92px; width: 268px;
+  background: rgba(20, 17, 13, .9); border: 1px solid var(--line);
+  border-radius: 3px; padding: 12px 13px;
+}
+.mg-title {
+  font-family: var(--serif); font-size: 16px; color: var(--brass);
+  border-bottom: 1px solid var(--line); padding-bottom: 7px; margin-bottom: 10px;
+}
+.mg-col { margin-bottom: 11px; }
+.mg-who { font-size: 12px; color: var(--text-2); }
+.mg-who .dim { margin-left: 8px; }
+.mg-bar {
+  height: 4px; margin: 5px 0 3px; background: rgba(0, 0, 0, .45);
+  border-radius: 2px; overflow: hidden;
+}
+.mg-bar i { display: block; height: 100%; background: var(--brass); }
+.mg-eta { font-size: 11px; color: var(--text-3); }
+.mg-hint {
+  margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line);
+  font-size: 11px; line-height: 1.8; color: var(--text-3);
+}
+
+/* 矮窗口下把点将台压回屏幕里 —— 「击鼓发兵」不能掉到画面外 */
+@media (max-height: 760px) {
+  .council { padding: 10px 14px; }
+  .wc-title { font-size: 21px; }
+  .wc-head { padding-bottom: 8px; }
+  .wc-map { margin: 2px 0 0; }
+  .wcm-svg { max-height: 148px; }
+  .wc-cols { margin-top: 8px; }
+  .wcc-desc, .wcc-who { display: none; }
+  .wc-foot { margin-top: 10px; padding-top: 10px; }
+  .wc-tally { margin-bottom: 8px; }
+  .wc-go { padding: 10px 38px; font-size: 16px; }
+}
+
+/* ── 军议之后：这一仗为什么是这个样子 ────────────────────
+   出征那一层的全部功夫都在这几行字里。少了它，
+   玩家只看见「我三百五十人对着七百人」，不知道那是因为
+   曹仁在小道上白等了一天。 */
+.plan-report {
+  position: absolute; right: 16px; top: 96px; width: 288px;
+  background: rgba(22, 18, 13, .9); border: 1px solid var(--line);
+  border-left: 3px solid var(--brass); border-radius: 3px; padding: 11px 13px;
+}
+.pr-title {
+  font-size: 11px; letter-spacing: .3em; color: var(--text-3);
+  border-bottom: 1px solid var(--line); padding-bottom: 6px; margin-bottom: 8px;
+}
+.pr-line {
+  font-size: 12px; line-height: 1.9; color: var(--text-2);
+  padding: 3px 0 3px 9px; border-left: 2px solid transparent;
+}
+.pr-line.good { color: var(--jade); border-left-color: rgba(122, 158, 122, .5); }
+.pr-line.bad { color: var(--cinnabar); border-left-color: rgba(193, 80, 60, .5); }
+
+/* 伏击与约好的援兵，顶栏上要一眼看见 */
+.fd-ambush {
+  margin-top: 5px; font-family: var(--serif); font-size: 14px;
+  letter-spacing: .14em; color: #e8c983;
+}
+.fd-coming { margin-top: 3px; font-size: 11px; color: var(--jade); }
+
+/* 这一带是什么地方 —— 看懂三条道的钥匙 */
+.wc-land {
+  width: 100%; max-width: 980px; margin-top: 10px;
+  display: flex; flex-wrap: wrap; gap: 6px 16px;
+  font-size: 11px; line-height: 1.8; color: var(--text-3);
+}
+.wl-item b {
+  font-family: var(--serif); font-size: 13px; margin-right: 6px; color: var(--text-2);
+}
+.wl-item.k-mountain b { color: #b3a58a; }
+.wl-item.k-forest b { color: #8ba876; }
+.wl-item.k-marsh b { color: #7ba4b3; }
+.wcm-through {
+  fill: var(--brass); font-size: 11px; text-anchor: middle; pointer-events: none;
+  font-family: var(--serif); opacity: .85;
+}
+
+/* ── 营中设施 ────────────────────────────────────────────
+   武将的发育。写「它给你什么」，不写「它是几级」。 */
+.cp-slots { float: right; letter-spacing: 0; color: var(--text-3); }
+.cp-caps {
+  display: flex; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 8px;
+  font-size: 11px; color: var(--text-3);
+}
+.cp-caps b { color: var(--brass); font-family: var(--serif); font-size: 13px; }
+
+.cp-facs { margin-top: 7px; }
+.cp-fac {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  width: 100%; margin-bottom: 5px; padding: 7px 10px; text-align: left;
+  background: rgba(28, 23, 17, .7);
+}
+.cp-fac.on { border-color: rgba(200, 164, 92, .45); }
+.cp-fac:disabled { opacity: .5; }
+.cf-name { font-family: var(--serif); font-size: 14px; color: var(--text); }
+.cf-lv {
+  display: inline-block; margin-left: 6px; padding: 0 5px; font-style: normal;
+  font-size: 11px; background: var(--brass); color: #201a12; border-radius: 2px;
+}
+.cf-desc { font-size: 10px; line-height: 1.65; color: var(--text-3); }
+.cf-cost { font-size: 10px; color: var(--brass); opacity: .85; }
+
+/* 训练度条上的上限刻线 */
+.m-bar { position: relative; }
+.m-cap-tick {
+  position: absolute; top: -1px; bottom: -1px; width: 2px;
+  background: var(--cinnabar); opacity: .8;
+}
+
+/* ── 手上的几摊活 ────────────────────────────────────────
+   募、练、工三摊人各干各的，所以这里可能同时挂着三条。 */
+.cp-jobs { margin-bottom: 10px; }
+.cp-job {
+  display: flex; align-items: center; gap: 7px; margin-bottom: 5px;
+  padding: 5px 7px; background: rgba(28, 23, 17, .78);
+  border: 1px solid var(--line); border-radius: 2px;
+}
+.cj-track {
+  flex: none; width: 20px; height: 20px; line-height: 20px; text-align: center;
+  font-family: var(--serif); font-size: 12px; border-radius: 2px;
+  background: rgba(0, 0, 0, .4); color: var(--text-2);
+}
+.cj-track.t-recruit { color: #8fb08f; }
+.cj-track.t-train { color: #d8c08a; }
+.cj-track.t-craft { color: #b99a76; }
+.cj-mid { flex: 1; min-width: 0; }
+.cj-what {
+  font-size: 11px; color: var(--text-2); white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.cj-bar {
+  height: 3px; margin-top: 3px; background: rgba(0, 0, 0, .45);
+  border-radius: 2px; overflow: hidden;
+}
+.cj-bar i { display: block; height: 100%; background: var(--brass); }
+.cj-days { flex: none; font-size: 10px; color: var(--text-3); }
+.cj-stop {
+  flex: none; padding: 0 5px; background: transparent;
+  color: var(--text-3); border-color: transparent;
+}
+.cj-stop:hover { color: var(--cinnabar); }
+
+/* 扎营之处。傍山难攻、临水便利、林中藏得住、平野宜屯 —— 有分量的事要写出来 */
+.cp-site { float: right; letter-spacing: 0; color: var(--brass); font-family: var(--serif); }
+.cp-sitenote {
+  margin: -4px 0 10px; font-size: 11px; line-height: 1.75; color: var(--text-3);
+}
+
+/* ── 帐下的部将 ──────────────────────────────────────────
+   开局是空的。一路必须有一位将，一将不能分身 ——
+   所以「你能分几路兵」直接等于「你手上有几个能用的人」。 */
+/**
+ * 帐下的一行。
+ *
+ * 名字、性子、统、勇，再加一颗「举荐」—— 一行装不下的时候要**换行**，
+ * 不能把面板顶出一条横向滚动条。
+ * 实测三百像素宽的面板被撑到五百八，右半边的字全在框外。
+ */
+.cp-officer {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px;
+  margin-bottom: 4px; padding: 5px 8px; font-size: 12px;
+  background: rgba(28, 23, 17, .7); border-radius: 2px;
+}
+.cp-officer.self { border-left: 2px solid var(--brass); }
+.co-name { font-family: var(--serif); font-size: 14px; min-width: 42px; }
+.co-note { font-size: 11px; color: var(--text-3); }
+.co-temper { font-size: 11px; padding: 0 5px; border-radius: 2px; background: rgba(0,0,0,.35); }
+.co-temper.t-decisive { color: #9fd08a; }
+.co-temper.t-rash { color: #d88a6a; }
+.co-temper.t-proud { color: #d8b06a; }
+.co-temper.t-cautious { color: #8ab0d0; }
+.co-num { margin-left: auto; font-size: 11px; color: var(--text-3); }
+.co-num + .co-num { margin-left: 0; }
+
+.ts-noone {
+  margin-top: 7px; font-size: 11px; line-height: 1.8; color: var(--cinnabar);
+  border-left: 2px solid rgba(193, 80, 60, .5); padding-left: 7px;
+}
+
+/* ── 主公的军令 ────────────────────────────────────────
+   这是武将这条线的心跳，所以它压在屏幕正中上方 —— 躲不开。 */
+/**
+ * 主公的军令。
+ *
+ * 它压在整幅画面正中偏上，而营内面板是从左边贴过来的 ——
+ * 窄屏上两者会叠在一起，把「领命／抗命」两颗按钮盖掉大半。
+ * 一道限期的军令被一块面板压住，玩家就只能猜它说了什么。
+ *
+ * 所以它排在营内面板之上，而且窄屏时让开左边那一条。
+ */
+.order-banner {
+  position: absolute; top: 78px; left: 50%; transform: translateX(-50%);
+  min-width: 320px; max-width: calc(100vw - 32px);
+  padding: 12px 20px; text-align: center;
+  background: rgba(22, 18, 13, .94); border: 1px solid var(--brass);
+  border-radius: 3px; box-shadow: 0 8px 32px rgba(0, 0, 0, .45);
+  z-index: 30;
+}
+@media (max-width: 900px) {
+  /* 窄屏：军令横在顶上，营内面板从它下面开始 */
+  .order-banner { left: 16px; right: 16px; transform: none; min-width: 0; }
+  .camp-panel { top: 196px; max-height: calc(100vh - 226px); }
+}
+.order-banner.urgent { border-color: var(--cinnabar); }
+.ob-head {
+  font-size: 11px; letter-spacing: .3em; color: var(--text-3);
+  border-bottom: 1px solid var(--line); padding-bottom: 6px; margin-bottom: 8px;
+}
+.ob-days { float: right; letter-spacing: 0; color: var(--brass); }
+.order-banner.urgent .ob-days { color: var(--cinnabar); }
+.ob-what {
+  font-family: var(--serif); font-size: 17px; color: #e8d8c4; margin-bottom: 10px;
+}
+.ob-row { display: flex; gap: 8px; justify-content: center; }
+.ob-take {
+  padding: 7px 24px; font-family: var(--serif); font-size: 14px;
+  letter-spacing: .2em; text-indent: .2em;
+  background: var(--brass); color: #1c1710; border-color: var(--brass); font-weight: 600;
+}
+.ob-take:disabled { background: transparent; color: var(--text-3); border-color: var(--line-2); }
+.ob-defy {
+  padding: 7px 18px; font-family: var(--serif); font-size: 13px;
+  background: transparent; color: var(--text-3); border-color: var(--line-2);
+}
+.ob-defy:hover { color: var(--cinnabar); border-color: rgba(193, 80, 60, .5); }
+.ob-note { font-size: 11px; color: var(--text-3); }
+
+/* 窄屏退回一栏 —— 两栏挤在四百像素里比一条长带子还难点 */
+@media (max-width: 900px) {
+  .cp-flow { column-count: 1; }
+  .camp-panel { width: min(300px, calc(100vw - 32px)); }
+}
+
+/* 阵前挂了彩的部将。伤是要养的，这段日子他上不了阵 */
+.cp-officer.hurt { opacity: .6; }
+.co-hurt {
+  margin-left: auto; font-size: 11px;
+  color: var(--cinnabar); letter-spacing: .04em;
+}
+
+/* 城下围着多少人 —— 驰援时你打的是这支兵，不是城 */
+.cb-siege {
+  margin: 8px 0 4px; padding: 7px 9px; font-size: 12px; line-height: 1.7;
+  background: rgba(96, 32, 24, .28); border-left: 2px solid var(--cinnabar);
+  border-radius: 2px; color: #f0cdbd;
+}
+.cb-siege b { color: #ffb9a0; font-family: var(--serif); font-size: 15px; }
+/* 驰援自家的城 —— 和打别人的城不是一件事，按钮也别长一个样 */
+.c-go.relief {
+  background: rgba(150, 52, 40, .9); border-color: rgba(210, 120, 96, .8);
+  color: #ffeadf;
+}
+.c-go.relief:hover:not(:disabled) { background: rgba(178, 62, 46, .95); }
+
+/* ── 守将 ─────────────────────────────────────────── */
+/* 照设计方案 2.3：画像 + 评语 + 擅长标签，不摆五维数值条 */
+.cb-warden {
+  margin: 10px 0 4px; padding: 9px 11px;
+  background: rgba(0, 0, 0, .26); border: 1px solid var(--line);
+  border-left: 2px solid var(--brass); border-radius: 2px;
+}
+.cw-head { display: flex; align-items: baseline; gap: 7px; }
+.cw-name { font-family: var(--serif); font-size: 17px; color: #e8d8c4; }
+.cw-zi { font-size: 12px; color: var(--text-3); }
+.cw-role {
+  margin-left: auto; font-size: 10px; letter-spacing: .2em;
+  color: var(--text-3);
+}
+.cw-praise {
+  margin-top: 5px; font-size: 12px; line-height: 1.7;
+  color: var(--text-2); font-style: italic;
+}
+.cw-tags {
+  margin-top: 7px; display: flex; flex-wrap: wrap; align-items: center; gap: 5px;
+}
+.cw-good {
+  font-size: 11px; padding: 1px 7px; border-radius: 2px;
+  background: rgba(200, 164, 92, .16); color: #ddc9a4;
+}
+.cw-flaw {
+  font-size: 11px; color: #c89080; margin-left: 2px;
+}
+
+/* ── 举荐 ─────────────────────────────────────────── */
+.co-rec {
+  margin-left: auto; font-size: 10px; padding: 2px 7px;
+  background: rgba(200, 164, 92, .14); border: 1px solid var(--line-2);
+  border-radius: 2px; color: #ddc9a4; letter-spacing: .1em;
+}
+.co-rec:hover { background: rgba(200, 164, 92, .3); border-color: var(--brass); }
+.cp-vacant {
+  margin: 6px 0 4px; padding: 8px 10px;
+  background: rgba(0, 0, 0, .3); border: 1px solid var(--line);
+  border-left: 2px solid var(--brass); border-radius: 2px;
+}
+.cv-head {
+  display: flex; align-items: baseline;
+  font-size: 12px; color: var(--text-2); margin-bottom: 7px;
+}
+.cv-x {
+  margin-left: auto; background: none; border: none;
+  color: var(--text-3); font-size: 14px; padding: 0 3px;
+}
+.cv-city {
+  width: 100%; display: flex; flex-direction: column; align-items: flex-start;
+  gap: 2px; padding: 6px 8px; margin-bottom: 4px;
+  font-family: var(--serif); font-size: 13px;
+  background: rgba(38, 32, 22, .8); border: 1px solid var(--line-2);
+  border-radius: 2px; color: #ddc9a4;
+}
+.cv-city:hover { background: rgba(58, 48, 30, .9); border-color: rgba(200, 164, 92, .5); }
+.cv-city em {
+  font-style: normal; font-family: inherit;
+  font-size: 10px; letter-spacing: 0; color: var(--text-3);
+}
+.cv-note { margin-top: 5px; font-size: 10px; line-height: 1.7; color: var(--text-3); }
+
+/* 面板里的东西一律不许比面板宽 */
+.cp-flow > *, .cp-officer, .cp-vacant, .cv-city, .cp-fac, .cp-levy { max-width: 100%; }
+.cv-city, .cv-head, .cv-note { overflow-wrap: anywhere; }
+.co-rec { margin-left: auto; }
+
+/* 主公跟这一家的交情。天下的恩怨是会变的 */
+.cb-att {
+  margin-left: auto; font-size: 11px; letter-spacing: .06em; color: var(--text-3);
+}
+.cb-att.war { color: var(--cinnabar); }
+
+/* ── 主公这一屏 ───────────────────────────────────── */
+/*
+ * 和另外两条线最根本的分别：这里没有「你的城」。
+ * 主公中间是整张天下图 —— 他手上没有一处是自己亲手做的。
+ */
+.lord-panel {
+  position: absolute; left: 16px; top: 92px;
+  width: min(360px, calc(100vw - 32px));
+  background: rgba(20, 17, 13, .9); border: 1px solid var(--line);
+  border-radius: 3px; padding: 12px 15px;
+  max-height: calc(100vh - 122px);
+  overflow-y: auto; overflow-x: hidden;
+}
+.lp-flow > * { max-width: 100%; }
+
+.lord-alarm {
+  position: absolute; left: 50%; top: 78px; transform: translateX(-50%);
+  padding: 9px 18px; text-align: center; font-size: 13px; line-height: 1.9;
+  background: rgba(96, 32, 24, .94); color: #ffd9c8;
+  border: 1px solid var(--cinnabar); border-radius: 3px; z-index: 30;
+}
+.lord-alarm b { color: #fff; font-family: var(--serif); font-size: 15px; }
+
+.lp-city {
+  width: 100%; display: flex; align-items: baseline; gap: 8px;
+  padding: 6px 9px; margin-bottom: 4px; font-size: 12px;
+  background: rgba(28, 23, 17, .7); border: 1px solid transparent;
+  border-radius: 2px; color: var(--text-2);
+}
+.lp-city:hover { border-color: var(--line-2); background: rgba(44, 36, 25, .85); }
+.lc-n { font-family: var(--serif); font-size: 14px; color: #e8d8c4; min-width: 48px; }
+.lc-w { font-size: 11px; color: var(--jade); }
+/* 「哪几处没人守」要一眼看得见 —— 那是主公唯一会不断追着你的事 */
+.lc-w.none { color: var(--cinnabar); }
+.lc-t, .lc-g { margin-left: auto; font-size: 11px; color: var(--text-3); }
+.lc-g { margin-left: 0; }
+
+.lp-foe { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; font-size: 12px; }
+.lf-n { font-family: var(--serif); min-width: 48px; }
+.lf-a { color: var(--cinnabar); font-family: var(--serif); }
+.lf-envoy {
+  margin-left: auto; font-size: 10px; padding: 2px 8px;
+  background: rgba(200, 164, 92, .14); border: 1px solid var(--line-2);
+  border-radius: 2px; color: #ddc9a4;
+}
+.lf-envoy:hover:not(:disabled) { background: rgba(200, 164, 92, .3); }
+
+.lp-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px;
+  margin: 8px 0; font-size: 12px; color: var(--text-2);
+}
+.lp-warden {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px;
+  padding: 7px 9px; font-size: 12px;
+  background: rgba(28, 23, 17, .7); border-radius: 2px;
+  border-left: 2px solid var(--brass);
+}
+.lp-warden.none { border-left-color: var(--cinnabar); }
+.lw-n { font-family: var(--serif); font-size: 14px; color: #e8d8c4; }
+.lw-p { font-size: 11px; color: var(--text-2); font-style: italic; }
+.lw-g { font-size: 10px; color: var(--brass); }
+
+.lp-march {
+  width: 100%; display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px;
+  padding: 6px 9px; margin-bottom: 4px; font-size: 12px;
+  background: rgba(38, 32, 22, .8); border: 1px solid var(--line-2);
+  border-radius: 2px; color: var(--text-2);
+}
+.lp-march.own { border-left: 2px solid var(--brass); }
+.lp-march:hover:not(:disabled) { background: rgba(58, 48, 30, .9); }
+.lm-n { font-family: var(--serif); font-size: 13px; color: #e8d8c4; min-width: 44px; }
+.lm-f { font-size: 11px; }
+.lm-t { font-size: 11px; color: var(--text-3); }
+.lm-go { margin-left: auto; font-size: 11px; color: var(--brass); }
+
+/* 开局挑诸侯。这张表本身就是难度选择 */
+.op-cards.hide { display: none; }
+.op-lords {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 8px; margin: 14px 0;
+}
+.op-lord {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px;
+  padding: 9px 11px; text-align: left;
+  background: rgba(24, 20, 15, .7); border: 1px solid var(--line);
+  border-radius: 3px; color: var(--text-2);
+}
+.op-lord.on { border-color: var(--brass); background: rgba(48, 39, 24, .8); }
+.ol-flag {
+  width: 20px; height: 20px; line-height: 20px; text-align: center;
+  font-family: var(--serif); font-size: 13px; color: #fff; border-radius: 2px;
+}
+.ol-n { font-family: var(--serif); font-size: 15px; color: #e8d8c4; }
+.ol-hard { margin-left: auto; font-size: 11px; color: var(--brass); letter-spacing: .1em; }
+.ol-d { flex-basis: 100%; font-size: 11px; line-height: 1.7; color: var(--text-3); }
+
+/* 顶上那几个数不许折行 —— 窄一点就成了三行碎字 */
+.hud-top .stat .k, .hud-top .stat .v, .hud-top .sub2 { white-space: nowrap; }
+.sub2 { font-size: 10px; color: var(--cinnabar); }

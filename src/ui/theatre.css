@@ -1,0 +1,328 @@
+/* ══ 战场 ══════════════════════════════════════════════════
+   界面刻意做得薄：中间那片地是主角，界面只在四边留一条。
+   玩家要做的只有「在图上点一个位置」和「击鼓」。 */
+
+.th-top {
+  position: absolute; top: 0; left: 0; right: 0;
+  display: flex; align-items: center; gap: 16px;
+  padding: 12px 18px;
+  background: linear-gradient(180deg, rgba(12, 10, 7, .88), transparent);
+  pointer-events: none;
+}
+.th-top > * { pointer-events: auto; }
+.th-title {
+  font-family: var(--serif); font-size: 20px; letter-spacing: .1em; color: #e8d8c4;
+}
+.th-title .dim { font-size: 13px; letter-spacing: 0; }
+.th-quit {
+  margin-left: auto; padding: 6px 16px; font-size: 12px;
+  background: transparent; color: var(--text-3);
+}
+
+/* ── 手上还剩多少兵 ─────────────────────────────────── */
+.th-pool {
+  position: absolute; left: 16px; top: 66px; width: 190px;
+  background: rgba(18, 15, 11, .9); border: 1px solid var(--line);
+  border-radius: 3px; padding: 10px 12px;
+  max-height: calc(100vh - 150px); overflow-y: auto;
+}
+.tp-title {
+  font-size: 11px; letter-spacing: .3em; color: var(--text-3);
+  border-bottom: 1px solid var(--line); padding-bottom: 5px; margin: 0 0 8px;
+}
+.tp-title + .tp-title, .tp-sent + .tp-title, .tp-hint + .tp-title { margin-top: 12px; }
+.tp-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.tp-row.out { opacity: .4; }
+.tp-name { font-family: var(--serif); font-size: 14px; }
+.tp-men { margin-left: auto; font-family: var(--serif); color: var(--brass); }
+.tp-hint { margin-top: 8px; font-size: 11px; line-height: 1.75; color: var(--text-3); }
+.tp-hint.dim { color: rgba(200, 164, 92, .58); font-style: italic; }
+
+/* 细作。这是击鼓之前唯一一件「花钱买消息」的事 */
+.tp-scout {
+  width: 100%; display: flex; flex-direction: column;
+  align-items: flex-start; gap: 3px; padding: 7px 9px;
+  font-family: var(--serif); font-size: 13px; letter-spacing: .12em;
+  background: rgba(38, 32, 22, .8); border: 1px solid var(--line-2);
+  border-radius: 2px; color: #ddc9a4;
+}
+.tp-scout:hover:not(:disabled) {
+  background: rgba(58, 48, 30, .9); border-color: rgba(200, 164, 92, .5);
+}
+.tp-scout em {
+  font-style: normal; font-family: inherit;
+  font-size: 10px; letter-spacing: 0; color: var(--text-3);
+}
+.tp-scout:disabled { opacity: .5; }
+
+.tp-sent {
+  display: flex; align-items: center; gap: 6px; margin-bottom: 5px;
+  padding: 5px 7px; font-size: 12px;
+  background: rgba(30, 24, 18, .8); border-radius: 2px;
+}
+.ts-kind { font-family: var(--serif); }
+.ts-men { color: var(--brass); }
+.ts-stance {
+  margin-left: auto; font-size: 11px; padding: 1px 6px; border-radius: 2px;
+  background: rgba(0, 0, 0, .4); color: var(--text-2);
+}
+.ts-stance.s-ambush { color: #9fd08a; }
+.ts-stance.s-raid { color: #d8a06a; }
+.ts-back { padding: 0 4px; background: transparent; color: var(--text-3); border-color: transparent; }
+.ts-back:hover { color: var(--cinnabar); }
+
+/* ── 点了地之后弹出来的框 ──────────────────────────────
+   这个框是整套玩法的入口，所以它必须把「这块地是什么」讲清楚。 */
+.th-send {
+  position: absolute; right: 16px; top: 66px; width: 286px;
+  background: rgba(20, 16, 12, .95); border: 1px solid var(--brass);
+  border-radius: 3px; padding: 12px 14px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .5);
+}
+.ts-head {
+  display: flex; align-items: baseline;
+  font-family: var(--serif); font-size: 17px; color: var(--brass);
+  border-bottom: 1px solid var(--line); padding-bottom: 7px; margin-bottom: 9px;
+}
+.ts-head .dim { font-size: 11px; }
+.ts-close {
+  margin-left: auto; padding: 0 6px; background: transparent;
+  color: var(--text-3); border-color: transparent;
+}
+.ts-ground { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.ts-ground span {
+  font-size: 11px; padding: 2px 7px; border-radius: 2px;
+  background: rgba(0, 0, 0, .4); color: var(--text-3);
+}
+.ts-ground span.on { color: var(--jade); background: rgba(122, 158, 122, .16); }
+.ts-ground span.bad { color: var(--cinnabar); background: rgba(193, 80, 60, .14); }
+
+.ts-kinds { display: flex; gap: 5px; }
+.ts-kind-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 1px;
+  padding: 6px 4px; font-family: var(--serif); font-size: 13px;
+  background: rgba(28, 23, 17, .8);
+}
+.ts-kind-btn em { font-style: normal; font-size: 10px; color: var(--text-3); }
+.ts-kind-btn.on { background: var(--brass); color: #201a12; border-color: var(--brass); }
+.ts-kind-btn.on em { color: rgba(32, 26, 18, .75); }
+.ts-kind-btn:disabled { opacity: .4; }
+
+.ts-men { display: flex; align-items: center; gap: 8px; margin-top: 9px; font-size: 12px; }
+.ts-men input { flex: 1; min-width: 0; accent-color: var(--brass); }
+.ts-men span { font-family: var(--serif); white-space: nowrap; }
+
+.ts-officer {
+  width: 100%; margin-top: 9px; padding: 6px 8px; font-size: 12px;
+  background: rgba(0, 0, 0, .35); color: var(--text);
+  border: 1px solid var(--line-2); border-radius: 2px;
+}
+
+.ts-stances { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+.ts-st {
+  padding: 5px 9px; font-size: 12px; font-family: var(--serif);
+  background: rgba(20, 16, 11, .75);
+}
+.ts-st.on { background: var(--brass); color: #201a12; border-color: var(--brass); font-weight: 600; }
+.ts-st.off { opacity: .42; }
+.ts-desc { margin-top: 8px; font-size: 11px; line-height: 1.85; color: var(--text-3); }
+.ts-desc strong { color: var(--text-2); }
+
+.ts-send-go {
+  width: 100%; margin-top: 12px; padding: 10px;
+  font-family: var(--serif); font-size: 15px; letter-spacing: .2em; text-indent: .2em;
+  background: var(--brass); color: #1c1710; border-color: var(--brass); font-weight: 600;
+}
+.ts-send-go:disabled { background: transparent; color: var(--text-3); border-color: var(--line-2); }
+
+/* ── 底下那一条 ──────────────────────────────────────── */
+.th-bottom {
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 18px;
+  padding: 10px 20px; background: rgba(16, 13, 9, .9);
+  border: 1px solid var(--line); border-radius: 3px;
+}
+.th-tally { font-size: 12px; color: var(--text-2); }
+.th-go {
+  padding: 10px 34px; font-family: var(--serif); font-size: 17px;
+  letter-spacing: .3em; text-indent: .3em; font-weight: 600;
+  background: var(--brass); color: #1c1710; border-color: var(--brass);
+}
+.th-go:disabled { background: transparent; color: var(--text-3); border-color: var(--line-2); }
+
+/* ── 打起来之后 ──────────────────────────────────────── */
+.th-scores {
+  display: flex; align-items: baseline; gap: 10px;
+  font-family: var(--serif); font-size: 19px;
+}
+.ts-own { color: var(--brass); }
+.ts-vs { font-size: 12px; color: var(--text-3); }
+.ts-foe { color: #d08a7a; }
+.ts-burn {
+  margin-left: 10px; font-size: 12px; padding: 2px 8px;
+  background: rgba(193, 80, 60, .2); color: #f0c0a8; border-radius: 2px;
+}
+.th-speeds { margin-left: auto; display: flex; gap: 3px; }
+.th-sp {
+  min-width: 30px; padding: 4px 6px; font-size: 11px;
+  background: rgba(24, 20, 15, .8);
+}
+.th-sp.on { background: var(--brass); color: #201a12; border-color: var(--brass); }
+/* 鸣金：这一屏唯一的退路，要看得见 */
+.th-gong {
+  margin-left: 10px; padding: 4px 12px; font-size: 12px;
+  font-family: var(--serif); letter-spacing: .1em;
+  background: rgba(120, 40, 30, .55); color: #f0cdbd;
+  border: 1px solid rgba(200, 110, 90, .6); border-radius: 2px;
+}
+.th-gong:hover:not(:disabled) { background: rgba(160, 55, 40, .7); color: #fff0e6; }
+.th-gong:disabled { opacity: .45; }
+
+.th-roster {
+  position: absolute; left: 16px; top: 66px; width: 208px;
+  background: rgba(18, 15, 11, .88); border: 1px solid var(--line);
+  border-radius: 3px; padding: 9px 11px;
+}
+.thr { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 12px; }
+.thr.out { opacity: .38; }
+.thr-k { font-family: var(--serif); min-width: 30px; }
+.thr-m { min-width: 30px; color: var(--brass); font-family: var(--serif); }
+.thr-bar {
+  flex: 1; height: 3px; background: rgba(0, 0, 0, .5);
+  border-radius: 2px; overflow: hidden;
+}
+.thr-bar i { display: block; height: 100%; background: var(--brass); }
+.thr-s { font-size: 10px; color: var(--text-3); min-width: 24px; text-align: right; }
+.thr-s.s-ambush { color: #9fd08a; }
+
+.th-log {
+  position: absolute; right: 16px; bottom: 16px; width: 300px;
+  background: rgba(16, 13, 9, .86); border: 1px solid var(--line);
+  border-left: 3px solid var(--brass); border-radius: 3px; padding: 9px 12px;
+}
+.thl { font-size: 12px; line-height: 1.9; color: var(--text-2); }
+.thl.good { color: var(--jade); }
+.thl.bad { color: var(--cinnabar); }
+
+.thl-t {
+  display: inline-block; min-width: 34px; margin-right: 6px;
+  font-family: var(--serif); font-size: 11px; color: var(--text-3);
+}
+/* 转折的那几行要压得住整段日志 —— 否则一屏字里看不出哪一下是关键 */
+.thl.big { color: #f0e2c8; font-weight: 600; }
+.thl.big.good { color: #a8e08a; }
+.thl.big.bad { color: #f0a088; }
+
+/* ── 战报 ─────────────────────────────────────────── */
+.th-report {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 480px; max-height: calc(100vh - 60px); overflow-y: auto;
+  text-align: center; padding: 22px 30px 24px;
+  background: rgba(14, 11, 8, .96);
+  border: 1px solid var(--brass); border-radius: 3px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, .7);
+}
+.thd-title {
+  font-family: var(--serif); font-size: 40px; letter-spacing: .3em;
+  text-indent: .3em; color: #e8d8c4;
+}
+.thd-where {
+  font-family: var(--serif); font-size: 13px; color: var(--text-3);
+  letter-spacing: .12em; margin-bottom: 16px;
+}
+.thd-sec {
+  font-family: var(--serif); font-size: 11px; color: var(--brass);
+  letter-spacing: .3em; text-align: left;
+  border-bottom: 1px solid var(--line); padding-bottom: 4px; margin: 14px 0 8px;
+}
+.thd-units { text-align: left; }
+.thu {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; line-height: 2.1;
+}
+.thu.out { opacity: .5; }
+.thu-n {
+  font-family: var(--serif); min-width: 56px; color: #e8d8c4;
+}
+.thu-k { min-width: 30px; color: var(--text-2); }
+.thu-s { min-width: 30px; font-size: 11px; color: var(--text-3); }
+.thu-s.s-ambush { color: #9fd08a; }
+.thu-s.s-raid { color: #d0b070; }
+.thu-m { margin-left: auto; font-family: var(--serif); color: var(--text-2); }
+.thu-m i { color: var(--text-3); font-style: normal; margin: 0 3px; }
+.thu-l { min-width: 52px; text-align: right; color: var(--text-3); }
+.thu-l.heavy { color: var(--cinnabar); }
+.thu-x {
+  font-size: 10px; padding: 1px 5px; border-radius: 2px;
+  background: rgba(193, 80, 60, .22); color: #f0b0a0;
+}
+
+.thd-tally {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 6px; margin-top: 14px;
+}
+.thd-tally div {
+  padding: 8px 4px; background: rgba(0, 0, 0, .3);
+  border: 1px solid var(--line); border-radius: 2px;
+}
+.thd-tally b {
+  display: block; font-family: var(--serif); font-size: 20px; color: var(--brass);
+}
+.thd-tally span { font-size: 10px; color: var(--text-3); letter-spacing: .06em; }
+
+.thd-turns { text-align: left; }
+.thdt { font-size: 12px; line-height: 1.95; color: var(--text-2); }
+.thdt.good { color: var(--jade); }
+.thdt.bad { color: var(--cinnabar); }
+
+.th-report .th-go { margin-top: 18px; width: 100%; }
+
+@media (max-height: 720px) {
+  .th-pool, .th-roster, .th-send { top: 58px; }
+  .th-send { max-height: calc(100vh - 90px); overflow-y: auto; }
+  .ts-desc { display: none; }
+  .th-log { width: 260px; }
+  .th-report { width: 420px; padding: 16px 20px 18px; }
+  .thd-title { font-size: 30px; }
+}
+
+/* 统／勇／智 各管什么 —— 挑人的时候要看得见 */
+.ts-statnote {
+  margin-top: 5px; font-size: 10px; line-height: 1.7; color: var(--text-3);
+}
+
+/* ── 阵前叫战 ─────────────────────────────────────── */
+/* 这是要当场拿主意的一件事，所以它压在正中，压过战场本身 */
+.th-challenge {
+  position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%);
+  width: min(430px, calc(100vw - 40px));
+  text-align: center; padding: 20px 26px 18px;
+  background: rgba(16, 11, 8, .96);
+  border: 1px solid rgba(200, 110, 90, .7); border-radius: 3px;
+  box-shadow: 0 16px 54px rgba(0, 0, 0, .72);
+}
+.tc-head {
+  font-family: var(--serif); font-size: 12px; letter-spacing: .42em;
+  text-indent: .42em; color: #e0a48c; margin-bottom: 12px;
+}
+.tc-what {
+  font-family: var(--serif); font-size: 17px; line-height: 1.75; color: #e8d8c4;
+}
+.tc-what b { color: var(--brass); font-weight: 600; }
+.tc-look {
+  margin-top: 8px; font-size: 12px; color: var(--text-2); font-style: italic;
+}
+.tc-row { display: flex; gap: 10px; margin-top: 16px; }
+.tc-go, .tc-no {
+  flex: 1; padding: 10px 0; font-family: var(--serif);
+  font-size: 15px; letter-spacing: .22em; text-indent: .22em;
+}
+.tc-go {
+  background: var(--brass); color: #1c1710;
+  border-color: var(--brass); font-weight: 600;
+}
+.tc-no { background: transparent; color: var(--text-2); border-color: var(--line-2); }
+.tc-no:hover { color: #f0a088; border-color: rgba(193, 80, 60, .55); }
+.tc-note {
+  margin-top: 11px; font-size: 11px; line-height: 1.8; color: var(--text-3);
+}

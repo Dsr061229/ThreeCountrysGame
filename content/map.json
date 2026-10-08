@@ -1,0 +1,953 @@
+[
+  {
+    "id": "changan",
+    "name": "长安",
+    "commandery": "京兆尹",
+    "faction": "dongzhuo",
+    "at": [
+      -38,
+      2
+    ],
+    "lonlat": [
+      108.9,
+      34.3
+    ],
+    "links": [
+      "hongnong",
+      "hanzhong",
+      "tianshui"
+    ],
+    "scale": 3,
+    "seat": true,
+    "desc": "董卓迁都于此。洛阳的宫室已经烧了，二百里内不见人烟。",
+    "fame": 5
+  },
+  {
+    "id": "hongnong",
+    "name": "弘农",
+    "commandery": "弘农郡",
+    "faction": "dongzhuo",
+    "at": [
+      -23,
+      0
+    ],
+    "lonlat": [
+      110.9,
+      34.5
+    ],
+    "links": [
+      "changan",
+      "luoyang"
+    ],
+    "scale": 2,
+    "desc": "崤函之间的孔道。东出者与西入者在此错身。"
+  },
+  {
+    "id": "luoyang",
+    "name": "洛阳",
+    "commandery": "河南尹",
+    "faction": "dongzhuo",
+    "at": [
+      -12,
+      -1
+    ],
+    "lonlat": [
+      112.4,
+      34.6
+    ],
+    "links": [
+      "hongnong",
+      "hulao",
+      "shangdang"
+    ],
+    "scale": 2,
+    "desc": "旧京。宫室、宗庙、府库都成了焦土，只剩城郭还立着。",
+    "fame": 5
+  },
+  {
+    "id": "hulao",
+    "name": "虎牢",
+    "commandery": "河南尹",
+    "faction": "dongzhuo",
+    "at": [
+      -4,
+      -3
+    ],
+    "lonlat": [
+      113.4,
+      34.8
+    ],
+    "links": [
+      "luoyang",
+      "guandu",
+      "yangdi"
+    ],
+    "scale": 2,
+    "desc": "关在山与河之间。过了这道关，中原就摊开在眼前。"
+  },
+  {
+    "id": "jinyang",
+    "name": "晋阳",
+    "commandery": "太原郡",
+    "faction": "dongzhuo",
+    "at": [
+      -11,
+      -31
+    ],
+    "lonlat": [
+      112.6,
+      37.9
+    ],
+    "links": [
+      "shangdang"
+    ],
+    "scale": 2,
+    "desc": "并州故地。胡骑与汉民杂居，官府的令出不了城门。",
+    "fame": 1
+  },
+  {
+    "id": "shangdang",
+    "name": "上党",
+    "commandery": "上党郡",
+    "faction": "dongzhuo",
+    "at": [
+      -7,
+      -15
+    ],
+    "lonlat": [
+      113.1,
+      36.2
+    ],
+    "links": [
+      "jinyang",
+      "luoyang",
+      "ye"
+    ],
+    "scale": 2,
+    "desc": "太行之上。守着它就守着河北下河南的路。"
+  },
+  {
+    "id": "chenliu",
+    "name": "陈留",
+    "commandery": "陈留郡",
+    "faction": "zhangmiao",
+    "at": [
+      4,
+      -3
+    ],
+    "lonlat": [
+      114.5,
+      34.8
+    ],
+    "links": [
+      "suanzao",
+      "guandu",
+      "yongqiu",
+      "juancheng"
+    ],
+    "scale": 3,
+    "seat": true,
+    "desc": "张邈的治所。曹操在这里散尽家财募了五千人，兵是他的，地不是。",
+    "fame": 2
+  },
+  {
+    "id": "suanzao",
+    "name": "酸枣",
+    "commandery": "陈留郡",
+    "faction": "zhangmiao",
+    "at": [
+      2,
+      -7
+    ],
+    "lonlat": [
+      114.2,
+      35.3
+    ],
+    "links": [
+      "chenliu",
+      "puyang",
+      "guandu"
+    ],
+    "scale": 2,
+    "desc": "讨董联军的屯所。十余万人聚在这里，每日置酒高会，没有一个人肯先西进。"
+  },
+  {
+    "id": "guandu",
+    "name": "官渡",
+    "commandery": "陈留郡",
+    "faction": "zhangmiao",
+    "at": [
+      0,
+      -2
+    ],
+    "lonlat": [
+      114,
+      34.7
+    ],
+    "links": [
+      "chenliu",
+      "suanzao",
+      "hulao",
+      "xuchang"
+    ],
+    "scale": 1,
+    "desc": "汴水边的一个渡口。眼下还没有人多看它一眼。"
+  },
+  {
+    "id": "yongqiu",
+    "name": "雍丘",
+    "commandery": "陈留郡",
+    "faction": "caocao",
+    "at": [
+      6,
+      0
+    ],
+    "lonlat": [
+      114.8,
+      34.5
+    ],
+    "links": [
+      "chenliu",
+      "jiwu",
+      "juancheng",
+      "xuchang"
+    ],
+    "scale": 1,
+    "desc": "陈留郡东南的小县。城墙是十年前修的，如今裂了三处没人管。城外的田荒了大半。"
+  },
+  {
+    "id": "jiwu",
+    "name": "己吾",
+    "commandery": "陈留郡",
+    "faction": "caocao",
+    "at": [
+      8,
+      3
+    ],
+    "lonlat": [
+      115.1,
+      34.2
+    ],
+    "links": [
+      "yongqiu",
+      "runan",
+      "xiaopei"
+    ],
+    "scale": 1,
+    "desc": "卫兹的乡里。他把家财都给了曹操，人也跟着去了。"
+  },
+  {
+    "id": "puyang",
+    "name": "濮阳",
+    "commandery": "东郡",
+    "faction": "qiaomao",
+    "at": [
+      8,
+      -11
+    ],
+    "lonlat": [
+      115,
+      35.7
+    ],
+    "links": [
+      "suanzao",
+      "juancheng",
+      "ye",
+      "pingyuan"
+    ],
+    "scale": 3,
+    "seat": true,
+    "desc": "东郡治所。四通八达，也四面受敌。",
+    "fame": 1
+  },
+  {
+    "id": "juancheng",
+    "name": "鄄城",
+    "commandery": "济阴郡",
+    "faction": "liudai",
+    "at": [
+      11,
+      -10
+    ],
+    "lonlat": [
+      115.5,
+      35.6
+    ],
+    "links": [
+      "puyang",
+      "chenliu",
+      "yongqiu",
+      "changyi"
+    ],
+    "scale": 2,
+    "desc": "济阴要地。城小而坚，历来是兖州的门闩。"
+  },
+  {
+    "id": "changyi",
+    "name": "昌邑",
+    "commandery": "山阳郡",
+    "faction": "liudai",
+    "at": [
+      15,
+      -8
+    ],
+    "lonlat": [
+      116,
+      35.4
+    ],
+    "links": [
+      "juancheng",
+      "xiaopei",
+      "beihai"
+    ],
+    "scale": 3,
+    "seat": true,
+    "desc": "兖州刺史刘岱的治所。他与桥瑁刚翻了脸，眼下正忙着算旧账。",
+    "fame": 2
+  },
+  {
+    "id": "xuchang",
+    "name": "许",
+    "commandery": "颍川郡",
+    "faction": "taiping",
+    "at": [
+      -2,
+      4
+    ],
+    "lonlat": [
+      113.8,
+      34
+    ],
+    "links": [
+      "guandu",
+      "yongqiu",
+      "yangdi",
+      "runan"
+    ],
+    "scale": 2,
+    "desc": "颍川黄巾据着此城。城头没有旗，只有一块写着「甲子」的木牌。",
+    "fame": 3
+  },
+  {
+    "id": "yangdi",
+    "name": "阳翟",
+    "commandery": "颍川郡",
+    "faction": "taiping",
+    "at": [
+      -4,
+      3
+    ],
+    "lonlat": [
+      113.4,
+      34.2
+    ],
+    "links": [
+      "xuchang",
+      "hulao",
+      "wan"
+    ],
+    "scale": 2,
+    "seat": true,
+    "desc": "颍川郡治。士族大半已经南下荆州，剩下的人在城里等一个说法。"
+  },
+  {
+    "id": "runan",
+    "name": "汝南",
+    "commandery": "汝南郡",
+    "faction": "yuanshu",
+    "at": [
+      4,
+      14
+    ],
+    "lonlat": [
+      114.6,
+      33
+    ],
+    "links": [
+      "xuchang",
+      "jiwu",
+      "wan",
+      "shouchun"
+    ],
+    "scale": 3,
+    "desc": "袁氏四世三公的乡里。门生故吏遍布郡中，粮也堆得比别处高。",
+    "fame": 1
+  },
+  {
+    "id": "wan",
+    "name": "宛",
+    "commandery": "南阳郡",
+    "faction": "yuanshu",
+    "at": [
+      -11,
+      14
+    ],
+    "lonlat": [
+      112.5,
+      33
+    ],
+    "links": [
+      "yangdi",
+      "runan",
+      "xinye"
+    ],
+    "scale": 3,
+    "seat": true,
+    "desc": "袁术据南阳，户口百万。他从不觉得需要省着用。",
+    "fame": 2
+  },
+  {
+    "id": "xinye",
+    "name": "新野",
+    "commandery": "南阳郡",
+    "faction": "liubiao",
+    "at": [
+      -12,
+      18
+    ],
+    "lonlat": [
+      112.4,
+      32.5
+    ],
+    "links": [
+      "wan",
+      "xiangyang"
+    ],
+    "scale": 1,
+    "desc": "南阳与襄阳之间的小城。谁南下都要经过它。"
+  },
+  {
+    "id": "xiangyang",
+    "name": "襄阳",
+    "commandery": "南郡",
+    "faction": "liubiao",
+    "at": [
+      -14,
+      22
+    ],
+    "lonlat": [
+      112.1,
+      32
+    ],
+    "links": [
+      "xinye",
+      "jiangling",
+      "jiangxia"
+    ],
+    "scale": 3,
+    "seat": true,
+    "desc": "刘表单骑入荆州，就是从这里开始的。他把江南豪族一一收服，用了不到一年。",
+    "fame": 3
+  },
+  {
+    "id": "jiangling",
+    "name": "江陵",
+    "commandery": "南郡",
+    "faction": "liubiao",
+    "at": [
+      -13,
+      37
+    ],
+    "lonlat": [
+      112.2,
+      30.4
+    ],
+    "links": [
+      "xiangyang",
+      "changsha",
+      "jiangzhou"
+    ],
+    "scale": 2,
+    "desc": "江边重镇。舟师与粮秣都屯在这里。",
+    "fame": 2
+  },
+  {
+    "id": "jiangxia",
+    "name": "江夏",
+    "commandery": "江夏郡",
+    "faction": "liubiao",
+    "at": [
+      7,
+      37
+    ],
+    "lonlat": [
+      114.9,
+      30.4
+    ],
+    "links": [
+      "xiangyang",
+      "chaisang",
+      "changsha"
+    ],
+    "scale": 2,
+    "desc": "大江与汉水交汇处。黄祖守着它。"
+  },
+  {
+    "id": "changsha",
+    "name": "长沙",
+    "commandery": "长沙郡",
+    "faction": "sunjian",
+    "at": [
+      -8,
+      57
+    ],
+    "lonlat": [
+      113,
+      28.2
+    ],
+    "links": [
+      "jiangling",
+      "jiangxia"
+    ],
+    "scale": 2,
+    "seat": true,
+    "desc": "孙坚在此为太守。他杀了荆州刺史与南阳太守，然后带兵北上讨董——没有人拦得住他。"
+  },
+  {
+    "id": "xiaopei",
+    "name": "小沛",
+    "commandery": "沛国",
+    "faction": "taoqian",
+    "at": [
+      22,
+      -2
+    ],
+    "lonlat": [
+      116.9,
+      34.7
+    ],
+    "links": [
+      "jiwu",
+      "changyi",
+      "pengcheng"
+    ],
+    "scale": 1,
+    "desc": "沛国的小城。四通之地，谁来了都能占，谁占了都守不久。"
+  },
+  {
+    "id": "pengcheng",
+    "name": "彭城",
+    "commandery": "彭城国",
+    "faction": "taoqian",
+    "at": [
+      24,
+      2
+    ],
+    "lonlat": [
+      117.2,
+      34.3
+    ],
+    "links": [
+      "xiaopei",
+      "xiapi",
+      "langya"
+    ],
+    "scale": 2,
+    "desc": "泗水之上。城下的石头被历代的兵磨得很平。",
+    "fame": 1
+  },
+  {
+    "id": "xiapi",
+    "name": "下邳",
+    "commandery": "下邳国",
+    "faction": "taoqian",
+    "at": [
+      29,
+      5
+    ],
+    "lonlat": [
+      117.9,
+      33.9
+    ],
+    "links": [
+      "pengcheng",
+      "shouchun"
+    ],
+    "scale": 3,
+    "seat": true,
+    "desc": "陶谦的治所。徐州富庶，也因此人人都想要。",
+    "fame": 2
+  },
+  {
+    "id": "langya",
+    "name": "琅琊",
+    "commandery": "琅琊国",
+    "faction": "taoqian",
+    "at": [
+      33,
+      -5
+    ],
+    "lonlat": [
+      118.4,
+      35.1
+    ],
+    "links": [
+      "pengcheng",
+      "beihai"
+    ],
+    "scale": 2,
+    "desc": "东海之滨。诸葛氏、王氏的乡里。"
+  },
+  {
+    "id": "beihai",
+    "name": "北海",
+    "commandery": "北海国",
+    "faction": "kongrong",
+    "at": [
+      38,
+      -20
+    ],
+    "lonlat": [
+      119.1,
+      36.7
+    ],
+    "links": [
+      "langya",
+      "changyi",
+      "pingyuan"
+    ],
+    "scale": 2,
+    "seat": true,
+    "desc": "孔融在此为相。他修城邑、立学校、荐贤良，唯独不会打仗。",
+    "fame": 1
+  },
+  {
+    "id": "ye",
+    "name": "邺",
+    "commandery": "魏郡",
+    "faction": "hanfu",
+    "at": [
+      4,
+      -16
+    ],
+    "lonlat": [
+      114.6,
+      36.3
+    ],
+    "links": [
+      "puyang",
+      "shangdang",
+      "pingyuan",
+      "nanpi"
+    ],
+    "scale": 3,
+    "seat": true,
+    "desc": "冀州治所。韩馥坐拥河北最富的一块地，却整日担心袁绍。",
+    "fame": 3
+  },
+  {
+    "id": "pingyuan",
+    "name": "平原",
+    "commandery": "平原郡",
+    "faction": "yuanshao",
+    "at": [
+      18,
+      -24
+    ],
+    "lonlat": [
+      116.4,
+      37.2
+    ],
+    "links": [
+      "ye",
+      "puyang",
+      "beihai",
+      "nanpi"
+    ],
+    "scale": 2,
+    "desc": "河北与青州之间。渡口上日夜有人过河。"
+  },
+  {
+    "id": "nanpi",
+    "name": "南皮",
+    "commandery": "渤海郡",
+    "faction": "yuanshao",
+    "at": [
+      20,
+      -32
+    ],
+    "lonlat": [
+      116.7,
+      38
+    ],
+    "links": [
+      "ye",
+      "pingyuan",
+      "ji"
+    ],
+    "scale": 3,
+    "seat": true,
+    "desc": "袁绍的渤海。他是讨董联军的盟主，手里却只有一个郡——他很清楚这一点。",
+    "fame": 2
+  },
+  {
+    "id": "ji",
+    "name": "蓟",
+    "commandery": "广阳郡",
+    "faction": "liuyu",
+    "at": [
+      18,
+      -49
+    ],
+    "lonlat": [
+      116.4,
+      39.9
+    ],
+    "links": [
+      "nanpi",
+      "beiping"
+    ],
+    "scale": 2,
+    "seat": true,
+    "desc": "幽州牧刘虞在此。他招抚胡族、开互市，境内流民百万都吃得上饭。",
+    "fame": 1
+  },
+  {
+    "id": "beiping",
+    "name": "北平",
+    "commandery": "右北平郡",
+    "faction": "gongsunzan",
+    "at": [
+      37,
+      -50
+    ],
+    "lonlat": [
+      118.9,
+      40
+    ],
+    "links": [
+      "ji"
+    ],
+    "scale": 2,
+    "seat": true,
+    "desc": "公孙瓒的白马义从。他主张对胡族赶尽杀绝，与刘虞的分歧一天比一天深。"
+  },
+  {
+    "id": "shouchun",
+    "name": "寿春",
+    "commandery": "九江郡",
+    "faction": "chenwen",
+    "at": [
+      21,
+      17
+    ],
+    "lonlat": [
+      116.8,
+      32.6
+    ],
+    "links": [
+      "runan",
+      "xiapi",
+      "hefei"
+    ],
+    "scale": 3,
+    "seat": true,
+    "desc": "扬州刺史的治所。淮南的粮从这里出。",
+    "fame": 3
+  },
+  {
+    "id": "hefei",
+    "name": "合肥",
+    "commandery": "九江郡",
+    "faction": "chenwen",
+    "at": [
+      25,
+      24
+    ],
+    "lonlat": [
+      117.3,
+      31.8
+    ],
+    "links": [
+      "shouchun",
+      "jianye",
+      "chaisang"
+    ],
+    "scale": 2,
+    "desc": "巢湖之北。守江必守淮，这里就是那个「淮」。"
+  },
+  {
+    "id": "jianye",
+    "name": "秣陵",
+    "commandery": "丹阳郡",
+    "faction": "chenwen",
+    "at": [
+      36,
+      22
+    ],
+    "lonlat": [
+      118.8,
+      32.1
+    ],
+    "links": [
+      "hefei",
+      "wujun"
+    ],
+    "scale": 2,
+    "desc": "大江南岸的一个县。此时还没有人叫它建业。"
+  },
+  {
+    "id": "wujun",
+    "name": "吴",
+    "commandery": "吴郡",
+    "faction": "chenwen",
+    "at": [
+      49,
+      29
+    ],
+    "lonlat": [
+      120.6,
+      31.3
+    ],
+    "links": [
+      "jianye",
+      "kuaiji"
+    ],
+    "scale": 2,
+    "desc": "吴郡治所。江东的钱粮与人物大半出自这里。"
+  },
+  {
+    "id": "kuaiji",
+    "name": "会稽",
+    "commandery": "会稽郡",
+    "faction": "chenwen",
+    "at": [
+      49,
+      40
+    ],
+    "lonlat": [
+      120.6,
+      30
+    ],
+    "links": [
+      "wujun"
+    ],
+    "scale": 2,
+    "desc": "东南尽头。山越出没，官府只管得到城墙以内。"
+  },
+  {
+    "id": "chaisang",
+    "name": "柴桑",
+    "commandery": "豫章郡",
+    "faction": "chenwen",
+    "at": [
+      15,
+      43
+    ],
+    "lonlat": [
+      116,
+      29.7
+    ],
+    "links": [
+      "hefei",
+      "jiangxia"
+    ],
+    "scale": 1,
+    "desc": "大江转折之处。上溯荆襄，下达吴会。"
+  },
+  {
+    "id": "hanzhong",
+    "name": "汉中",
+    "commandery": "汉中郡",
+    "faction": "liuyan",
+    "at": [
+      -52,
+      13
+    ],
+    "lonlat": [
+      107,
+      33.1
+    ],
+    "links": [
+      "changan",
+      "chengdu",
+      "jiangzhou"
+    ],
+    "scale": 2,
+    "desc": "米仓道与褒斜道的交汇。张鲁的五斗米道正在此地生根。",
+    "fame": 1
+  },
+  {
+    "id": "chengdu",
+    "name": "成都",
+    "commandery": "蜀郡",
+    "faction": "liuyan",
+    "at": [
+      -74,
+      34
+    ],
+    "lonlat": [
+      104.1,
+      30.7
+    ],
+    "links": [
+      "hanzhong",
+      "jiangzhou"
+    ],
+    "scale": 3,
+    "seat": true,
+    "desc": "刘焉自请为益州牧，来了就断了栈道。天下的事，他打算不管了。",
+    "fame": 3
+  },
+  {
+    "id": "jiangzhou",
+    "name": "江州",
+    "commandery": "巴郡",
+    "faction": "liuyan",
+    "at": [
+      -56,
+      44
+    ],
+    "lonlat": [
+      106.5,
+      29.6
+    ],
+    "links": [
+      "chengdu",
+      "hanzhong",
+      "jiangling"
+    ],
+    "scale": 2,
+    "desc": "两江交汇。巴人劲悍，出好兵。"
+  },
+  {
+    "id": "tianshui",
+    "name": "天水",
+    "commandery": "汉阳郡",
+    "faction": "mateng",
+    "at": [
+      -62,
+      -1
+    ],
+    "lonlat": [
+      105.7,
+      34.6
+    ],
+    "links": [
+      "changan",
+      "wuwei"
+    ],
+    "scale": 2,
+    "seat": true,
+    "desc": "陇右门户。羌汉杂处，马腾韩遂的兵就出在这里。"
+  },
+  {
+    "id": "wuwei",
+    "name": "武威",
+    "commandery": "武威郡",
+    "faction": "mateng",
+    "at": [
+      -86,
+      -31
+    ],
+    "lonlat": [
+      102.6,
+      37.9
+    ],
+    "links": [
+      "tianshui"
+    ],
+    "scale": 2,
+    "desc": "河西走廊。风沙里长出来的骑兵，最能吃苦。"
+  }
+]

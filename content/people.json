@@ -1,0 +1,960 @@
+[
+  {
+    "id": "dianwei",
+    "name": "典韦",
+    "courtesy": "",
+    "faction": "caocao",
+    "command": 62,
+    "valor": 95,
+    "wit": 30,
+    "temper": "decisive",
+    "loyalty": 95,
+    "praise": "古之恶来。",
+    "good": [
+      "冲阵",
+      "宿卫"
+    ],
+    "flaw": "不通文墨，独当一面不成",
+    "note": "陈留人。形貌魁梧，膂力过人，曾持大双戟八十斤。"
+  },
+  {
+    "id": "yuejin",
+    "name": "乐进",
+    "courtesy": "文谦",
+    "faction": "caocao",
+    "command": 70,
+    "valor": 78,
+    "wit": 52,
+    "temper": "decisive",
+    "loyalty": 88,
+    "praise": "每战先登，从无退志。",
+    "good": [
+      "先登",
+      "攻坚"
+    ],
+    "flaw": "身短力薄，久战乏力",
+    "note": "阳平卫国人。容貌短小，以胆烈从曹公，每战先登。"
+  },
+  {
+    "id": "lidian",
+    "name": "李典",
+    "courtesy": "曼成",
+    "faction": "caocao",
+    "command": 76,
+    "valor": 68,
+    "wit": 74,
+    "temper": "cautious",
+    "loyalty": 84,
+    "praise": "儒将。不与诸将争功。",
+    "good": [
+      "持重",
+      "屯守",
+      "谋断"
+    ],
+    "flaw": "不肯冒险，战机常从手边过",
+    "note": "山阳巨野人。好学问，贵儒雅，不与诸将争功。"
+  },
+  {
+    "id": "xiahoudun",
+    "name": "夏侯惇",
+    "courtesy": "元让",
+    "faction": "caocao",
+    "command": 80,
+    "valor": 88,
+    "wit": 48,
+    "temper": "rash",
+    "loyalty": 98,
+    "praise": "刚烈忠直，可当一面。",
+    "good": [
+      "统众",
+      "野战"
+    ],
+    "flaw": "性急，易被诱出",
+    "note": "沛国谯人。年十四就师，人有辱其师者，惇杀之。"
+  },
+  {
+    "id": "caoren",
+    "name": "曹仁",
+    "courtesy": "子孝",
+    "faction": "caocao",
+    "command": 86,
+    "valor": 82,
+    "wit": 66,
+    "temper": "decisive",
+    "loyalty": 96,
+    "praise": "法令严整，守则不拔。",
+    "good": [
+      "守备",
+      "统众",
+      "攻坚"
+    ],
+    "flaw": "守成有余，奇袭非其所长",
+    "note": "沛国谯人。少好弓马弋猎，后折节修行，法令严整。"
+  },
+  {
+    "id": "yujin",
+    "name": "于禁",
+    "courtesy": "文则",
+    "faction": "caocao",
+    "command": 84,
+    "valor": 72,
+    "wit": 60,
+    "temper": "cautious",
+    "loyalty": 70,
+    "praise": "持军严整，所得无私。",
+    "good": [
+      "治军",
+      "持重"
+    ],
+    "flaw": "临大变时未必守得住节",
+    "note": "泰山钜平人。持军严整，所得财物无所私入。"
+  },
+  {
+    "id": "xuchu",
+    "name": "许褚",
+    "courtesy": "仲康",
+    "faction": "caocao",
+    "command": 58,
+    "valor": 96,
+    "wit": 34,
+    "temper": "decisive",
+    "loyalty": 97,
+    "praise": "虎痴。勇力绝人。",
+    "good": [
+      "冲阵",
+      "宿卫"
+    ],
+    "flaw": "不识方略，可为将不可为帅",
+    "note": "谯国谯人。长八尺余，腰大十围，勇力绝人。"
+  },
+  {
+    "id": "caohong",
+    "name": "曹洪",
+    "courtesy": "子廉",
+    "faction": "caocao",
+    "command": 68,
+    "valor": 76,
+    "wit": 44,
+    "temper": "proud",
+    "loyalty": 90,
+    "praise": "舍马与公，天下可无洪。",
+    "good": [
+      "野战",
+      "聚财"
+    ],
+    "flaw": "性吝而骄，与人不睦",
+    "note": "沛国谯人。家富而性吝，然舍马与公，曰天下可无洪。"
+  },
+  {
+    "id": "lubu",
+    "name": "吕布",
+    "courtesy": "奉先",
+    "faction": "dongzhuo",
+    "command": 72,
+    "valor": 99,
+    "wit": 38,
+    "temper": "proud",
+    "loyalty": 30,
+    "praise": "人中吕布，马中赤兔。",
+    "good": [
+      "冲阵",
+      "骑战"
+    ],
+    "flaw": "反复无常，不可托以腹心",
+    "note": "五原九原人。便弓马，膂力过人，号为飞将。"
+  },
+  {
+    "id": "huaxiong",
+    "name": "华雄",
+    "courtesy": "",
+    "faction": "dongzhuo",
+    "command": 66,
+    "valor": 88,
+    "wit": 40,
+    "temper": "rash",
+    "loyalty": 70,
+    "praise": "凉州猛将，勇冠三军。",
+    "good": [
+      "先登",
+      "骑战"
+    ],
+    "flaw": "恃勇轻进",
+    "note": "董卓帐下都督。"
+  },
+  {
+    "id": "xurong",
+    "name": "徐荣",
+    "courtesy": "",
+    "faction": "dongzhuo",
+    "command": 82,
+    "valor": 78,
+    "wit": 72,
+    "temper": "cautious",
+    "loyalty": 66,
+    "praise": "败孙坚、破曹操，凉州名将。",
+    "good": [
+      "野战",
+      "设伏",
+      "统众"
+    ],
+    "flaw": "非董卓乡党，久不见用",
+    "note": "辽东襄平人。"
+  },
+  {
+    "id": "ligue",
+    "name": "李傕",
+    "courtesy": "稚然",
+    "faction": "dongzhuo",
+    "command": 70,
+    "valor": 74,
+    "wit": 58,
+    "temper": "rash",
+    "loyalty": 44,
+    "praise": "凉州诸将之首，暴而少谋。",
+    "good": [
+      "统众",
+      "劫掠"
+    ],
+    "flaw": "残暴失人心",
+    "note": "北地泥阳人。"
+  },
+  {
+    "id": "zhangji",
+    "name": "张济",
+    "courtesy": "",
+    "faction": "dongzhuo",
+    "command": 68,
+    "valor": 72,
+    "wit": 52,
+    "temper": "cautious",
+    "loyalty": 60,
+    "praise": "守成之将。",
+    "good": [
+      "骑战",
+      "守备"
+    ],
+    "flaw": "志不在远",
+    "note": "武威祖厉人。"
+  },
+  {
+    "id": "yanliang",
+    "name": "颜良",
+    "courtesy": "",
+    "faction": "yuanshao",
+    "command": 68,
+    "valor": 90,
+    "wit": 36,
+    "temper": "rash",
+    "loyalty": 80,
+    "praise": "河北名将，勇冠三军。",
+    "good": [
+      "冲阵",
+      "先登"
+    ],
+    "flaw": "性急少谋，可以计取",
+    "note": "袁绍帐下。"
+  },
+  {
+    "id": "wenchou",
+    "name": "文丑",
+    "courtesy": "",
+    "faction": "yuanshao",
+    "command": 70,
+    "valor": 88,
+    "wit": 38,
+    "temper": "rash",
+    "loyalty": 80,
+    "praise": "与颜良齐名。",
+    "good": [
+      "冲阵",
+      "骑战"
+    ],
+    "flaw": "轻进寡谋",
+    "note": "袁绍帐下。"
+  },
+  {
+    "id": "juyi",
+    "name": "麴义",
+    "courtesy": "",
+    "faction": "yuanshao",
+    "command": 84,
+    "valor": 76,
+    "wit": 74,
+    "temper": "proud",
+    "loyalty": 52,
+    "praise": "先登死士破白马义从。",
+    "good": [
+      "破骑",
+      "设伏",
+      "统众"
+    ],
+    "flaw": "恃功而骄，不为主所容",
+    "note": "西凉人，久在凉州，晓习羌斗。"
+  },
+  {
+    "id": "tianfeng",
+    "name": "田丰",
+    "courtesy": "元皓",
+    "faction": "yuanshao",
+    "command": 60,
+    "valor": 40,
+    "wit": 92,
+    "temper": "cautious",
+    "loyalty": 75,
+    "praise": "刚而犯上，然算无遗策。",
+    "good": [
+      "谋断",
+      "屯政"
+    ],
+    "flaw": "直言忤主，屡遭疏远",
+    "note": "钜鹿人。"
+  },
+  {
+    "id": "zhanghe",
+    "name": "张郃",
+    "courtesy": "儁乂",
+    "faction": "hanfu",
+    "command": 86,
+    "valor": 82,
+    "wit": 80,
+    "temper": "cautious",
+    "loyalty": 62,
+    "praise": "巧变无方，识地形，善处营陈。",
+    "good": [
+      "野战",
+      "择地",
+      "守备"
+    ],
+    "flaw": "旧主暗弱，志不得伸",
+    "note": "河间鄚人。"
+  },
+  {
+    "id": "gaolan",
+    "name": "高览",
+    "courtesy": "",
+    "faction": "hanfu",
+    "command": 76,
+    "valor": 78,
+    "wit": 58,
+    "temper": "cautious",
+    "loyalty": 60,
+    "praise": "与张郃齐名。",
+    "good": [
+      "统众",
+      "守备"
+    ],
+    "flaw": "名不出郃右",
+    "note": "韩馥部将。"
+  },
+  {
+    "id": "zhaoyun",
+    "name": "赵云",
+    "courtesy": "子龙",
+    "faction": "gongsunzan",
+    "command": 82,
+    "valor": 92,
+    "wit": 70,
+    "temper": "decisive",
+    "loyalty": 88,
+    "praise": "身长八尺，姿颜雄伟。",
+    "good": [
+      "骑战",
+      "冲阵",
+      "护军"
+    ],
+    "flaw": "客居于此，未得其主",
+    "note": "常山真定人。"
+  },
+  {
+    "id": "yangang",
+    "name": "严纲",
+    "courtesy": "",
+    "faction": "gongsunzan",
+    "command": 70,
+    "valor": 74,
+    "wit": 48,
+    "temper": "rash",
+    "loyalty": 72,
+    "praise": "白马义从之督。",
+    "good": [
+      "骑战"
+    ],
+    "flaw": "轻敌，尝败于麴义",
+    "note": "公孙瓒帐下。"
+  },
+  {
+    "id": "taishici",
+    "name": "太史慈",
+    "courtesy": "子义",
+    "faction": "kongrong",
+    "command": 78,
+    "valor": 90,
+    "wit": 66,
+    "temper": "decisive",
+    "loyalty": 82,
+    "praise": "猿臂善射，弦不虚发。",
+    "good": [
+      "骑射",
+      "斥候",
+      "单骑"
+    ],
+    "flaw": "孤身用命，不惯统众",
+    "note": "东莱黄人。"
+  },
+  {
+    "id": "sunjianx",
+    "name": "孙坚",
+    "courtesy": "文台",
+    "faction": "sunjian",
+    "command": 88,
+    "valor": 92,
+    "wit": 70,
+    "temper": "rash",
+    "loyalty": 90,
+    "praise": "江东猛虎。",
+    "good": [
+      "统众",
+      "先登",
+      "野战"
+    ],
+    "flaw": "轻身冒进，常犯险",
+    "note": "吴郡富春人。"
+  },
+  {
+    "id": "chengpu",
+    "name": "程普",
+    "courtesy": "德谋",
+    "faction": "sunjian",
+    "command": 82,
+    "valor": 80,
+    "wit": 72,
+    "temper": "cautious",
+    "loyalty": 88,
+    "praise": "吴之元老，最重然诺。",
+    "good": [
+      "统众",
+      "野战",
+      "水战"
+    ],
+    "flaw": "年长，锋锐稍减",
+    "note": "右北平土垠人。"
+  },
+  {
+    "id": "huanggai",
+    "name": "黄盖",
+    "courtesy": "公覆",
+    "faction": "sunjian",
+    "command": 78,
+    "valor": 80,
+    "wit": 68,
+    "temper": "decisive",
+    "loyalty": 90,
+    "praise": "姿貌严毅，善于养众。",
+    "good": [
+      "水战",
+      "火攻",
+      "治军"
+    ],
+    "flaw": "不长于持重",
+    "note": "零陵泉陵人。"
+  },
+  {
+    "id": "zumao",
+    "name": "祖茂",
+    "courtesy": "大荣",
+    "faction": "sunjian",
+    "command": 62,
+    "valor": 70,
+    "wit": 44,
+    "temper": "decisive",
+    "loyalty": 92,
+    "praise": "代主受祸者。",
+    "good": [
+      "断后"
+    ],
+    "flaw": "才具有限",
+    "note": "孙坚帐下。"
+  },
+  {
+    "id": "huangzu",
+    "name": "黄祖",
+    "courtesy": "",
+    "faction": "liubiao",
+    "command": 70,
+    "valor": 60,
+    "wit": 52,
+    "temper": "cautious",
+    "loyalty": 70,
+    "praise": "据江夏，守而已矣。",
+    "good": [
+      "守备",
+      "水战"
+    ],
+    "flaw": "才短，屡为孙氏所败",
+    "note": "刘表部将。"
+  },
+  {
+    "id": "caimao",
+    "name": "蔡瑁",
+    "courtesy": "德珪",
+    "faction": "liubiao",
+    "command": 66,
+    "valor": 58,
+    "wit": 64,
+    "temper": "proud",
+    "loyalty": 48,
+    "praise": "荆襄豪族，掌水军。",
+    "good": [
+      "水战",
+      "聚财"
+    ],
+    "flaw": "党同伐异，不能容人",
+    "note": "襄阳人。"
+  },
+  {
+    "id": "wenpin",
+    "name": "文聘",
+    "courtesy": "仲业",
+    "faction": "liubiao",
+    "command": 84,
+    "valor": 78,
+    "wit": 70,
+    "temper": "cautious",
+    "loyalty": 86,
+    "praise": "江夏之守，可托北门。",
+    "good": [
+      "守备",
+      "持重"
+    ],
+    "flaw": "不喜浪战",
+    "note": "南阳宛人。"
+  },
+  {
+    "id": "zangba",
+    "name": "臧霸",
+    "courtesy": "宣高",
+    "faction": "taoqian",
+    "command": 80,
+    "valor": 82,
+    "wit": 66,
+    "temper": "decisive",
+    "loyalty": 58,
+    "praise": "泰山群盗之首，自领一方。",
+    "good": [
+      "野战",
+      "山地",
+      "统众"
+    ],
+    "flaw": "半独立，未必真听号令",
+    "note": "泰山华人。"
+  },
+  {
+    "id": "caobao",
+    "name": "曹豹",
+    "courtesy": "",
+    "faction": "taoqian",
+    "command": 58,
+    "valor": 60,
+    "wit": 40,
+    "temper": "cautious",
+    "loyalty": 55,
+    "praise": "徐州将，才不称位。",
+    "good": [
+      "守备"
+    ],
+    "flaw": "怯懦，遇强则溃",
+    "note": "陶谦部将。"
+  },
+  {
+    "id": "sunguan",
+    "name": "孙观",
+    "courtesy": "",
+    "faction": "taoqian",
+    "command": 72,
+    "valor": 74,
+    "wit": 54,
+    "temper": "decisive",
+    "loyalty": 60,
+    "praise": "臧霸之侪。",
+    "good": [
+      "山地",
+      "野战"
+    ],
+    "flaw": "唯霸马首是瞻",
+    "note": "泰山人。"
+  },
+  {
+    "id": "jiling",
+    "name": "纪灵",
+    "courtesy": "",
+    "faction": "yuanshu",
+    "command": 76,
+    "valor": 82,
+    "wit": 54,
+    "temper": "proud",
+    "loyalty": 70,
+    "praise": "使三尖两刃刀，重五十斤。",
+    "good": [
+      "冲阵",
+      "统众"
+    ],
+    "flaw": "骄而轻敌",
+    "note": "袁术帐下大将。"
+  },
+  {
+    "id": "qiaorui",
+    "name": "桥蕤",
+    "courtesy": "",
+    "faction": "yuanshu",
+    "command": 68,
+    "valor": 70,
+    "wit": 50,
+    "temper": "cautious",
+    "loyalty": 66,
+    "praise": "袁术帐下将。",
+    "good": [
+      "守备"
+    ],
+    "flaw": "才具平平",
+    "note": "袁术部将。"
+  },
+  {
+    "id": "zhangxun",
+    "name": "张勋",
+    "courtesy": "",
+    "faction": "yuanshu",
+    "command": 74,
+    "valor": 72,
+    "wit": 58,
+    "temper": "cautious",
+    "loyalty": 64,
+    "praise": "袁术大将军。",
+    "good": [
+      "统众"
+    ],
+    "flaw": "主暗则将无用武之地",
+    "note": "袁术帐下。"
+  },
+  {
+    "id": "zhangmiaox",
+    "name": "张邈",
+    "courtesy": "孟卓",
+    "faction": "zhangmiao",
+    "command": 66,
+    "valor": 58,
+    "wit": 70,
+    "temper": "cautious",
+    "loyalty": 50,
+    "praise": "八厨之一，重交游。",
+    "good": [
+      "结交",
+      "屯政"
+    ],
+    "flaw": "易为人所动，志不坚",
+    "note": "东平寿张人。"
+  },
+  {
+    "id": "zhangchao",
+    "name": "张超",
+    "courtesy": "",
+    "faction": "zhangmiao",
+    "command": 60,
+    "valor": 56,
+    "wit": 58,
+    "temper": "cautious",
+    "loyalty": 62,
+    "praise": "张邈之弟。",
+    "good": [
+      "守备"
+    ],
+    "flaw": "依兄而立",
+    "note": "广陵太守。"
+  },
+  {
+    "id": "gaoshun",
+    "name": "高顺",
+    "courtesy": "",
+    "faction": "zhangmiao",
+    "command": 86,
+    "valor": 84,
+    "wit": 66,
+    "temper": "cautious",
+    "loyalty": 80,
+    "praise": "所将七百余兵，号陷陈营。",
+    "good": [
+      "陷阵",
+      "治军",
+      "攻坚"
+    ],
+    "flaw": "言直，主不能用",
+    "note": "吕布部曲，此时依张邈。"
+  },
+  {
+    "id": "liudaix",
+    "name": "刘岱",
+    "courtesy": "公山",
+    "faction": "liudai",
+    "command": 60,
+    "valor": 58,
+    "wit": 54,
+    "temper": "rash",
+    "loyalty": 60,
+    "praise": "兖州刺史，不听人言。",
+    "good": [
+      "统众"
+    ],
+    "flaw": "轻率，终陷于阵",
+    "note": "东莱牟平人。"
+  },
+  {
+    "id": "baohong",
+    "name": "鲍鸿",
+    "courtesy": "",
+    "faction": "liudai",
+    "command": 64,
+    "valor": 66,
+    "wit": 48,
+    "temper": "decisive",
+    "loyalty": 66,
+    "praise": "兖州将。",
+    "good": [
+      "野战"
+    ],
+    "flaw": "无远略",
+    "note": "刘岱部将。"
+  },
+  {
+    "id": "qiaomaox",
+    "name": "桥瑁",
+    "courtesy": "元伟",
+    "faction": "qiaomao",
+    "command": 62,
+    "valor": 60,
+    "wit": 64,
+    "temper": "cautious",
+    "loyalty": 58,
+    "praise": "诈作三公移书，倡义讨董。",
+    "good": [
+      "结交"
+    ],
+    "flaw": "与刘岱有隙，祸在肘腋",
+    "note": "东郡太守。"
+  },
+  {
+    "id": "zhangyan",
+    "name": "张燕",
+    "courtesy": "",
+    "faction": "taiping",
+    "command": 80,
+    "valor": 78,
+    "wit": 72,
+    "temper": "decisive",
+    "loyalty": 66,
+    "praise": "黑山之众，剽悍捷速。",
+    "good": [
+      "山地",
+      "袭扰",
+      "聚众"
+    ],
+    "flaw": "众多而无根，粮不能久",
+    "note": "常山真定人，本姓褚。"
+  },
+  {
+    "id": "yudu",
+    "name": "于毒",
+    "courtesy": "",
+    "faction": "taiping",
+    "command": 68,
+    "valor": 70,
+    "wit": 50,
+    "temper": "rash",
+    "loyalty": 60,
+    "praise": "黑山渠帅。",
+    "good": [
+      "袭扰",
+      "山地"
+    ],
+    "flaw": "掠而不守",
+    "note": "黑山贼帅。"
+  },
+  {
+    "id": "bocai",
+    "name": "波才",
+    "courtesy": "",
+    "faction": "taiping",
+    "command": 70,
+    "valor": 66,
+    "wit": 58,
+    "temper": "decisive",
+    "loyalty": 64,
+    "praise": "颍川黄巾渠帅，尝败朱儁。",
+    "good": [
+      "聚众",
+      "野战"
+    ],
+    "flaw": "惧火攻",
+    "note": "黄巾旧部。"
+  },
+  {
+    "id": "matengx",
+    "name": "马腾",
+    "courtesy": "寿成",
+    "faction": "mateng",
+    "command": 80,
+    "valor": 84,
+    "wit": 60,
+    "temper": "decisive",
+    "loyalty": 72,
+    "praise": "身长八尺余，性贤厚，人多敬之。",
+    "good": [
+      "骑战",
+      "统众"
+    ],
+    "flaw": "路远粮少，难以久战",
+    "note": "扶风茂陵人。"
+  },
+  {
+    "id": "hansui",
+    "name": "韩遂",
+    "courtesy": "文约",
+    "faction": "mateng",
+    "command": 76,
+    "valor": 70,
+    "wit": 78,
+    "temper": "cautious",
+    "loyalty": 44,
+    "praise": "凉州之谋主。",
+    "good": [
+      "谋断",
+      "结羌"
+    ],
+    "flaw": "反复，与马氏时和时战",
+    "note": "金城人。"
+  },
+  {
+    "id": "pangde",
+    "name": "庞德",
+    "courtesy": "令明",
+    "faction": "mateng",
+    "command": 78,
+    "valor": 90,
+    "wit": 58,
+    "temper": "decisive",
+    "loyalty": 84,
+    "praise": "每战常陷陈却敌，勇冠西凉。",
+    "good": [
+      "骑战",
+      "冲阵"
+    ],
+    "flaw": "边地出身，不谙中原",
+    "note": "南安狟道人。"
+  },
+  {
+    "id": "liuyanx",
+    "name": "刘焉",
+    "courtesy": "君郎",
+    "faction": "liuyan",
+    "command": 70,
+    "valor": 50,
+    "wit": 76,
+    "temper": "cautious",
+    "loyalty": 70,
+    "praise": "据险自守，阴有异志。",
+    "good": [
+      "屯政",
+      "据险"
+    ],
+    "flaw": "闭塞，出不得蜀",
+    "note": "江夏竟陵人。"
+  },
+  {
+    "id": "zhangren",
+    "name": "张任",
+    "courtesy": "",
+    "faction": "liuyan",
+    "command": 82,
+    "valor": 80,
+    "wit": 74,
+    "temper": "decisive",
+    "loyalty": 88,
+    "praise": "少有胆勇，有志节。",
+    "good": [
+      "守备",
+      "设伏",
+      "山地"
+    ],
+    "flaw": "困于一隅",
+    "note": "蜀郡人。"
+  },
+  {
+    "id": "yanyan",
+    "name": "严颜",
+    "courtesy": "",
+    "faction": "liuyan",
+    "command": 78,
+    "valor": 82,
+    "wit": 64,
+    "temper": "proud",
+    "loyalty": 85,
+    "praise": "但有断头将军，无降将军。",
+    "good": [
+      "守备",
+      "山地"
+    ],
+    "flaw": "年长，且主暗",
+    "note": "巴郡临江人。"
+  },
+  {
+    "id": "chenwenx",
+    "name": "陈温",
+    "courtesy": "元悌",
+    "faction": "chenwen",
+    "command": 58,
+    "valor": 48,
+    "wit": 60,
+    "temper": "cautious",
+    "loyalty": 60,
+    "praise": "扬州刺史，守户之主。",
+    "good": [
+      "屯政"
+    ],
+    "flaw": "兵弱，人皆可取",
+    "note": "扬州刺史。"
+  },
+  {
+    "id": "liuyux",
+    "name": "刘虞",
+    "courtesy": "伯安",
+    "faction": "liuyu",
+    "command": 60,
+    "valor": 40,
+    "wit": 80,
+    "temper": "cautious",
+    "loyalty": 78,
+    "praise": "幽州牧，恩信著于北方。",
+    "good": [
+      "安民",
+      "结胡"
+    ],
+    "flaw": "不肯用兵，为公孙所迫",
+    "note": "东海郯人。"
+  },
+  {
+    "id": "gongsunzanx",
+    "name": "公孙瓒",
+    "courtesy": "伯圭",
+    "faction": "gongsunzan",
+    "command": 80,
+    "valor": 86,
+    "wit": 58,
+    "temper": "rash",
+    "loyalty": 80,
+    "praise": "白马义从，威震塞外。",
+    "good": [
+      "骑战",
+      "野战"
+    ],
+    "flaw": "刚愎，与刘虞不相能",
+    "note": "辽西令支人。"
+  }
+]

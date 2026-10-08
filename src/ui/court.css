@@ -1,0 +1,1233 @@
+/**
+ * 朝堂那一屏的样子。
+ *
+ * 四条自我约束：
+ *   一、**一根数值条也不许有。** 心气是一个动作，望是一句评语。
+ *   二、**暖而暗。** 这是一间点着烛的堂，不是一块仪表盘。
+ *   三、**要有深度。** 顶和地都走真透视（perspective + rotateX），
+ *      柱子分远近两层 —— 一分钱不花，但这一下把背景板变成了屋子。
+ *   四、**呈报是一件东西。** 它是摊在你面前的一张帖，纸是浅的、字是墨的；
+ *      整屏都暗，唯独那张纸亮 —— 视线自然落在该落的地方。
+ */
+
+.court,
+.ct-end {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  color: #e8dcc6;
+  font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  overflow: hidden;
+}
+
+/* ═══ 这一屋子 ═══════════════════════════════════════ */
+
+.ct-room {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  perspective: 620px;
+  perspective-origin: 50% 46%;
+  background: #0a0705;
+}
+
+/* 堂上那一团暖气 */
+.cr-sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(72% 46% at 50% 26%, #4a3524 0%, #241a11 46%, #0d0906 100%);
+}
+
+/* ── 藻井。真透视，往里收 ── */
+.cr-ceil {
+  position: absolute;
+  top: 0; left: -30%;
+  width: 160%;
+  height: 46%;
+  transform-origin: 50% 0%;
+  transform: rotateX(64deg);
+  background: linear-gradient(#0a0705 0%, #1d140d 62%, #332315 100%);
+}
+.cr-ceil-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 44px, #06040300 44px 46px,
+      #3d2a1a 46px 50px, transparent 50px 52px),
+    repeating-linear-gradient(0deg, transparent 0 38px, #3d2a1a 38px 42px,
+      transparent 42px 46px);
+  mask-image: linear-gradient(#0000 4%, #000 46%, #000 100%);
+}
+
+/* ── 地。砖缝往里收 ── */
+.cr-ground {
+  position: absolute;
+  bottom: 0; left: -30%;
+  width: 160%;
+  height: 48%;
+  transform-origin: 50% 100%;
+  transform: rotateX(-62deg);
+  background: linear-gradient(#0d0906 0%, #241a12 44%, #3a2a1b 100%);
+}
+.cr-ground-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 56px, #4c3722 56px 58px),
+    repeating-linear-gradient(0deg, transparent 0 48px, #4c3722 48px 50px);
+  mask-image: linear-gradient(#0000 0%, #000 40%, #000 100%);
+}
+
+/* ── 帷幔 ── */
+.cr-drape {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 58px;
+  filter: drop-shadow(0 6px 12px #000b);
+}
+
+/* ── 柱。远近两层，深度全靠这个 ── */
+.cr-pillar {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(90deg,
+    #1c0a07 0%, #6d281e 26%, #93362a 42%, #5a221a 62%, #2a0f0b 88%, #150807 100%);
+}
+.cr-pillar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -7px; right: -7px;
+  height: 14px;
+  background: linear-gradient(#5a3a22, #2b1b10);
+  box-shadow: 0 3px 8px #000a;
+}
+.cr-pillar::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: -5px; right: -5px;
+  height: 10px;
+  background: linear-gradient(#241408, #40291a);
+}
+.cr-pillar.near { width: 34px; top: 40px; }
+.cr-pillar.near.left { left: 0; }
+.cr-pillar.near.right { right: 0; }
+.cr-pillar.far {
+  width: 18px;
+  top: 92px;
+  bottom: 24%;
+  filter: brightness(0.5) saturate(0.7);
+}
+.cr-pillar.far.left { left: 15%; }
+.cr-pillar.far.right { right: 15%; }
+
+/* ── 阶 ── */
+.cr-dais {
+  position: absolute;
+  left: 26%; right: 26%;
+  bottom: 23%;
+  height: 7px;
+  background: linear-gradient(#6a4c2b, #2c2013);
+  box-shadow: 0 5px 16px #000c;
+}
+
+/* ── 灯。会晃 ── */
+.cr-lamp {
+  position: absolute;
+  top: 74px;
+  width: 20px; height: 26px;
+}
+.cr-lamp.l { left: 21%; }
+.cr-lamp.r { right: 21%; }
+.cr-lamp::before {
+  content: '';
+  position: absolute;
+  top: -74px; left: 9px;
+  width: 2px; height: 74px;
+  background: linear-gradient(#0000, #3a2a1a);
+}
+.cr-lamp i {
+  position: absolute;
+  inset: 0;
+  border-radius: 40% 40% 46% 46%;
+  background: radial-gradient(circle at 50% 62%, #ffd88f, #d4892f 58%, #5d3a12);
+  box-shadow:
+    0 0 12px 4px #f0b45f66,
+    0 0 62px 30px #d4892f22;
+  animation: lampflick 3.7s ease-in-out infinite;
+}
+.cr-lamp.r i { animation-duration: 4.6s; animation-delay: -1.2s; }
+
+@keyframes lampflick {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  38% { opacity: 0.86; transform: scale(0.97); }
+  52% { opacity: 1; transform: scale(1.02); }
+  74% { opacity: 0.92; transform: scale(0.99); }
+}
+
+/* ── 香 ── */
+.cr-smoke {
+  position: absolute;
+  bottom: 24%;
+  width: 40px; height: 190px;
+  background: radial-gradient(ellipse at 50% 100%,
+    rgba(226, 205, 170, 0.13), transparent 68%);
+  filter: blur(7px);
+  animation: smoke 11s ease-in-out infinite;
+}
+.cr-smoke.s1 { left: 30%; }
+.cr-smoke.s2 { right: 30%; animation-duration: 14s; animation-delay: -5s; }
+
+@keyframes smoke {
+  0%   { transform: translateY(0) scaleX(1); opacity: 0.5; }
+  50%  { transform: translateY(-26px) scaleX(1.5); opacity: 0.78; }
+  100% { transform: translateY(-52px) scaleX(2.1); opacity: 0; }
+}
+
+.cr-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(78% 62% at 50% 42%, transparent 40%, rgba(0, 0, 0, 0.72) 100%);
+}
+
+.court > *:not(.ct-room),
+.ct-end > *:not(.ct-room) { position: relative; z-index: 1; }
+
+/* ═══ 上首 ═══════════════════════════════════════════ */
+
+.ct-top {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 26px 9px;
+  border-bottom: 1px solid #3a2b1d88;
+  background: linear-gradient(#0b0705dd, #0b070533);
+  backdrop-filter: blur(2px);
+}
+
+.ct-date { font-size: 19px; letter-spacing: 2px; color: #f2e7d0; }
+.ct-sub { font-size: 12px; color: #a3927a; margin-top: 3px; letter-spacing: 1px; }
+
+.ct-who { text-align: center; }
+.ct-banner { font-size: 30px; line-height: 1; text-shadow: 0 2px 10px #000c; }
+.ct-name { font-size: 12px; color: #b9a688; letter-spacing: 3px; margin-top: 4px; }
+
+.ct-fame { text-align: right; }
+.ct-fame-w { font-size: 15px; color: #ddc79b; }
+.ct-fame-s { font-size: 11px; color: #8e7f68; margin-top: 4px; letter-spacing: 1px; }
+
+.ct-alarm {
+  padding: 6px 26px;
+  background: #4a1b13dd;
+  border-bottom: 1px solid #6d2b1e;
+  font-size: 13px;
+  color: #f0c5b0;
+  display: flex; gap: 20px; flex-wrap: wrap;
+}
+.ct-alarm b { color: #ffd9c4; }
+
+.ct-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 0 22px;
+  border-bottom: 1px solid #2c211688;
+  background: #09060488;
+}
+.ct-tab {
+  appearance: none; background: none; border: none;
+  border-bottom: 2px solid transparent;
+  color: #8e7f68; font: inherit; font-size: 14px; letter-spacing: 4px;
+  padding: 10px 18px 8px; cursor: pointer; position: relative;
+}
+.ct-tab:hover { color: #cbb28a; }
+.ct-tab.on { color: #f2e2be; border-bottom-color: #bb9046; }
+.ct-badge {
+  position: absolute; top: 4px; right: 0;
+  font-style: normal; font-size: 10px; letter-spacing: 0;
+  min-width: 15px; height: 15px; line-height: 15px;
+  border-radius: 8px; background: #8a3c26; color: #ffe6d4;
+}
+
+/* ═══ 引见 ═══════════════════════════════════════════ */
+
+.ct-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 0;
+  padding: 0 18px 14px;
+}
+
+/* 人脚下那一片光。他站在地上，不是浮着 */
+.cs-floor {
+  position: absolute;
+  left: 50%; bottom: 21%;
+  width: min(70vw, 460px); height: 90px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 50%,
+    rgba(240, 196, 128, 0.11), transparent 70%);
+  pointer-events: none;
+}
+
+.cs-who { margin-top: auto; }
+
+/* 立像 */
+.fg { display: block; overflow: visible; }
+.fg .fg-upper { transition: transform .45s cubic-bezier(.4, 0, .2, 1); }
+.fg.faded { filter: brightness(0.62) saturate(0.75); }
+
+.pose-stand { animation: walkin .5s ease-out both; }
+@keyframes walkin {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* 行礼。上半身绕腰折下去 —— 这才是折腰，不是整个人歪一下 */
+.pose-bow_deep .fg-upper { transform: rotate(15deg) translate(0, 10px); }
+.pose-bow .fg-upper      { transform: rotate(9deg) translate(0, 5px); }
+.pose-stoop .fg-upper    { transform: rotate(11deg) translate(0, 6px); }
+.pose-nod .fg-upper      { transform: rotate(3deg); }
+.pose-silent .fg-upper   { transform: none; }
+.pose-silent { opacity: 0.7; }
+
+/* 转身就走。**不行礼** */
+.pose-turn_away { animation: turnaway 1.4s ease-in both; }
+@keyframes turnaway {
+  0%   { transform: none; opacity: 1; }
+  22%  { transform: scaleX(-1); opacity: 1; }
+  100% { transform: scaleX(-1) translateX(58px); opacity: 0; }
+}
+
+.pose-bow_deep, .pose-bow, .pose-stoop, .pose-nod, .pose-silent {
+  animation: bowout 1.5s ease-in-out both;
+}
+@keyframes bowout {
+  0%   { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(10px); }
+}
+
+.cs-react {
+  margin: 10px 0 26px;
+  text-align: center;
+  animation: fadein .3s ease-out both;
+}
+.cs-react-say { font-size: 20px; color: #f0dfba; letter-spacing: 2px; }
+.cs-react-note { font-size: 12px; color: #8e7f68; margin-top: 8px; letter-spacing: 2px; }
+@keyframes fadein { from { opacity: 0 } to { opacity: 1 } }
+
+/* ── 那张帖 ── */
+.cs-slip {
+  width: min(100%, 640px);
+  margin-top: -6px;
+  padding: 15px 20px 14px;
+  /* 请援那一件底下会摞四路请缨 —— 帖子长了就在自己里头滚，别把答复挤出屏幕 */
+  max-height: min(62vh, 560px);
+  overflow-y: auto;
+  border-radius: 2px;
+  color: #241a11;
+  background:
+    linear-gradient(180deg, #efe3c6 0%, #e4d5b3 62%, #d8c69f 100%);
+  box-shadow:
+    0 10px 30px #000b,
+    inset 0 0 42px rgba(150, 118, 70, 0.28);
+  animation: slipin .34s cubic-bezier(.2, .9, .3, 1) both;
+  position: relative;
+}
+/* 纸纹 */
+.cs-slip::before {
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 5px, rgba(120, 92, 52, 0.09) 5px 6px);
+}
+@keyframes slipin {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.cs-head {
+  display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #bda87f;
+}
+.cs-kind {
+  font-size: 11px; letter-spacing: 3px;
+  color: #6d3020; border: 1px solid #a86a52;
+  border-radius: 2px; padding: 1px 7px 2px;
+  background: #f3e6cb;
+}
+.cs-name { font-size: 19px; letter-spacing: 1px; color: #221913; }
+.cs-zi { font-size: 12px; color: #6d5f4a; }
+.cs-where { font-size: 12px; color: #6d5f4a; margin-left: auto; }
+.cs-ago { font-size: 11px; color: #8a7a5e; }
+
+.cs-say {
+  margin: 12px 0 0;
+  font-size: 16px;
+  line-height: 2;
+  color: #2b2016;
+  text-indent: 2em;
+}
+.cs-owed {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  line-height: 1.9;
+  color: #7a5a3c;
+  text-indent: 2em;
+}
+
+.cs-acts { display: flex; gap: 9px; margin-top: 14px; }
+.cs-act {
+  flex: 1;
+  appearance: none; font: inherit; font-size: 15px; letter-spacing: 4px;
+  padding: 10px 0 11px;
+  border-radius: 2px; cursor: pointer;
+  border: 1px solid #a48f68;
+  background: linear-gradient(#f1e6cc, #ded0ab);
+  color: #3d2d1c;
+  transition: background .12s, border-color .12s, transform .08s;
+}
+.cs-act:hover { background: linear-gradient(#fdf3dc, #e8dab6); border-color: #7d6640; }
+.cs-act:active { transform: translateY(1px); }
+.cs-act.a-allow { border-color: #6d7a44; color: #2f3a18; }
+.cs-act.a-allow:hover { background: linear-gradient(#e9edcb, #d5dca6); }
+.cs-act.a-deny { border-color: #9c5b45; color: #4d2015; }
+.cs-act.a-deny:hover { background: linear-gradient(#f3ddd0, #e2c3b2); }
+.cs-act.only { flex: 0 0 auto; padding: 10px 34px 11px; margin: 0 auto; }
+.cs-act.cant { border-color: #b3a486; color: #7b6c53; }
+.cs-act em {
+  display: block; font-style: normal; font-size: 10px;
+  letter-spacing: 1px; color: #8a7551; margin-top: 3px;
+}
+
+.cs-more {
+  margin-top: 9px;
+  font-size: 11px; letter-spacing: 2px; color: #7d6f5b;
+}
+
+/* ── 堂下候见 ── */
+.ct-stage.empty { justify-content: center; }
+.cs-none { text-align: center; margin-bottom: auto; margin-top: 22vh; }
+.cs-none-t { font-size: 18px; color: #8e7f68; letter-spacing: 4px; }
+.cs-none-s { font-size: 13px; color: #6b5f4d; letter-spacing: 3px; margin-top: 10px; }
+
+.cs-queue { margin-top: auto; width: 100%; text-align: center; }
+.cq-t { font-size: 12px; letter-spacing: 4px; color: #8e7f68; margin-bottom: 8px; }
+.cq-row {
+  display: flex; justify-content: center; align-items: flex-end;
+  gap: 6px; flex-wrap: wrap;
+}
+.cq-one { text-align: center; }
+.cq-n { display: block; font-size: 11px; color: #b6a486; margin-top: 2px; }
+.cq-k { display: block; font-size: 10px; color: #7d6f5b; letter-spacing: 1px; }
+
+.ct-foot { width: min(100%, 640px); margin-top: 14px; }
+.ct-adjourn {
+  width: 100%;
+  appearance: none; font: inherit; font-size: 19px; letter-spacing: 10px;
+  padding: 12px 0 14px;
+  border: 1px solid #7a5c34; border-radius: 3px;
+  background: linear-gradient(#40301c, #241a10);
+  color: #f2e2be; cursor: pointer;
+  box-shadow: 0 5px 20px #000a;
+}
+.ct-adjourn:hover { background: linear-gradient(#503b23, #302315); border-color: #a17e46; }
+.ct-adjourn em {
+  display: block; font-style: normal; font-size: 11px;
+  letter-spacing: 2px; color: #9b8a6e; margin-top: 5px;
+}
+.ct-adjourn.dim { border-color: #4c3a24; }
+
+/* ═══ 班列 ═══════════════════════════════════════════ */
+
+.ct-roll {
+  flex: 1; min-height: 0; overflow-y: auto;
+  padding: 10px 16px 20px;
+}
+.cr-ranks { display: flex; gap: 8%; align-items: flex-start; }
+.cr-col { flex: 1; min-width: 0; }
+.crc-t {
+  font-size: 13px; letter-spacing: 6px; color: #9b8354;
+  text-align: center; padding-bottom: 6px;
+  border-bottom: 1px solid #3a2b1d88;
+}
+/* 文东武西，两班对着站。中间那条道要留出来 */
+.cr-col.left .crc-list { align-items: flex-end; padding-right: 4%; }
+.cr-col.right .crc-list { align-items: flex-start; padding-left: 4%; }
+.crc-list {
+  display: flex; flex-direction: column; gap: 2px;
+  padding-top: 8px;
+}
+.crc-none { font-size: 12px; color: #6b5f4d; padding: 8px; }
+
+.cr-p {
+  appearance: none; background: none; border: none; padding: 0;
+  cursor: pointer; text-align: center; position: relative;
+  transition: filter .15s;
+}
+.cr-p:hover { filter: brightness(1.25); }
+.cr-p-n {
+  display: block; font-size: 12px; color: #cdb894;
+  margin-top: -6px; letter-spacing: 1px;
+}
+.cr-p-c { display: block; font-size: 10px; color: #8e7f68; }
+.cr-p.quiet .cr-p-n { color: #6b5f4d; }
+
+/* 点开一个人 */
+.cr-card {
+  position: fixed; inset: 0; z-index: 20;
+  background: #06040399;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  animation: fadein .18s ease-out both;
+}
+.crc-inner {
+  position: relative;
+  display: flex; gap: 16px;
+  max-width: 560px; width: 100%;
+  padding: 18px;
+  background: linear-gradient(#241b13, #17110c);
+  border: 1px solid #4a3826;
+  border-radius: 3px;
+  box-shadow: 0 18px 50px #000c;
+}
+.crc-txt { flex: 1; min-width: 0; }
+.crc-n { font-size: 20px; color: #f0dfba; letter-spacing: 1px; }
+.crc-n em { font-style: normal; font-size: 13px; color: #8e7f68; margin-left: 7px; }
+.crc-p { font-size: 14px; color: #d3bd8f; margin-top: 6px; }
+.crc-g, .crc-f { font-size: 12px; color: #a3927a; margin-top: 5px; }
+.crc-f { color: #a8836c; }
+.crc-m { font-size: 12px; color: #8e7f68; margin-top: 8px; letter-spacing: 1px; }
+.crc-x {
+  position: absolute; top: 8px; right: 10px;
+  appearance: none; background: none; border: none;
+  color: #8e7f68; font-size: 20px; cursor: pointer;
+}
+.crc-l { margin-top: 10px; border-top: 1px solid #3a2b1d; padding-top: 8px; }
+.crc-l.none { font-size: 12px; color: #6b5f4d; }
+.crc-le {
+  display: flex; gap: 10px; font-size: 11.5px; line-height: 1.9; color: #a3927a;
+}
+.crc-le span:first-child { color: #7d6f5b; min-width: 4.6em; }
+.crc-le span:last-child { margin-left: auto; }
+.crc-le.a-allow span:last-child { color: #b5c489; }
+.crc-le.a-deny span:last-child { color: #cb9a86; }
+
+/* 尊号 */
+.cr-throne {
+  margin-top: 20px; border-top: 1px solid #2e231788; padding-top: 12px;
+}
+.crt-t { font-size: 12px; letter-spacing: 5px; color: #8e7f68; margin-bottom: 8px; }
+.crt-n { font-size: 14px; color: #b6a486; line-height: 1.8; }
+.crt-n.good { color: #d8bd7d; }
+.crt-n.bad { color: #c98a72; }
+.crt-force {
+  margin-top: 12px; appearance: none; font: inherit;
+  font-size: 14px; letter-spacing: 3px; padding: 9px 20px;
+  border: 1px solid #7a3a26; background: #2a1410; color: #d9a289;
+  border-radius: 2px; cursor: pointer;
+}
+.crt-force:hover { background: #3b1c15; color: #f3c6ac; }
+.crt-force.yes { border-color: #9c4227; background: #462016; color: #ffd0b4; }
+.crt-no {
+  appearance: none; font: inherit; font-size: 14px; letter-spacing: 3px;
+  padding: 9px 20px; border: 1px solid #4c3a24; background: #1d1610;
+  color: #a3927a; border-radius: 2px; cursor: pointer;
+}
+.crt-ask { margin-top: 12px; }
+.crt-ask p { font-size: 13px; line-height: 1.9; color: #b9a488; max-width: 46em; }
+.crt-btns { display: flex; gap: 10px; margin-top: 10px; }
+
+/* ═══ 半身像 ═══════════════════════════════════════ */
+
+.pt { margin: 0; text-align: center; }
+.pt svg { display: block; border-radius: 2px; box-shadow: 0 3px 10px #0009; }
+.pt figcaption {
+  margin-top: 5px; font-size: 12px; line-height: 1.5; color: #cdb894;
+  white-space: nowrap;
+}
+.pt figcaption b { font-weight: 600; letter-spacing: 1px; }
+.pt figcaption em {
+  font-style: normal; color: #8e7f68; margin-left: 4px; font-size: 11px;
+}
+.pt-mood { display: block; font-size: 11px; color: #94836a; margin-top: 1px; }
+.pt.dim svg { filter: grayscale(0.5) brightness(0.72); }
+
+/* ═══ 盖棺论定 ═══════════════════════════════════════ */
+
+.ct-end { overflow-y: auto; }
+.ce-inner { max-width: 42em; margin: 0 auto; padding: 8vh 26px 60px; }
+.ce-kind {
+  font-size: 34px; letter-spacing: 14px; color: #ecd39d;
+  text-align: center; text-shadow: 0 3px 22px #000c;
+}
+.ce-text {
+  margin: 30px 0 40px; font-size: 16px; line-height: 2.2;
+  color: #ddcfb4; white-space: pre-line;
+}
+.ce-life-t { font-size: 12px; letter-spacing: 6px; color: #8e7f68; margin-bottom: 12px; }
+.ce-deed {
+  display: flex; gap: 14px; font-size: 13px; line-height: 2.1;
+  border-left: 1px solid #3a2b1d; padding-left: 14px;
+}
+.cd-y { color: #7d6f5b; min-width: 5.2em; }
+.cd-w { color: #c2b294; }
+.ce-deed.t-good .cd-w { color: #d8bd7d; }
+.ce-deed.t-bad .cd-w { color: #c08d78; }
+.ce-again {
+  display: block; margin: 44px auto 0;
+  appearance: none; font: inherit; font-size: 16px; letter-spacing: 8px;
+  padding: 11px 34px 13px;
+  border: 1px solid #7a5c34; background: #241a10; color: #ecd39d;
+  border-radius: 3px; cursor: pointer;
+}
+.ce-again:hover { background: #332516; }
+
+/* 从天下图回朝 */
+.ct-back {
+  position: fixed; left: 50%; transform: translateX(-50%); bottom: 20px; z-index: 40;
+  appearance: none;
+  font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  font-size: 15px; letter-spacing: 6px; padding: 9px 26px 11px;
+  border: 1px solid #7a5c34; border-radius: 3px;
+  background: #1a130ddd; color: #ecd39d; cursor: pointer;
+  box-shadow: 0 4px 16px #000a;
+}
+.ct-back:hover { background: #2a1f13; border-color: #a17e46; }
+
+/* 窄屏 */
+@media (max-width: 620px) {
+  .ct-top { padding: 9px 14px 7px; }
+  .ct-stage { padding: 0 10px 12px; }
+  .cs-say { font-size: 15px; line-height: 1.9; }
+  .cs-slip { padding: 13px 14px 12px; }
+  .ct-roll { padding: 8px 8px 16px; }
+}
+
+/* 不喜欢动的人 */
+@media (prefers-reduced-motion: reduce) {
+  .cr-lamp i, .cr-smoke { animation: none; }
+  .pose-stand, .pose-turn_away,
+  .pose-bow_deep, .pose-bow, .pose-stoop, .pose-nod, .pose-silent { animation: none; }
+}
+
+/* ═══ 天下图上的方略 ═══════════════════════════════════ */
+
+.lm-top {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 12;
+  display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
+  /* 右边那一块留给「收起面板」—— 它是绝对定位的，不占位，得手动让开 */
+  padding: 10px 112px 9px 22px;
+  font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  color: #e8dcc6;
+  background: linear-gradient(#0b0705ee, #0b070588);
+  border-bottom: 1px solid #3a2b1d88;
+}
+.lm-date { font-size: 18px; letter-spacing: 2px; color: #f2e7d0; }
+.lm-sub { font-size: 11.5px; color: #a3927a; margin-top: 2px; letter-spacing: 1px; }
+.lm-stats { display: flex; gap: 18px; font-size: 15px; color: #e0d0ae; }
+.lm-stats i { font-style: normal; font-size: 11px; color: #8e7f68; margin-right: 5px; }
+.lm-stats .bad { color: #e0a184; }
+.lm-stats .bad i { color: #b0705a; }
+
+.lm-panel {
+  /* 顶栏高 64 —— 从 62 起画会有两像素压在它的下边线底下 */
+  position: fixed; top: 70px; left: 16px; z-index: 12;
+  width: min(440px, calc(100vw - 32px));
+  max-height: calc(100vh - 158px);
+  overflow-y: auto;
+  padding: 12px 14px 14px;
+  font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  color: #e8dcc6;
+  background: linear-gradient(#1d1610f2, #12100be8);
+  border: 1px solid #4a3826;
+  border-radius: 3px;
+  box-shadow: 0 14px 40px #000b;
+}
+.lm-t {
+  font-size: 18px; letter-spacing: 2px; color: #f2e2be;
+  display: flex; align-items: baseline; gap: 10px;
+  padding-bottom: 8px; border-bottom: 1px solid #3a2b1d;
+}
+.lm-t b { font-weight: 400; font-size: 12px; color: #8e7f68; margin-left: auto; }
+.lm-fame {
+  font-style: normal; font-size: 10px; letter-spacing: 2px;
+  color: #d8b25e; border: 1px solid #6d5330; border-radius: 2px; padding: 1px 5px;
+}
+.lm-x {
+  margin-left: auto; appearance: none; background: none; border: none;
+  color: #8e7f68; font-size: 19px; cursor: pointer; line-height: 1;
+}
+.lm-desc { font-size: 12px; color: #9b8a6e; line-height: 1.8; margin: 8px 0 4px; }
+
+.lm-intel {
+  display: flex; flex-wrap: wrap; gap: 6px 14px;
+  font-size: 12px; color: #b6a486;
+  padding: 8px 0; border-bottom: 1px solid #2e2317;
+}
+.li-f { font-size: 13px; }
+.li-war { color: #d3907a; }
+
+.lm-sec {
+  font-size: 12px; letter-spacing: 5px; color: #9b8354;
+  margin: 14px 0 8px; display: flex; align-items: baseline;
+}
+.lm-sec.sub { letter-spacing: 3px; color: #7d6f5b; font-size: 11px; margin-top: 10px; }
+.lm-sec b { font-weight: 400; font-size: 11px; color: #8e7f68; margin-left: auto; letter-spacing: 1px; }
+
+.lm-list { display: flex; flex-direction: column; gap: 3px; margin-top: 8px; }
+.lm-city {
+  appearance: none; font: inherit; cursor: pointer; text-align: left;
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 8px 10px; border-radius: 2px;
+  border: 1px solid transparent; background: #ffffff08; color: #e0d0ae;
+}
+.lm-city:hover { background: #ffffff14; border-color: #4a3826; }
+.lm-city.sieged { border-color: #7a3020; background: #3a140e66; }
+.lc-n { font-size: 15px; color: #f0dfba; }
+.lc-w { font-size: 12px; color: #b6a486; }
+.lc-w.none { color: #d3907a; }
+.lc-t, .lc-g { font-size: 11.5px; color: #8e7f68; }
+.lc-g { margin-left: auto; }
+.lc-s { font-size: 11px; color: #e6a48c; width: 100%; }
+.lm-hint { font-size: 11.5px; color: #7d6f5b; margin-top: 10px; line-height: 1.7; }
+.lm-none { font-size: 12px; color: #7d6f5b; line-height: 1.8; padding: 4px 2px; }
+.lm-tip { font-size: 11.5px; color: #9b8a6e; margin-top: 8px; line-height: 1.7; }
+
+.lm-warden {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px; border-radius: 2px; background: #ffffff08;
+}
+.lm-warden.none { background: #3a140e55; }
+.lw-txt { flex: 1; min-width: 0; font-size: 12px; color: #b6a486; line-height: 1.6; }
+.lw-txt b { font-size: 15px; color: #f0dfba; margin-right: 6px; }
+.lw-txt span { color: #d3bd8f; }
+.lw-txt em { display: block; font-style: normal; font-size: 11px; color: #8e7f68; }
+.lw-txt.none { color: #d3907a; }
+
+.lm-mini {
+  appearance: none; font: inherit; font-size: 12px; letter-spacing: 2px;
+  padding: 5px 12px; border: 1px solid #5c452a; border-radius: 2px;
+  background: #241a11; color: #cbb28a; cursor: pointer;
+}
+.lm-mini:hover { background: #33261a; color: #f0dfba; }
+
+.lm-pick { display: flex; flex-direction: column; gap: 3px; margin-top: 6px; }
+.lm-cand {
+  appearance: none; font: inherit; cursor: pointer; text-align: left;
+  display: flex; align-items: center; gap: 9px;
+  padding: 6px 8px; border-radius: 2px;
+  border: 1px solid #3a2b1d; background: #ffffff06; color: #cbb28a;
+  font-size: 12px;
+}
+.lm-cand:hover { background: #ffffff14; border-color: #6d5330; }
+.lm-cand b { font-size: 14px; color: #f0dfba; }
+.lm-cand em { display: block; font-style: normal; font-size: 11px; color: #8e7f68; margin-top: 2px; }
+
+.lm-act, .lm-march {
+  display: block; width: 100%; margin-top: 6px;
+  appearance: none; font: inherit; cursor: pointer; text-align: left;
+  padding: 9px 12px; border-radius: 2px;
+  border: 1px solid #4c3a24; background: #1d1610; color: #e0d0ae;
+  font-size: 14px;
+}
+.lm-act:hover:not(:disabled), .lm-march:hover:not(:disabled) {
+  background: #2b2015; border-color: #7a5c34; color: #f2e2be;
+}
+.lm-act:disabled, .lm-march:disabled { opacity: 0.42; cursor: default; }
+.lm-act em {
+  display: block; font-style: normal; font-size: 11px;
+  color: #9b8a6e; margin-top: 4px; line-height: 1.6;
+}
+
+/**
+ * 一行一件事。
+ *
+ * 名字和结论**不许折行** —— 「自雍丘出／兵」「兵力不／足」这种断法
+ * 比信息本身还难读。中间那段说明想折就折。
+ */
+.lm-march { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
+.lm-march .lm-n { font-size: 14px; color: #f0dfba; white-space: nowrap; }
+.lm-march .lm-f { font-size: 11.5px; color: #8e7f68; white-space: nowrap; }
+.lm-march .lm-d { font-size: 11.5px; color: #8e7f68; flex: 1; min-width: 0; }
+.lm-march .lm-go {
+  margin-left: auto; font-size: 12px; letter-spacing: 2px; color: #c9a86e;
+  white-space: nowrap;
+}
+.lm-march.own .lm-go { color: #9fbf8a; }
+.lm-march.good { border-color: #5f7040; }
+.lm-march.good .lm-go { color: #b9cd92; }
+.lm-march.risky .lm-go { color: #c98f76; }
+
+/**
+ * 悬停色的专一度。
+ *
+ * styles.css 里有一条全局的 `button:hover:not(:disabled)`，把底色刷成深褐 ——
+ * 它的专一度（0,2,1）压过这里的 `.cs-act:hover`（0,2,0），
+ * 于是那张浅色的帖子上，鼠标一碰按钮就变黑。
+ * 加一层父选择器把专一度提上去，比满屏 !important 干净。
+ */
+.cs-slip .cs-act:hover:not(:disabled) {
+  background: linear-gradient(#fdf3dc, #e8dab6);
+  border-color: #7d6640;
+}
+.cs-slip .cs-act.a-allow:hover:not(:disabled) {
+  background: linear-gradient(#e9edcb, #d5dca6);
+  border-color: #6d7a44;
+}
+.cs-slip .cs-act.a-deny:hover:not(:disabled) {
+  background: linear-gradient(#f3ddd0, #e2c3b2);
+  border-color: #9c5b45;
+}
+.ct-stage .ct-adjourn:hover:not(:disabled) {
+  background: linear-gradient(#503b23, #302315);
+  border-color: #a17e46;
+}
+.lm-panel .lm-act:hover:not(:disabled),
+.lm-panel .lm-march:hover:not(:disabled),
+.lm-panel .lm-city:hover,
+.lm-panel .lm-cand:hover {
+  background: #2b2015;
+  border-color: #7a5c34;
+  color: #f2e2be;
+}
+.lm-panel .lm-mini:hover:not(:disabled) { background: #33261a; border-color: #7a5c34; }
+.ct-roll .crt-force:hover:not(:disabled) { background: #3b1c15; border-color: #9c4227; }
+.court .ct-tab:hover { background: none; }
+
+/* ── 驿传。路上还有几骑 ────────────────────────────── */
+
+.ct-ride {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 12px;
+  padding: 7px 12px;
+  font-size: 12px; color: #a3927a;
+  background: #0d090688;
+  border: 1px solid #2e231788;
+  border-radius: 2px;
+}
+.ct-ride .cr-t { letter-spacing: 4px; color: #8e7f68; }
+.ct-ride .cr-one { display: inline-flex; align-items: center; gap: 5px; color: #c2b294; }
+.ct-ride .cr-one.risky { color: #d99b80; }
+.ct-ride .cr-horse { width: 20px; height: 14px; display: inline-block; color: #9b8a6e; }
+.ct-ride .cr-one.risky .cr-horse { color: #c07a5e; }
+.ct-ride .cr-horse svg { width: 100%; height: 100%; display: block; }
+.ct-ride em { font-style: normal; color: #8e7f68; }
+.ct-ride b {
+  font-weight: 400; font-size: 10px; color: #d2b174;
+  border: 1px solid #5b4526; border-radius: 2px; padding: 0 4px;
+}
+
+/* ═══ 时局 ═══════════════════════════════════════════ */
+
+.ct-sit {
+  flex: 1; min-height: 0; overflow-y: auto;
+  display: flex; justify-content: center;
+  padding: 16px 18px 24px;
+}
+
+/**
+ * 一卷摊开的檄文。
+ *
+ * 整屏都暗，唯独这一卷亮 —— 天下摊上一件事的时候，
+ * 玩家的眼睛该落在纸上，不该落在别处。
+ */
+.cs-scroll {
+  width: min(100%, 680px);
+  padding: 20px 24px 22px;
+  border-radius: 2px;
+  color: #241a11;
+  background: linear-gradient(180deg, #efe3c6 0%, #e4d5b3 62%, #d8c69f 100%);
+  box-shadow: 0 14px 40px #000c, inset 0 0 48px rgba(150, 118, 70, 0.26);
+  animation: slipin .38s cubic-bezier(.2, .9, .3, 1) both;
+  position: relative;
+}
+.cs-scroll::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.3;
+  background: repeating-linear-gradient(90deg, transparent 0 5px, rgba(120,92,52,.09) 5px 6px);
+}
+
+.csx-tag {
+  display: inline-block; font-size: 12px; letter-spacing: 5px;
+  color: #6d3020; border: 1px solid #a86a52; border-radius: 2px;
+  padding: 2px 12px 3px; background: #f3e6cb;
+}
+.csx-text {
+  margin: 14px 0 18px; font-size: 16px; line-height: 2.05;
+  color: #2b2016; text-indent: 2em; white-space: pre-line;
+}
+.csx-text.short { font-size: 14px; line-height: 1.9; margin-bottom: 14px; }
+
+/* 已经表过态的几家 */
+.csx-eyes {
+  border-top: 1px solid #bda87f; border-bottom: 1px solid #bda87f;
+  padding: 11px 0; margin-bottom: 16px;
+}
+.csx-eyes-t { font-size: 11px; letter-spacing: 4px; color: #8a7250; margin-bottom: 8px; }
+.csx-eye { display: flex; align-items: baseline; gap: 9px; line-height: 2; }
+.csx-eye b { font-size: 16px; }
+.csx-f { font-size: 14px; color: #3b2c1c; min-width: 4.6em; }
+.csx-eye em { font-style: normal; font-size: 13px; color: #6d5a3c; }
+.csx-none { font-size: 13px; color: #8a7a5e; }
+
+.csx-me {
+  font-size: 13px; letter-spacing: 3px; color: #6d3020; margin-bottom: 10px;
+}
+.csx-me i { font-style: normal; color: #8a7250; letter-spacing: 1px; }
+
+.csx-opts { display: flex; flex-direction: column; gap: 8px; }
+.csx-opt {
+  appearance: none; font: inherit; cursor: pointer; text-align: left;
+  padding: 11px 14px; border-radius: 2px;
+  border: 1px solid #a48f68;
+  background: linear-gradient(#f1e6cc, #ded0ab);
+  color: #3d2d1c;
+}
+.cs-scroll .csx-opt:hover {
+  background: linear-gradient(#fdf3dc, #e8dab6); border-color: #7d6640;
+}
+.csx-opt b { font-size: 16px; letter-spacing: 3px; font-weight: 600; }
+.csx-opt em {
+  display: block; font-style: normal; font-size: 12px;
+  color: #6d5a3c; margin-top: 5px; line-height: 1.7;
+}
+
+/* 表态一览 */
+.csx-camps { display: flex; flex-direction: column; gap: 9px; margin-bottom: 18px; }
+.csx-camp {
+  border: 1px solid #c3ae86; border-radius: 2px; padding: 9px 12px;
+  background: #f2e7cf88;
+}
+.csx-camp.mine { border-color: #6d3020; background: #f6ead0; }
+.csx-camp-t {
+  font-size: 14px; letter-spacing: 2px; color: #3b2c1c;
+  display: flex; align-items: baseline; gap: 8px;
+}
+.csx-camp-t i { font-style: normal; font-size: 11px; color: #8a7250; margin-left: auto; }
+.csx-camp-l { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 6px; }
+.csx-w { font-size: 13px; color: #4c3a24; display: inline-flex; gap: 4px; align-items: baseline; }
+.csx-w b { font-size: 15px; }
+.csx-w.me { color: #6d3020; font-weight: 600; }
+.csx-w i { font-style: normal; font-size: 11px; }
+
+.cs-scroll .ct-adjourn {
+  background: linear-gradient(#3c2c19, #251a0f); border-color: #7a5c34;
+}
+
+/* ── 军营 ──────────────────────────────────────────── */
+
+.lm-camp {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px; border-radius: 2px;
+  background: #ffffff08; border-left: 2px solid #6d5330;
+}
+.lm-camp .lc-txt { flex: 1; min-width: 0; font-size: 13px; color: #d0bf9c; }
+.lm-camp .lc-txt b { font-size: 15px; color: #f0dfba; }
+.lm-camp .lc-txt em {
+  display: block; font-style: normal; font-size: 11.5px;
+  color: #9b8a6e; margin-top: 3px;
+}
+.lm-draft { display: flex; gap: 8px; margin-top: 6px; }
+.lm-draft .lm-mini { flex: 1; }
+
+.lm-tip.def { color: #d8b25e; border-left: 2px solid #6d5330; padding-left: 8px; }
+
+/* ── 衣带诏 ────────────────────────────────────────── */
+.cs-plot .cs-slip { border-left: 4px solid #8a3c26; }
+.cs-plot-who { font-size: 13px; color: #6d3020; margin-top: 8px; }
+
+/* ═══ 请缨 —— 几路人马一齐来解围 ═══════════════════════ */
+
+.cs-rally {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #00000022;
+}
+.cs-rally.none {
+  font-size: 12px; color: #7a5c44; letter-spacing: 1px;
+  border-top: 1px solid #00000022; padding-top: 10px;
+}
+.cs-rally-t {
+  font-size: 11.5px; letter-spacing: 3px; color: #7c5f42;
+  display: flex; align-items: baseline; margin-bottom: 7px;
+}
+.cs-rally-t em {
+  font-style: normal; letter-spacing: 1px; color: #9b7f5e; margin-left: auto;
+}
+.cs-rally-one {
+  appearance: none; font: inherit; cursor: pointer; text-align: left; width: 100%;
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 7px 9px; margin-bottom: 4px;
+  border: 1px solid #b79a6e55; border-radius: 2px;
+  background: #00000010; color: #4a3521;
+}
+.cs-slip .cs-rally-one:hover:not(:disabled) {
+  background: #00000020; border-color: #8a6d44;
+}
+.cs-rally-one:disabled { opacity: 0.42; cursor: default; }
+.csr-w { font-size: 14px; color: #3a2a18; white-space: nowrap; }
+.csr-w i {
+  font-style: normal; font-size: 9.5px; color: #8a6d44;
+  border: 1px solid #b79a6e88; border-radius: 2px; padding: 0 3px; margin-left: 5px;
+}
+.csr-n { font-size: 12px; color: #6a5236; white-space: nowrap; }
+.csr-d { font-size: 11px; color: #8a7154; }
+.csr-go {
+  margin-left: auto; font-size: 12px; letter-spacing: 2px; color: #7a5a2e;
+  white-space: nowrap;
+}
+.cs-rally-one.no .csr-go { color: #9a6a55; }
+
+/* ═══ 太仓 ═══════════════════════════════════════════ */
+
+/* `.court` 是一列 flex —— 这一屏该像 .ct-roll 那样当一个撑开的子项，
+   不是绝对定位地盖上去。写成 absolute 会错位，而且滚不动 */
+.ct-store {
+  flex: 1; min-height: 0; overflow-y: auto;
+  background: linear-gradient(#0d0906f2, #0a0806fa);
+  padding: 10px clamp(14px, 5vw, 56px) 40px;
+  font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  color: #e8dcc6;
+}
+.cs-store-top {
+  display: flex; flex-wrap: wrap; gap: 12px 34px;
+  padding: 12px 16px; margin-bottom: 16px;
+  background: #ffffff08; border: 1px solid #3a2b1d; border-radius: 3px;
+}
+.cst-one { display: flex; align-items: baseline; gap: 8px; }
+.cst-one em { font-style: normal; font-size: 11.5px; letter-spacing: 3px; color: #9b8354; }
+.cst-one b { font-weight: 400; font-size: 26px; color: #f2e2be; letter-spacing: 1px; }
+.cst-one i { font-style: normal; font-size: 11.5px; color: #8e7f68; }
+
+.cst-t {
+  font-size: 11.5px; letter-spacing: 5px; color: #9b8354;
+  margin: 18px 0 8px;
+}
+.cst-list { display: flex; flex-direction: column; gap: 2px; }
+.cst-row {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 7px 11px; border-radius: 2px; background: #ffffff06;
+}
+.cst-row.none { opacity: 0.5; }
+.cst-c { font-size: 14px; color: #f0dfba; min-width: 68px; }
+.cst-w { font-size: 12px; color: #b6a486; min-width: 130px; }
+.cst-g { font-size: 13px; color: #d8c08a; min-width: 74px; }
+.cst-row.none .cst-g { color: #a8836e; }
+.cst-y { font-size: 11.5px; color: #83745e; }
+
+.cst-none { font-size: 12px; color: #6b5f4d; padding: 8px 11px; }
+.cst-deeds { display: flex; flex-direction: column; gap: 2px; }
+.cst-deed {
+  font-size: 12.5px; color: #b6a486; padding: 6px 11px;
+  border-left: 2px solid #3a2b1d; background: #ffffff05;
+}
+.cst-deed em {
+  font-style: normal; font-size: 10.5px; color: #7d6f5b; margin-right: 12px;
+}
+.cst-deed.good { border-left-color: #6c7a3e; color: #cdd3a4; }
+.cst-deed.bad { border-left-color: #7a3a28; color: #d8b0a0; }
+
+/* 班列上的职衔 */
+.cr-p-r {
+  display: block; font-size: 10px; color: #9b8354; letter-spacing: 1px;
+}
+.cr-p-r.high { color: #d8b25e; }
+.cr-p.quiet .cr-p-r { color: #6b5f4d; }
+.crc-rank {
+  font-size: 11.5px; color: #d8b25e; letter-spacing: 2px; margin-left: 10px;
+  border: 1px solid #6d5330; border-radius: 2px; padding: 1px 6px;
+  vertical-align: 3px;
+}
+
+/* 收起面板 —— 图是这一屏真正的主角，要看图的时候就该看得见图。
+   摆在顶栏里，不浮在面板上头：浮着的那一版正好压住面板右上角的「×」 */
+.lm-fold {
+  /* 绝对定位在顶栏里 —— **不参与那一行的排布**。
+     写成 `margin-left:auto` 的话，窄屏上它会被挤到第二行，
+     顶栏跟着变高，而面板的 top 是写死的 62px：它会被压在下面 */
+  position: absolute; right: 16px; top: 13px;
+  appearance: none; font: inherit; cursor: pointer;
+  font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  font-size: 11.5px; letter-spacing: 2px; white-space: nowrap;
+  padding: 5px 12px;
+  color: #d5bd8c; background: #241a11cc; border: 1px solid #6d5330;
+  border-radius: 3px;
+}
+.lm-fold:hover { color: #f2e2be; border-color: #a8834a; background: #34261a; }
+.lm-fold.off { color: #d8b25e; border-color: #6d5330; }
+
+/* ═══ 日子自己在走 ═══════════════════════════════════ */
+
+.ct-flow {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  padding: 16px 18px;
+  font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  color: #a3927a;
+}
+.cf-say { font-size: 12.5px; letter-spacing: 2px; }
+.cf-dots { display: inline-flex; gap: 5px; }
+.cf-dots i {
+  width: 5px; height: 5px; border-radius: 50%; background: #6b5f4d;
+  display: block;
+}
+.ct-flow.on .cf-dots i { animation: cf-pulse 1.5s infinite ease-in-out; }
+.ct-flow.on .cf-dots i:nth-child(2) { animation-delay: 0.25s; }
+.ct-flow.on .cf-dots i:nth-child(3) { animation-delay: 0.5s; }
+@keyframes cf-pulse {
+  0%, 100% { background: #4a4136; transform: scale(0.8); }
+  40% { background: #d8b25e; transform: scale(1.15); }
+}
+.cf-btn {
+  appearance: none; font: inherit; cursor: pointer;
+  font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  font-size: 12.5px; letter-spacing: 4px;
+  padding: 6px 16px;
+  color: #c9b183; background: #ffffff08; border: 1px solid #4a3826; border-radius: 3px;
+}
+.cf-btn:hover { color: #f2e2be; border-color: #7a5c34; background: #ffffff14; }
+.cf-btn.step { letter-spacing: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .ct-flow.on .cf-dots i { animation: none; background: #d8b25e; }
+}
+
+/* ═══ 大丧 ═══════════════════════════════════════════ */
+
+.ct-mourn {
+  flex: 1; min-height: 0; overflow-y: auto;
+  background: radial-gradient(120% 90% at 50% 0%, #191310f8, #060505fc 70%);
+  font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  color: #e0d3ba;
+}
+.cm-inner {
+  max-width: 760px; margin: 0 auto; padding: 34px clamp(16px, 5vw, 40px) 60px;
+}
+.cm-kind {
+  font-size: 13px; letter-spacing: 12px; color: #9b8354; text-align: center;
+}
+.cm-dead {
+  font-size: 40px; letter-spacing: 8px; color: #f2e7d0;
+  text-align: center; margin: 12px 0 4px;
+  text-shadow: 0 0 34px #d8b25e33;
+}
+.cm-say {
+  font-size: 13.5px; color: #a3927a; text-align: center; line-height: 2;
+  margin: 6px 0 26px;
+}
+
+.cm-life {
+  border-top: 1px solid #2e2317; border-bottom: 1px solid #2e2317;
+  padding: 14px 0; margin-bottom: 26px;
+}
+.cm-life-t { font-size: 11px; letter-spacing: 6px; color: #7d6f5b; margin-bottom: 10px; }
+.cm-deed { display: flex; gap: 16px; font-size: 13px; padding: 3px 0; color: #b6a486; }
+.cm-deed .cd-y { color: #7d6f5b; font-size: 11.5px; min-width: 56px; }
+.cm-deed.t-good .cd-w { color: #cdd3a4; }
+.cm-deed.t-bad .cd-w { color: #d8b0a0; }
+
+.cm-heir {
+  display: flex; align-items: flex-end; gap: 22px;
+  padding: 10px 0 6px;
+}
+/**
+ * 受遗的那个人**站在那儿不动**。
+ *
+ * `pose-bow_deep` 本来是引见那一屏用的：他行完礼就淡出（`bowout`）。
+ * 搬到这一屏来照用，人一秒钟之后就没了 —— 而这一屏他要一直躬在那儿。
+ */
+.cm-heir .pose-bow_deep { animation: none; opacity: 1; }
+.cm-heir-txt { flex: 1; min-width: 0; padding-bottom: 18px; }
+.cm-heir-t { font-size: 11px; letter-spacing: 8px; color: #9b8354; }
+.cm-heir-n { font-size: 15px; color: #c9b183; margin-top: 8px; }
+.cm-heir-n b { font-weight: 400; font-size: 27px; color: #f2e2be; letter-spacing: 3px; }
+.cm-heir-n em { font-style: normal; font-size: 13px; color: #8e7f68; margin-left: 8px; }
+.cm-heir-p { font-size: 13px; color: #a3927a; margin: 6px 0 12px; }
+.cm-cost { list-style: none; padding: 0; margin: 0; }
+.cm-cost li {
+  font-size: 12.5px; color: #9b8a6e; line-height: 2;
+  padding-left: 14px; position: relative;
+}
+.cm-cost li::before {
+  content: '·'; position: absolute; left: 2px; color: #6d5330;
+}
+.cm-cost b { font-weight: 400; color: #d8b0a0; margin-left: 6px; }
+
+.cm-go {
+  appearance: none; font: inherit; cursor: pointer;
+  display: block; width: 100%; margin-top: 26px;
+  font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  font-size: 22px; letter-spacing: 12px; color: #f2e2be;
+  padding: 18px 10px 16px;
+  background: linear-gradient(#2a1f14, #1a1209);
+  border: 1px solid #6d5330; border-radius: 3px;
+}
+.cm-go:hover { border-color: #b08d4a; background: linear-gradient(#3a2b1a, #221708); }
+.cm-go em {
+  display: block; font-style: normal; font-size: 11.5px; letter-spacing: 2px;
+  color: #8e7f68; margin-top: 7px;
+}
+
+@media (max-width: 640px) {
+  .cm-heir { flex-direction: column; align-items: center; gap: 8px; }
+  .cm-heir-txt { padding-bottom: 0; text-align: center; }
+  .cm-dead { font-size: 32px; }
+}
+
+.ct-reign {
+  font-size: 10.5px; letter-spacing: 3px; color: #9b8354; margin-top: 3px;
+}
+.ce-deed .cd-w b { font-weight: 400; color: #f0dfba; }
+
+/* ═══ 堂下无人 —— 「没事」也得是有内容的 ═══════════════ */
+
+.cs-quiet {
+  margin: auto 0;
+  width: min(100%, 560px);
+  align-self: center;
+  text-align: center;
+  animation: fadein .5s ease-out both;
+}
+.cq-line {
+  font-size: 15px; letter-spacing: 2px; color: #9b8a6e; line-height: 2.2;
+}
+.cq-deeds {
+  margin-top: 22px; text-align: left;
+  border-top: 1px solid #2e2317; padding-top: 12px;
+}
+.cq-deed {
+  font-size: 12.5px; color: #83745e; line-height: 2;
+  display: flex; gap: 14px;
+}
+.cq-deed em {
+  font-style: normal; font-size: 11px; color: #6b5f4d;
+  min-width: 46px; text-align: right;
+}
+.cq-deed.t-good { color: #b3bb8c; }
+.cq-deed.t-bad { color: #bd9384; }
+.cq-still {
+  margin-top: 20px; font-size: 12.5px; color: #6b5f4d; letter-spacing: 4px;
+}
+
+/**
+ * 窄屏：顶栏那一行摆不下，会折成两行（高 108 上下）。
+ * 面板的 top 是写死的，得跟着让开 —— 否则它被压在顶栏底下，
+ * 第一行「辖境 / 城名」正好看不见。
+ */
+@media (max-width: 560px) {
+  .lm-panel { top: 116px; max-height: calc(100vh - 204px); }
+  /* 窄屏上那一行本来就挤，按钮跟着收一收，别把顶栏顶出屏幕 */
+  .lm-top { padding-right: 76px; gap: 12px; }
+  .lm-fold { right: 8px; top: 9px; padding: 4px 8px; letter-spacing: 0; font-size: 11px; }
+}

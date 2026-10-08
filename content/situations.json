@@ -1,0 +1,275 @@
+[
+  {
+    "id": "taodong",
+    "year": 190,
+    "month": 3,
+    "textId": "sit.taodong",
+    "days": 60,
+    "options": [
+      {
+        "id": "join",
+        "textId": "sit.taodong.join",
+        "hintId": "sit.taodong.join.h",
+        "effect": {
+          "renown": 14,
+          "grain": -500,
+          "blocAgainst": "dongzhuo",
+          "attitudeFrom": {
+            "dongzhuo": -40
+          }
+        }
+      },
+      {
+        "id": "watch",
+        "textId": "sit.taodong.watch",
+        "hintId": "sit.taodong.watch.h",
+        "effect": {
+          "renown": -5
+        }
+      },
+      {
+        "id": "side",
+        "textId": "sit.taodong.side",
+        "hintId": "sit.taodong.side.h",
+        "effect": {
+          "renown": -26,
+          "attitudeAll": -18,
+          "attitudeFrom": {
+            "dongzhuo": 45
+          },
+          "grain": 600
+        }
+      }
+    ]
+  },
+  {
+    "id": "chuanguo",
+    "year": 191,
+    "month": 4,
+    "textId": "sit.chuanguo",
+    "days": 45,
+    "options": [
+      {
+        "id": "take",
+        "textId": "sit.chuanguo.take",
+        "hintId": "sit.chuanguo.take.h",
+        "effect": {
+          "renown": -12,
+          "attitudeAll": -10,
+          "attitudeFrom": {
+            "sunjian": -35
+          }
+        }
+      },
+      {
+        "id": "let",
+        "textId": "sit.chuanguo.let",
+        "hintId": "sit.chuanguo.let.h",
+        "effect": {
+          "renown": 6,
+          "attitudeFrom": {
+            "sunjian": 20
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "dongsi",
+    "year": 192,
+    "month": 5,
+    "textId": "sit.dongsi",
+    "days": 50,
+    "options": [
+      {
+        "id": "take",
+        "textId": "sit.dongsi.take",
+        "hintId": "sit.dongsi.take.h",
+        "effect": {
+          "troops": 1400,
+          "unrest": 16,
+          "morale": -6,
+          "renown": -6
+        }
+      },
+      {
+        "id": "gongqing",
+        "textId": "sit.dongsi.gongqing",
+        "hintId": "sit.dongsi.gongqing.h",
+        "effect": {
+          "renown": 12,
+          "grain": -400
+        }
+      },
+      {
+        "id": "none",
+        "textId": "sit.dongsi.none",
+        "hintId": "sit.dongsi.none.h",
+        "effect": {}
+      }
+    ]
+  },
+  {
+    "id": "xuzhou",
+    "year": 193,
+    "month": 9,
+    "textId": "sit.xuzhou",
+    "days": 45,
+    "options": [
+      {
+        "id": "blame",
+        "textId": "sit.xuzhou.blame",
+        "hintId": "sit.xuzhou.blame.h",
+        "effect": {
+          "renown": 11,
+          "attitudeFrom": {
+            "caocao": -30
+          }
+        }
+      },
+      {
+        "id": "silent",
+        "textId": "sit.xuzhou.silent",
+        "hintId": "sit.xuzhou.silent.h",
+        "effect": {
+          "renown": -6
+        }
+      }
+    ]
+  },
+  {
+    "id": "daji",
+    "year": 194,
+    "month": 6,
+    "textId": "sit.daji",
+    "days": 60,
+    "options": [
+      {
+        "id": "open",
+        "textId": "sit.daji.open",
+        "hintId": "sit.daji.open.h",
+        "effect": {
+          "renown": 20,
+          "grain": -1400,
+          "morale": 9
+        }
+      },
+      {
+        "id": "shut",
+        "textId": "sit.daji.shut",
+        "hintId": "sit.daji.shut.h",
+        "effect": {
+          "renown": -10,
+          "grain": 700,
+          "morale": -9,
+          "unrest": 8
+        }
+      },
+      {
+        "id": "sell",
+        "textId": "sit.daji.sell",
+        "hintId": "sit.daji.sell.h",
+        "effect": {
+          "renown": -20,
+          "grain": 900,
+          "morale": -20,
+          "unrest": 18
+        }
+      }
+    ]
+  },
+  {
+    "id": "donggui",
+    "year": 195,
+    "month": 8,
+    "textId": "sit.donggui",
+    "days": 60,
+    "options": [
+      {
+        "id": "greet",
+        "textId": "sit.donggui.greet",
+        "hintId": "sit.donggui.greet.h",
+        "effect": {
+          "renown": 22,
+          "grain": -600,
+          "attitudeAll": -12
+        }
+      },
+      {
+        "id": "tribute",
+        "textId": "sit.donggui.tribute",
+        "hintId": "sit.donggui.tribute.h",
+        "effect": {
+          "renown": 9,
+          "grain": -400
+        }
+      },
+      {
+        "id": "none",
+        "textId": "sit.donggui.none",
+        "hintId": "sit.donggui.none.h",
+        "effect": {
+          "renown": -8
+        }
+      }
+    ]
+  },
+  {
+    "id": "tuntian",
+    "year": 196,
+    "month": 2,
+    "textId": "sit.tuntian",
+    "days": 60,
+    "options": [
+      {
+        "id": "do",
+        "textId": "sit.tuntian.do",
+        "hintId": "sit.tuntian.do.h",
+        "effect": {
+          "grain": 1800,
+          "morale": -6,
+          "unrest": 10,
+          "renown": 3
+        }
+      },
+      {
+        "id": "none",
+        "textId": "sit.tuntian.none",
+        "hintId": "sit.tuntian.none.h",
+        "effect": {
+          "morale": 5
+        }
+      }
+    ]
+  },
+  {
+    "id": "qingzhou",
+    "year": 197,
+    "month": 3,
+    "textId": "sit.qingzhou",
+    "days": 45,
+    "options": [
+      {
+        "id": "crush",
+        "textId": "sit.qingzhou.crush",
+        "hintId": "sit.qingzhou.crush.h",
+        "effect": {
+          "renown": 8,
+          "troops": -300,
+          "morale": 6
+        }
+      },
+      {
+        "id": "take",
+        "textId": "sit.qingzhou.take",
+        "hintId": "sit.qingzhou.take.h",
+        "effect": {
+          "troops": 2200,
+          "unrest": 24,
+          "morale": -10,
+          "renown": -4
+        }
+      }
+    ]
+  }
+]

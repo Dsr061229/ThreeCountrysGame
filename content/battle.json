@@ -1,0 +1,190 @@
+[
+  {
+    "id": "d_ladders",
+    "textId": "bt.ladders",
+    "when": { "minRound": 2, "maxRound": 4 },
+    "options": [
+      {
+        "textId": "bt.ladders.a",
+        "hintId": "bt.ladders.a.hint",
+        "effect": { "defLossPermille": 700, "atkLossPermille": 1150, "defMen": 12 }
+      },
+      {
+        "textId": "bt.ladders.b",
+        "hintId": "bt.ladders.b.hint",
+        "effect": { "atkLossPermille": 1600, "defMen": 34, "defMorale": -4 }
+      },
+      {
+        "textId": "bt.ladders.c",
+        "hintId": "bt.ladders.c.hint",
+        "effect": { "defLossPermille": 850, "atkLossPermille": 1250, "defMorale": -2 }
+      }
+    ]
+  },
+  {
+    "id": "d_ram",
+    "textId": "bt.ram",
+    "when": { "minRound": 3, "maxWall": 72 },
+    "options": [
+      {
+        "textId": "bt.ram.a",
+        "hintId": "bt.ram.a.hint",
+        "effect": { "defMen": 40, "wall": 12, "defMorale": 6, "atkLossPermille": 1200 }
+      },
+      {
+        "textId": "bt.ram.b",
+        "hintId": "bt.ram.b.hint",
+        "effect": {
+          "gamble": {
+            "chance": 55,
+            "win": { "atkMen": 180, "atkMorale": -18, "defMorale": 10 },
+            "lose": { "wall": -26, "defMen": 55, "defMorale": -12 }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "d_fire",
+    "textId": "bt.fire",
+    "when": { "minRound": 2, "maxRound": 5 },
+    "options": [
+      {
+        "textId": "bt.fire.a",
+        "hintId": "bt.fire.a.hint",
+        "effect": { "wall": 4, "defLossPermille": 900 }
+      },
+      {
+        "textId": "bt.fire.b",
+        "hintId": "bt.fire.b.hint",
+        "effect": {
+          "gamble": {
+            "chance": 48,
+            "win": { "atkMen": 130, "atkMorale": -14 },
+            "lose": { "defMen": 70, "defMorale": -10 }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "d_champion",
+    "textId": "bt.champion",
+    "when": { "minRound": 3, "minAtkMorale": 45 },
+    "options": [
+      {
+        "textId": "bt.champion.a",
+        "hintId": "bt.champion.a.hint",
+        "effect": { "defMen": 45, "atkMorale": -20, "defMorale": 8 }
+      },
+      {
+        "textId": "bt.champion.b",
+        "hintId": "bt.champion.b.hint",
+        "effect": {
+          "gamble": {
+            "chance": 42,
+            "win": { "atkMorale": -30, "atkMen": 40, "defMorale": 14 },
+            "lose": { "defMorale": -16, "defMen": 30, "wall": -8 }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "d_waver",
+    "textId": "bt.waver",
+    "when": { "maxDefMorale": 46 },
+    "options": [
+      {
+        "textId": "bt.waver.a",
+        "hintId": "bt.waver.a.hint",
+        "effect": { "defMorale": 18, "cityMorale": -6 }
+      },
+      {
+        "textId": "bt.waver.b",
+        "hintId": "bt.waver.b.hint",
+        "effect": {
+          "gamble": {
+            "chance": 66,
+            "win": { "defMorale": 24, "defLossPermille": 780 },
+            "lose": { "defMorale": 10, "defMen": 25, "wounded": 1 }
+          }
+        }
+      },
+      {
+        "textId": "bt.waver.c",
+        "hintId": "bt.waver.c.hint",
+        "effect": { "defMorale": 12, "cityCoin": -220 }
+      }
+    ]
+  },
+  {
+    "id": "d_weary",
+    "textId": "bt.weary",
+    "when": { "minRound": 4, "maxAtkMorale": 48 },
+    "options": [
+      {
+        "textId": "bt.weary.a",
+        "hintId": "bt.weary.a.hint",
+        "effect": {
+          "gamble": {
+            "chance": 52,
+            "win": { "atkMen": 260, "atkMorale": -26, "defMorale": 12 },
+            "lose": { "defMen": 90, "defMorale": -18, "atkMorale": 8 }
+          }
+        }
+      },
+      {
+        "textId": "bt.weary.b",
+        "hintId": "bt.weary.b.hint",
+        "effect": { "defLossPermille": 820, "atkMorale": -6 }
+      }
+    ]
+  },
+  {
+    "id": "d_night",
+    "textId": "bt.night",
+    "when": { "minRound": 5 },
+    "options": [
+      {
+        "textId": "bt.night.a",
+        "hintId": "bt.night.a.hint",
+        "effect": { "atkMorale": -12, "defMorale": 6, "cityCoin": -80 }
+      },
+      {
+        "textId": "bt.night.b",
+        "hintId": "bt.night.b.hint",
+        "effect": {
+          "gamble": {
+            "chance": 45,
+            "win": { "atkMen": 150, "atkMorale": -20 },
+            "lose": { "wall": -14, "defMen": 40 }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "d_supply",
+    "textId": "bt.supply",
+    "when": { "minRound": 2, "maxRound": 3 },
+    "options": [
+      {
+        "textId": "bt.supply.a",
+        "hintId": "bt.supply.a.hint",
+        "effect": {
+          "gamble": {
+            "chance": 40,
+            "win": { "atkMen": 90, "atkMorale": -28, "atkSupply": -900 },
+            "lose": { "defMen": 55, "defMorale": -8 }
+          }
+        }
+      },
+      {
+        "textId": "bt.supply.b",
+        "hintId": "bt.supply.b.hint",
+        "effect": { "defMorale": 3 }
+      }
+    ]
+  }
+]

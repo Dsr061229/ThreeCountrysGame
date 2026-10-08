@@ -1,0 +1,193 @@
+[
+  {
+    "id": "yamen",
+    "name": "官署",
+    "desc": "你办公的地方。修得体面些，百姓看着也安心。",
+    "art": "yamen",
+    "maxLevel": 3,
+    "costCoin": 240,
+    "costGrain": 60,
+    "costDays": 10,
+    "costGrowth": 2100,
+    "labour": 10,
+    "morale": 2,
+    "capCoin": 120,
+    "maxCount": 1
+  },
+  {
+    "id": "farm",
+    "name": "田庄",
+    "desc": "开荒屯田。粮是一切的根。",
+    "art": "farm",
+    "maxLevel": 5,
+    "costCoin": 70,
+    "costGrain": 0,
+    "costDays": 5,
+    "costGrowth": 2000,
+    "labour": 25,
+    "grain": 14
+  },
+  {
+    "id": "house",
+    "name": "民居",
+    "desc": "有房子，流民才留得住。人是产出的根本。",
+    "art": "house",
+    "maxLevel": 5,
+    "costCoin": 65,
+    "costGrain": 30,
+    "costDays": 4,
+    "costGrowth": 1950,
+    "labour": 0,
+    "morale": 1,
+    "capHouse": 85,
+    "unlock": {
+      "has": "farm"
+    }
+  },
+  {
+    "id": "granary",
+    "name": "粮仓",
+    "desc": "存不下的粮会烂在地里。仓廪先实，才谈得上别的。",
+    "art": "granary",
+    "maxLevel": 4,
+    "costCoin": 95,
+    "costGrain": 0,
+    "costDays": 6,
+    "costGrowth": 1900,
+    "labour": 5,
+    "capGrain": 1200,
+    "unlock": {
+      "has": "farm"
+    },
+    "maxCount": 3
+  },
+  {
+    "id": "well",
+    "name": "水井",
+    "desc": "一口井省下半日脚程。小事，但百姓记得住。",
+    "art": "well",
+    "maxLevel": 3,
+    "costCoin": 45,
+    "costGrain": 0,
+    "costDays": 3,
+    "costGrowth": 1750,
+    "labour": 2,
+    "morale": 3,
+    "unlock": {
+      "has": "farm"
+    },
+    "maxCount": 3
+  },
+  {
+    "id": "market",
+    "name": "市集",
+    "desc": "人聚起来才有市。钱从这里来。",
+    "art": "market",
+    "maxLevel": 5,
+    "costCoin": 150,
+    "costGrain": 50,
+    "costDays": 6,
+    "costGrowth": 1950,
+    "labour": 20,
+    "coin": 13,
+    "morale": 1,
+    "unlock": {
+      "households": 190
+    },
+    "maxCount": 2
+  },
+  {
+    "id": "pond",
+    "name": "陂塘",
+    "desc": "蓄水灌田。旱涝都少些，田里的收成能提上一大截。",
+    "art": "pond",
+    "maxLevel": 3,
+    "costCoin": 200,
+    "costGrain": 90,
+    "costDays": 9,
+    "costGrowth": 2000,
+    "labour": 15,
+    "morale": 1,
+    "boost": {
+      "target": "farm",
+      "permille": 200
+    },
+    "unlock": {
+      "hasLevel": {
+        "id": "farm",
+        "level": 4
+      }
+    },
+    "maxCount": 2
+  },
+  {
+    "id": "treasury",
+    "name": "府库",
+    "desc": "钱多了没处放，就会有人惦记。",
+    "art": "treasury",
+    "maxLevel": 4,
+    "costCoin": 125,
+    "costGrain": 0,
+    "costDays": 6,
+    "costGrowth": 1900,
+    "labour": 5,
+    "capCoin": 1100,
+    "unlock": {
+      "has": "market"
+    },
+    "maxCount": 2
+  },
+  {
+    "id": "workshop",
+    "name": "工坊",
+    "desc": "盐铁陶冶。比市集稳当，但极吃人手。",
+    "art": "workshop",
+    "maxLevel": 4,
+    "costCoin": 270,
+    "costGrain": 110,
+    "costDays": 10,
+    "costGrowth": 1950,
+    "labour": 45,
+    "coin": 22,
+    "unlock": {
+      "has": "market",
+      "coin": 480
+    },
+    "maxCount": 3
+  },
+  {
+    "id": "barracks",
+    "name": "兵营",
+    "desc": "县里的守卒。养兵吃粮，百姓看着也不痛快——但城下来了兵，能不能守住全看它。",
+    "art": "barracks",
+    "maxLevel": 3,
+    "costCoin": 220,
+    "costGrain": 150,
+    "costDays": 9,
+    "costGrowth": 1900,
+    "labour": 30,
+    "morale": -2,
+    "unlock": {
+      "households": 200
+    },
+    "maxCount": 2,
+    "garrison": 45
+  },
+  {
+    "id": "school",
+    "name": "学舍",
+    "desc": "乱世里还肯办学的人不多。名声是这么来的。",
+    "art": "school",
+    "maxLevel": 3,
+    "costCoin": 260,
+    "costGrain": 130,
+    "costDays": 11,
+    "costGrowth": 2000,
+    "labour": 10,
+    "morale": 6,
+    "unlock": {
+      "morale": 66
+    },
+    "maxCount": 1
+  }
+]
