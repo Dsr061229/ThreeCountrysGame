@@ -4,3 +4,4 @@ dist/
 .DS_Store
 .shots/
 tsconfig.tsbuildinfo
+.gh-pages/

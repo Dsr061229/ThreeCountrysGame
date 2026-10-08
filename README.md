@@ -26,13 +26,17 @@ npm run dev      # → http://localhost:5273
 ```bash
 npm run build    # → dist/，静态文件，丢哪儿都能跑
 npm run preview  # 本地看一眼打包后的样子
+npm run deploy   # 打包 + 推到 gh-pages 分支，一两分钟后线上就更新了
 ```
 
 资源一律用相对路径引（`vite.config.ts` 里的 `base: './'`）——
 所以同一份 `dist` 在 Pages 的子路径下、在本地直接打开、在任何静态托管上都跑得起来。
+Pages 的来源是 **`gh-pages` 分支**，`main` 上放的是源码。
 
-推到 `main` 之后 `.github/workflows/deploy.yml` 会自己跑一遍
-`npm run verify`（边界 + 类型 + 测试），**过了才部署**。
+> **想改成「推一下自动部署」**：GitHub Actions 要 token 带 `workflow` 权限，
+> 跑一次 `gh auth refresh -s workflow`，之后把 `docs/deploy.yml`
+> 挪到 `.github/workflows/` 提交上去就行 —— 那个流程会**先跑 `npm run verify`
+> 再打包，不过不部署**。
 
 ## 校验
 

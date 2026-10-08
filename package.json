@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
+    "deploy": "node tools/deploy.mjs",
     "check:boundaries": "node tools/check-boundaries.mjs",
     "test": "node --test tests/*.test.ts",
     "verify": "npm run check:boundaries && tsc --noEmit && npm test",

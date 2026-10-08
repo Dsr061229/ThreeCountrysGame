@@ -1,0 +1,56 @@
+# 推到 main 就自动打包并发到 GitHub Pages。
+#
+# 先跑一遍 verify 再打包 —— **测试没过就不该部署**。
+# 这个项目的测试里有好几条是「这条机制到底活没活」的看门狗
+# （见 tools/court.ts 和 tests/），放过去了等于白写。
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  # 也可以在 Actions 页面上手动点一次
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同时只跑一个部署；新的推上来就把排队中的那个顶掉
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Node 24：测试是直接 `node --test tests/*.test.ts` 跑 TypeScript 的，
+      # 靠的是运行时自带的类型擦除，低版本会当场报语法错
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - run: npm ci
+      - name: 边界、类型、测试
+        run: npm run verify
+      - name: 打包
+        run: npm run build
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
